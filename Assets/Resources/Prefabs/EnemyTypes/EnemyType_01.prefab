@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7460724950426844735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 183439446601816057}
+  - component: {fileID: 3991556662639124867}
+  m_Layer: 0
+  m_Name: EnemyType_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &183439446601816057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460724950426844735}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3991556662639124867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460724950426844735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3f860e69ce0dc499e2f41467dd23a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
+  enemyTypeName: G.O.-Terids
+  cost: 260
+  unlocked: 0
+  active: 0
+  enemyPrefabs:
+  - {fileID: 3493303347214188465, guid: 57c2724607f50214290953065b5e978d, type: 3}
+  - {fileID: 6812567603210327842, guid: e0fee197a4d5d914b94c8adc89a4e1a7, type: 3}
+  - {fileID: 5969059401762447698, guid: 49f1d169c36d83e40bec2a8672838dfc, type: 3}
+  - {fileID: 4440245135569474835, guid: b5b1db4e50944654c88da759d4b7e3d8, type: 3}
+  - {fileID: 2596686459492381250, guid: 5261a1a9bc01102438140977930b0cd0, type: 3}
+  - {fileID: 6500218068180112556, guid: 659b05f1b97eb7f40ba9b7350a8d80e4, type: 3}
