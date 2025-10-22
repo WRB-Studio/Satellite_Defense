@@ -1,0 +1,4 @@
+repository "Satellite Defense@WRB_Studio@cloud"
+  path "/"
+    br "/main"
+    co "/main"

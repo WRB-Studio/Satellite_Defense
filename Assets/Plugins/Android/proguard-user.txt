@@ -1,2 +1,0 @@
--keep class com.google.games.** { ; }
--keep interface com.google.games.* { *; }

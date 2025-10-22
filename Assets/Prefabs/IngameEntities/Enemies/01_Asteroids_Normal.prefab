@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &528627529088397015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7085405812518373137}
+  - component: {fileID: 6321652675920884075}
+  m_Layer: 0
+  m_Name: 01_Asteroids_Normal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7085405812518373137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528627529088397015}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6321652675920884075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528627529088397015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3f860e69ce0dc499e2f41467dd23a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 3
+  id: 1
+  itemName: Brown Asteroid
+  cost: 0
+  unlocked: 1
+  active: 0
+  entityLevel: 1
+  maxEntityLevel: 3
+  upgradeBaseCost: 13
+  upgradeCostMultiplier: 1.69
+  attribute:
+  - attributeType: 15
+    initialValue: 1
+    attributeIncrement: 0.2
+  - attributeType: 14
+    initialValue: 0
+    attributeIncrement: 0.01
+  - attributeType: 16
+    initialValue: 2.5
+    attributeIncrement: -0.6
+  - attributeType: 16
+    initialValue: 2.5
+    attributeIncrement: -0.6
+  - attributeType: 9
+    initialValue: 1
+    attributeIncrement: 0
+  - attributeType: 10
+    initialValue: 0.3
+    attributeIncrement: 0.2
+  - attributeType: 11
+    initialValue: 1
+    attributeIncrement: 0.5
+  - attributeType: 13
+    initialValue: 0.05
+    attributeIncrement: 0.02
+  - attributeType: 12
+    initialValue: 2
+    attributeIncrement: 0
+  enemyPrefabs:
+  - {fileID: 1265122369723554, guid: f51317696e6241947b2410d5606c3332, type: 3}
+  - {fileID: 1169333256121902, guid: c8478eb8b77837e49917db6cea4357c8, type: 3}
+  - {fileID: 1490694233407630, guid: 4e7ad9a6fa61cfe438849b369d05ebe8, type: 3}
+  - {fileID: 1761143560643844, guid: ad0e318ab0900b94e9cf45745b33dcab, type: 3}
+  - {fileID: 1761143560643844, guid: 5ef181c365b29cc419375b685d0ef20d, type: 3}
+  - {fileID: 1761143560643844, guid: dc8a797c0bcd7514fb61756a90192222, type: 3}
+  - {fileID: 1761143560643844, guid: 9293d63160ed1e84a9a5053828e559c8, type: 3}

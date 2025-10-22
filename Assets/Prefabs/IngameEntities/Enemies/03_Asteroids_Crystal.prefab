@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1557020291721053063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557020291721052694}
+  - component: {fileID: 1557020291721052503}
+  m_Layer: 0
+  m_Name: 03_Asteroids_Crystal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1557020291721052694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557020291721053063}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1557020291721052503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557020291721053063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3f860e69ce0dc499e2f41467dd23a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 3
+  id: 3
+  itemName: Crystal Asteroids
+  cost: 359
+  unlocked: 0
+  active: 0
+  entityLevel: 1
+  maxEntityLevel: 5
+  upgradeBaseCost: 108
+  upgradeCostMultiplier: 1.61
+  attribute:
+  - attributeType: 15
+    initialValue: 2.25
+    attributeIncrement: 0.5
+  - attributeType: 14
+    initialValue: 0.03
+    attributeIncrement: 0.02
+  - attributeType: 17
+    initialValue: 0
+    attributeIncrement: 0.75
+  - attributeType: 16
+    initialValue: 1.7
+    attributeIncrement: -0.3
+  - attributeType: 16
+    initialValue: 1.7
+    attributeIncrement: -0.3
+  - attributeType: 9
+    initialValue: 3
+    attributeIncrement: 2
+  - attributeType: 10
+    initialValue: 0.8
+    attributeIncrement: 0.2
+  - attributeType: 11
+    initialValue: 4
+    attributeIncrement: 0.5
+  - attributeType: 13
+    initialValue: 0.05
+    attributeIncrement: 0.06
+  - attributeType: 12
+    initialValue: 2
+    attributeIncrement: 0.2
+  enemyPrefabs:
+  - {fileID: 4094538115722046940, guid: 8a59754971e3681499523f734f1c157a, type: 3}
+  - {fileID: 75800254920297280, guid: db0d5ce3f1be4f44981624e7bb7ef564, type: 3}
+  - {fileID: 4521275120984089566, guid: aba469e87b7b5904f870a9ef7350a631, type: 3}
+  - {fileID: 2283245945689245199, guid: 20f03664eba1b144e9a1f73225ce7e36, type: 3}
+  - {fileID: 533401805782278595, guid: d95f0cc3ac7af1e44ba9c288e9a22c1e, type: 3}
+  - {fileID: 533401805782278595, guid: 7a25c9bb194410b4fa3acbf6a580dad3, type: 3}
+  - {fileID: 533401805782278595, guid: 6e3a203a92cc0df48ba9a4a99148575c, type: 3}

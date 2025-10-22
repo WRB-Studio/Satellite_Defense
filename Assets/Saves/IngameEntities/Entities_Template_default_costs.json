@@ -1,0 +1,379 @@
+{
+    "entities": [
+        {
+            "entityId": 1,
+            "entityType": "Planet",
+            "entityName": "Ered",
+            "cost": 0,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.103,
+            "attributes": [
+                {
+                    "attributeType": 0,
+                    "attributeName": "",
+                    "initialValue": 0.0,
+                    "attributeIncrement": 0.0,
+                    "attributePolarity": "+"
+                },
+                {
+                    "attributeType": 0,
+                    "attributeName": "",
+                    "initialValue": 0.0,
+                    "attributeIncrement": 0.0,
+                    "attributePolarity": "-"
+                }
+            ]
+        },
+        {
+            "entityId": 2,
+            "entityType": "Planet",
+            "entityName": "Solmar",
+            "cost": 57,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 13,
+            "upgradeCostMultiplier": 1.106,
+            "attributes": []
+        },
+        {
+            "entityId": 3,
+            "entityType": "Planet",
+            "entityName": "Puras",
+            "cost": 93,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 21,
+            "upgradeCostMultiplier": 1.105,
+            "attributes": []
+        },
+        {
+            "entityId": 4,
+            "entityType": "Planet",
+            "entityName": "Cobatae",
+            "cost": 219,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 43,
+            "upgradeCostMultiplier": 1.116,
+            "attributes": []
+        },
+        {
+            "entityId": 5,
+            "entityType": "Planet",
+            "entityName": "Vetion",
+            "cost": 379,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 79,
+            "upgradeCostMultiplier": 1.115,
+            "attributes": []
+        },
+        {
+            "entityId": 6,
+            "entityType": "Planet",
+            "entityName": "Nepulan",
+            "cost": 583,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 117,
+            "upgradeCostMultiplier": 1.126,
+            "attributes": []
+        },
+        {
+            "entityId": 7,
+            "entityType": "Planet",
+            "entityName": "Sanctorian",
+            "cost": 821,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 167,
+            "upgradeCostMultiplier": 1.132,
+            "attributes": []
+        },
+        {
+            "entityId": 8,
+            "entityType": "Planet",
+            "entityName": "Sadis",
+            "cost": 1097,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 217,
+            "upgradeCostMultiplier": 1.138,
+            "attributes": []
+        },
+        {
+            "entityId": 9,
+            "entityType": "Planet",
+            "entityName": "Cryon",
+            "cost": 1415,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 287,
+            "upgradeCostMultiplier": 1.144,
+            "attributes": []
+        },
+        {
+            "entityId": 10,
+            "entityType": "Planet",
+            "entityName": "Ignara",
+            "cost": 1769,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 353,
+            "upgradeCostMultiplier": 1.15,
+            "attributes": []
+        },
+        {
+            "entityId": 11,
+            "entityType": "Planet",
+            "entityName": "G.O.-Metria",
+            "cost": 2143,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 433,
+            "upgradeCostMultiplier": 1.151,
+            "attributes": []
+        },
+        {
+            "entityId": 12,
+            "entityType": "Planet",
+            "entityName": "Nyxora",
+            "cost": 2553,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 513,
+            "upgradeCostMultiplier": 1.163,
+            "attributes": []
+        },
+        {
+            "entityId": 1,
+            "entityType": "Weapon",
+            "entityName": "Solaris-C1",
+            "cost": 0,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.08,
+            "attributes": []
+        },
+        {
+            "entityId": 2,
+            "entityType": "Weapon",
+            "entityName": "Hypron",
+            "cost": 27,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.081,
+            "attributes": []
+        },
+        {
+            "entityId": 3,
+            "entityType": "Weapon",
+            "entityName": "Vanguard",
+            "cost": 81,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.091,
+            "attributes": []
+        },
+        {
+            "entityId": 4,
+            "entityType": "Weapon",
+            "entityName": "Orion",
+            "cost": 187,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 33,
+            "upgradeCostMultiplier": 1.09,
+            "attributes": []
+        },
+        {
+            "entityId": 5,
+            "entityType": "Weapon",
+            "entityName": "Inferna",
+            "cost": 337,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 63,
+            "upgradeCostMultiplier": 1.099,
+            "attributes": []
+        },
+        {
+            "entityId": 6,
+            "entityType": "Weapon",
+            "entityName": "Aurion",
+            "cost": 523,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 97,
+            "upgradeCostMultiplier": 1.101,
+            "attributes": []
+        },
+        {
+            "entityId": 7,
+            "entityType": "Weapon",
+            "entityName": "Crimsonex",
+            "cost": 733,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 133,
+            "upgradeCostMultiplier": 1.113,
+            "attributes": []
+        },
+        {
+            "entityId": 8,
+            "entityType": "Weapon",
+            "entityName": "Hexora",
+            "cost": 963,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 173,
+            "upgradeCostMultiplier": 1.116,
+            "attributes": []
+        },
+        {
+            "entityId": 9,
+            "entityType": "Weapon",
+            "entityName": "Lokásit",
+            "cost": 1223,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 223,
+            "upgradeCostMultiplier": 1.122,
+            "attributes": []
+        },
+        {
+            "entityId": 10,
+            "entityType": "Weapon",
+            "entityName": "Trigon",
+            "cost": 1519,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 273,
+            "upgradeCostMultiplier": 1.131,
+            "attributes": []
+        },
+        {
+            "entityId": 11,
+            "entityType": "Weapon",
+            "entityName": "Zerathis",
+            "cost": 1821,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 331,
+            "upgradeCostMultiplier": 1.137,
+            "attributes": []
+        },
+        {
+            "entityId": 12,
+            "entityType": "Weapon",
+            "entityName": "G.O.-Prism",
+            "cost": 2153,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 387,
+            "upgradeCostMultiplier": 1.137,
+            "attributes": []
+        },
+        {
+            "entityId": 1,
+            "entityType": "Enemy",
+            "entityName": "Brown Asteroid",
+            "cost": 0,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 13,
+            "upgradeCostMultiplier": 1.08,
+            "attributes": []
+        },
+        {
+            "entityId": 2,
+            "entityType": "Enemy",
+            "entityName": "Ice Asteroids",
+            "cost": 107,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.097,
+            "attributes": []
+        },
+        {
+            "entityId": 3,
+            "entityType": "Enemy",
+            "entityName": "Crystal Asteroids",
+            "cost": 573,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 101,
+            "upgradeCostMultiplier": 1.125,
+            "attributes": []
+        },
+        {
+            "entityId": 4,
+            "entityType": "Enemy",
+            "entityName": "G.O.-Terids",
+            "cost": 1743,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 313,
+            "upgradeCostMultiplier": 1.16,
+            "attributes": []
+        },
+        {
+            "entityId": 1,
+            "entityType": "Background",
+            "entityName": "Stars",
+            "cost": 0,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 13,
+            "upgradeCostMultiplier": 1.05,
+            "attributes": []
+        },
+        {
+            "entityId": 2,
+            "entityType": "Background",
+            "entityName": "Green Nebula",
+            "cost": 71,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.059,
+            "attributes": []
+        },
+        {
+            "entityId": 3,
+            "entityType": "Background",
+            "entityName": "Inverted Space",
+            "cost": 203,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 33,
+            "upgradeCostMultiplier": 1.066,
+            "attributes": []
+        },
+        {
+            "entityId": 4,
+            "entityType": "Background",
+            "entityName": "White Nebula",
+            "cost": 459,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 71,
+            "upgradeCostMultiplier": 1.07,
+            "attributes": []
+        },
+        {
+            "entityId": 5,
+            "entityType": "Background",
+            "entityName": "Milky Way",
+            "cost": 823,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 121,
+            "upgradeCostMultiplier": 1.077,
+            "attributes": []
+        },
+        {
+            "entityId": 6,
+            "entityType": "Background",
+            "entityName": "Cyan Nebula",
+            "cost": 1271,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 189,
+            "upgradeCostMultiplier": 1.088,
+            "attributes": []
+        },
+        {
+            "entityId": 7,
+            "entityType": "Background",
+            "entityName": "Red Nebula",
+            "cost": 1783,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 269,
+            "upgradeCostMultiplier": 1.092,
+            "attributes": []
+        },
+        {
+            "entityId": 8,
+            "entityType": "Background",
+            "entityName": "G.O.-Laxy",
+            "cost": 2365,
+            "maxEntityLevel": "",
+            "upgradeBaseCost": 355,
+            "upgradeCostMultiplier": 1.097,
+            "attributes": []
+        }
+    ]
+}
