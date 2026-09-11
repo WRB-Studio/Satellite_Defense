@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 126017989182655743}
   - component: {fileID: 7676371243443718488}
   - component: {fileID: 8474295632648677826}
-  - component: {fileID: 8966128321024059048}
   - component: {fileID: 3600741264555617758}
+  - component: {fileID: 3272048660437301135}
   m_Layer: 9
   m_Name: Asteroid_ice_04
   m_TagString: Enemy
@@ -103,10 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22092a97fb883a748a85e545ab9328f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHP: 1
-  initialDamage: 1
-  initialMoveSpeed: 0.5
-  initialMinMoveSpeed: 0.68
   rotationSpeed: 0.5
   randomRotation: 1
   scoreGain: 3
@@ -114,8 +110,35 @@ MonoBehaviour:
   deathExplosion: {fileID: 7406439331434734872, guid: 3720789cf19ffd04bb65a7b0746f0ef9,
     type: 3}
   bulletExplosion: {fileID: 0}
---- !u!58 &8966128321024059048
-CircleCollider2D:
+--- !u!50 &3600741264555617758
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283245945689245199}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &3272048660437301135
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -149,34 +172,56 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.4
---- !u!50 &3600741264555617758
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2283245945689245199}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.54, y: 2.54}
+    newSize: {x: 0.75, y: 0.75}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.44, y: -0.76}
+      - {x: 0.59999996, y: -0.68}
+      - {x: 0.65, y: -0.62}
+      - {x: 0.64, y: -0.35}
+      - {x: 0.57, y: -0.21}
+      - {x: 0.65, y: 0.07}
+      - {x: 0.65, y: 0.12}
+      - {x: 0.55, y: 0.28}
+      - {x: 0.48, y: 0.37}
+      - {x: 0.56, y: 0.62}
+      - {x: 0.57, y: 0.71999997}
+      - {x: 0.48, y: 1.04}
+      - {x: 0.44, y: 1.09}
+      - {x: 0.39, y: 1.09}
+      - {x: 0.35999998, y: 1.0799999}
+      - {x: 0.16, y: 0.93}
+      - {x: -0.01, y: 0.89}
+      - {x: -0.06, y: 0.85999995}
+      - {x: -0.08, y: 0.81}
+      - {x: -0.14999999, y: 0.64}
+      - {x: -0.19, y: 0.61}
+      - {x: -0.34, y: 0.59999996}
+      - {x: -0.39, y: 0.51}
+      - {x: -0.62, y: -0.099999994}
+      - {x: -0.65999997, y: -0.26}
+      - {x: -0.65999997, y: -0.32}
+      - {x: -0.56, y: -0.65}
+      - {x: -0.53999996, y: -0.78999996}
+      - {x: -0.52, y: -0.83}
+      - {x: -0.42999998, y: -0.93}
+      - {x: -0.26, y: -1.04}
+      - {x: -0.17, y: -1.04}
+      - {x: -0.099999994, y: -1.02}
+      - {x: 0.16, y: -1.15}
+      - {x: 0.21, y: -1.15}
+      - {x: 0.34, y: -1.06}
+      - {x: 0.5, y: -0.91999996}
+      - {x: 0.52, y: -0.84}
+  m_UseDelaunayMesh: 0
 --- !u!1001 &1505254781039097776
 PrefabInstance:
   m_ObjectHideFlags: 0

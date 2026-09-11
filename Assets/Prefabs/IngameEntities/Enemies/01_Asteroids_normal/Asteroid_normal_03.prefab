@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4479750338359826}
   - component: {fileID: 212695000376779144}
   - component: {fileID: 114455454233702556}
-  - component: {fileID: 58564770843982008}
   - component: {fileID: 50162313634424098}
+  - component: {fileID: -9141212466138641241}
   m_Layer: 9
   m_Name: Asteroid_normal_03
   m_TagString: Enemy
@@ -103,10 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22092a97fb883a748a85e545ab9328f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHP: 1
-  initialDamage: 1
-  initialMoveSpeed: 0.3
-  initialMinMoveSpeed: 0.5
   rotationSpeed: 0.5
   randomRotation: 1
   scoreGain: 1
@@ -115,8 +111,35 @@ MonoBehaviour:
     type: 3}
   bulletExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
---- !u!58 &58564770843982008
-CircleCollider2D:
+--- !u!50 &50162313634424098
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490694233407630}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &-9141212466138641241
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -150,34 +173,47 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.6
---- !u!50 &50162313634424098
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1490694233407630}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.54, y: 2.54}
+    newSize: {x: 0.75, y: 0.75}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.75, y: -0.51}
+      - {x: 0.76, y: -0.44}
+      - {x: 0.76, y: -0.32999998}
+      - {x: 0.75, y: -0.25}
+      - {x: 0.71999997, y: -0.089999996}
+      - {x: 0.7, y: -0.01}
+      - {x: 0.59, y: 0.16}
+      - {x: 0.55, y: 0.29999998}
+      - {x: 0.47, y: 0.5}
+      - {x: 0.21, y: 0.78999996}
+      - {x: -0.03, y: 0.87}
+      - {x: -0.14, y: 0.87}
+      - {x: -0.39, y: 0.72999996}
+      - {x: -0.45999998, y: 0.65}
+      - {x: -0.52, y: 0.39999998}
+      - {x: -0.53999996, y: 0.21}
+      - {x: -0.61, y: 0.02}
+      - {x: -0.62, y: -0.07}
+      - {x: -0.62, y: -0.29999998}
+      - {x: -0.61, y: -0.39999998}
+      - {x: -0.58, y: -0.5}
+      - {x: -0.51, y: -0.59}
+      - {x: -0.24, y: -0.87}
+      - {x: -0.14, y: -0.91999996}
+      - {x: 0, y: -0.94}
+      - {x: 0.24, y: -0.94}
+      - {x: 0.42, y: -0.85999995}
+      - {x: 0.59999996, y: -0.74}
+      - {x: 0.69, y: -0.66999996}
+  m_UseDelaunayMesh: 0
 --- !u!1001 &3675502358331963316
 PrefabInstance:
   m_ObjectHideFlags: 0

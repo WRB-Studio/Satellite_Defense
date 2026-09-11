@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3489946878906460105}
   - component: {fileID: 3642429025194386545}
   - component: {fileID: 3597112087392646151}
-  - component: {fileID: 3508164393870747123}
   - component: {fileID: 3515787333673418345}
+  - component: {fileID: 3242194476109646560}
   m_Layer: 9
   m_Name: Asteroid_geomatry_01
   m_TagString: Enemy
@@ -103,10 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22092a97fb883a748a85e545ab9328f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHP: 1
-  initialDamage: 1
-  initialMoveSpeed: 1.2
-  initialMinMoveSpeed: 1.6
   rotationSpeed: 0.5
   randomRotation: 0
   scoreGain: 15
@@ -114,8 +110,35 @@ MonoBehaviour:
   deathExplosion: {fileID: 7613524273276580009, guid: 48802af3ae77d734fbfeca16890b65ce,
     type: 3}
   bulletExplosion: {fileID: 0}
---- !u!58 &3508164393870747123
-CircleCollider2D:
+--- !u!50 &3515787333673418345
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3493303347214188465}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &3242194476109646560
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -149,34 +172,51 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.4
---- !u!50 &3515787333673418345
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3493303347214188465}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.75, y: 0.75}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.26, y: 0.04}
+      - {x: 0.14, y: 0.22999999}
+      - {x: 0.03, y: 0.42}
+      - {x: -0.02, y: 0.42}
+      - {x: -0.04, y: 0.41}
+      - {x: -0.14, y: 0.22}
+      - {x: -0.17999999, y: 0.17999999}
+      - {x: -0.26, y: 0.03}
+      - {x: -0.26, y: -0.02}
+      - {x: -0.22999999, y: -0.08}
+      - {x: -0.17, y: -0.17999999}
+      - {x: -0.03, y: -0.42}
+      - {x: 0.02, y: -0.42}
+      - {x: 0.04, y: -0.41}
+      - {x: 0.17, y: -0.17999999}
+      - {x: 0.26, y: -0.049999997}
+    - - {x: -0.01, y: -0.28}
+      - {x: -0.02, y: -0.25}
+      - {x: -0.11, y: -0.099999994}
+      - {x: -0.17999999, y: 0}
+      - {x: -0.14, y: 0.049999997}
+      - {x: -0.02, y: 0.25}
+      - {x: -0.01, y: 0.28}
+      - {x: 0.01, y: 0.31}
+      - {x: 0, y: 0.31}
+      - {x: 0.02, y: 0.25}
+      - {x: 0.11, y: 0.099999994}
+      - {x: 0.17999999, y: -0.01}
+      - {x: 0.16, y: -0.02}
+      - {x: 0.049999997, y: -0.19999999}
+      - {x: 0.02, y: -0.25}
+      - {x: 0, y: -0.31}
+      - {x: 0.01, y: -0.31}
+  m_UseDelaunayMesh: 0
 --- !u!1001 &530643985254459728
 PrefabInstance:
   m_ObjectHideFlags: 0

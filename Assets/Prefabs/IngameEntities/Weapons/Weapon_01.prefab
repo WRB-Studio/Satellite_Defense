@@ -82,7 +82,7 @@ MonoBehaviour:
   itemName: Solaris-C1
   cost: 0
   unlocked: 1
-  active: 0
+  active: 1
   entityLevel: 1
   maxEntityLevel: 3
   upgradeBaseCost: 17
@@ -117,9 +117,9 @@ MonoBehaviour:
   normalLaserColor: {r: 0.15686275, g: 0.6901961, b: 1, a: 1}
   jumpLaserDuration: 8
   jumpLaserActive: 0
-  fireRate: 0.1
-  minFireRate: 0.1
-  fireRatePowerUpped: 0.01
+  shotsPerSecond: 2
+  minShotsPerSecond: 2
+  maxShotsPerSecond: 30
   maxShootUpgrades: 6
   curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,

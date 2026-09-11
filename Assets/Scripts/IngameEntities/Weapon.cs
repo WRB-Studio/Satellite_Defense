@@ -174,10 +174,11 @@ public class Weapon : IngameEntity
     }
 
 
-    public void FireRateUpgrade(float upgrade)
+    public void FireRateUpgrade(float delta)
     {
-        fireRate = Mathf.Max(fireRatePowerUpped - upgrade, minFireRate);
+        fireRate = Mathf.Max(fireRate - delta, minFireRate);
     }
+
 
 
     public void shootUpgrade()

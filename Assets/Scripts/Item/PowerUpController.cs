@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +44,7 @@ public class PowerUpController : MonoBehaviour
             .GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.CoinChance); // z.B. +0.10
         wCoin = Mathf.Max(0f, wCoin + coinChanceUpgrade); // negativ zulassen, aber nicht < 0
 
-        // Verf�gbarkeit/Constraints: wenn nicht sinnvoll -> Gewicht = 0
+        // Verfügbarkeit/Constraints: wenn nicht sinnvoll -> Gewicht = 0
         if (!(GameController.Instance.currentLifes < GameController.Instance.GetMaxLives() &&
               !checkItemExist(PowerUp.enumItemType.hearth)))
             wHeart = 0f;
