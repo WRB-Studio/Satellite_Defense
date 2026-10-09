@@ -21,13 +21,13 @@ public class Enemy : MonoBehaviour
 
     public void Init(Vector2 target)
     {
-        var game = GameController.Instance;
+        var stats = GameController.Instance.Stats;
         body = GetComponent<Rigidbody2D>();
         if (randomRotation) rotationSpeed = Random.Range(-Mathf.Abs(rotationSpeed), Mathf.Abs(rotationSpeed));
         if (transform.childCount > 0) trail = transform.GetChild(0);
-        healthPoints = Mathf.Max(1, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.EnemyHP, 1f)));
-        damage = Mathf.Max(1, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.EnemyDamage, 1f)));
-        moveSpeed = Mathf.Max(0.01f, game.GetAttribute(EntityAttribute.eAttributeType.EnemySpeed, 1f));
+        healthPoints = stats.EnemyHealth;
+        damage = stats.EnemyDamage;
+        moveSpeed = stats.EnemySpeed;
         moveSpeed *= isSplitPiece ? Random.Range(0.65f, 0.85f) : Random.Range(0.85f, 1.15f);
         Direction = (target - body.position).normalized;
         if (Direction.sqrMagnitude < 0.001f) Direction = Vector2.down;

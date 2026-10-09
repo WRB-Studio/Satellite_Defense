@@ -106,12 +106,10 @@ public class Savegame : IReadOnlySavegame
 
     public bool TryPurchase(IngameEntity item)
     {
-        if (item == null || item.id <= 0 || item.entityType == IngameEntity.eEntityType.None) return false;
+        if (item == null || !item.CanPurchase(this)) return false;
         bool owned = IsUnlocked(item.entityType, item.id);
         int level = GetLevel(item.entityType, item.id, item.maxEntityLevel);
-        if (owned && (level >= item.maxEntityLevel || item.attribute == null || item.attribute.Count == 0)) return false;
-        long price = owned ? item.GetAttributeCostByLevel(level) : item.cost;
-        if (price < 0 || premiumCoins < price) return false;
+        long price = item.GetPurchaseCost(this);
 
         premiumCoins -= price;
         if (!owned) GetUnlockedIds(item.entityType).Add(item.id);

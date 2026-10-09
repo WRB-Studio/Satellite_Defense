@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PowerUp : MonoBehaviour
 {
     public enum enumItemType { hearth, fireRate, shootUpgrade, coin, jumpLaser }
     public enumItemType itemType;
-    [Min(0f)] public float fireRateUpgradeHeight = 0.1f;
+    [FormerlySerializedAs("fireRateUpgradeHeight")]
+    [Min(0f)] public float shotIntervalReduction = 0.1f;
     [Min(0)] public long scorePerCoin = 2500;
     [Min(1)] public int addPremiumCoins = 1;
     public AudioClip soundFireRate;
@@ -36,7 +38,7 @@ public class PowerUp : MonoBehaviour
                 break;
             case enumItemType.fireRate:
                 AudioController.PlaySound(soundFireRate);
-                game.ActiveWeapon.FireRateUpgrade(fireRateUpgradeHeight);
+                game.ActiveWeapon.ReduceShotInterval(shotIntervalReduction);
                 break;
             case enumItemType.shootUpgrade:
                 AudioController.PlaySound(soundShootUpgrade);

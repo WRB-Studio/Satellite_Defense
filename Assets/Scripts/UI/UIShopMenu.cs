@@ -42,7 +42,40 @@ public class UIShopMenu : MonoBehaviour
     private GameObject[] catalog;
     private int index;
     private IngameEntity currentItem;
-    private readonly List<GameObject> attributeRows = new();
+    private readonly List<AttributeRow> attributeRows = new();
+
+    private sealed class AttributeRow
+    {
+        public GameObject Instance { get; }
+        private readonly TextMeshProUGUI value;
+        private readonly TextMeshProUGUI description;
+        private readonly Image icon;
+
+        public AttributeRow(GameObject instance, Transform layoutRoot)
+        {
+            Instance = instance;
+            var header = instance.transform.GetChild(0);
+            value = header.Find("txtTotalValue").GetComponent<TextMeshProUGUI>();
+            description = instance.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            icon = header.Find("Symbol/imgFrame/imgSymbol").GetComponent<Image>();
+            var button = header.Find("Symbol/imgFrame").GetComponent<Button>();
+            UIController.Bind(button, () =>
+            {
+                description.gameObject.SetActive(!description.gameObject.activeSelf);
+                Utilities.RefreshLayout(layoutRoot);
+            });
+        }
+
+        public void Show(EntityAttribute attribute, int level, Sprite sprite)
+        {
+            Instance.SetActive(true);
+            value.text = attribute.GetAttributeEffectString(level);
+            description.text = EntityAttribute.GetAttributeName(attribute.attributeType);
+            description.gameObject.SetActive(false);
+            icon.sprite = sprite;
+            icon.gameObject.SetActive(sprite);
+        }
+    }
 
     private void Awake() => Instance = this;
 
@@ -120,10 +153,10 @@ public class UIShopMenu : MonoBehaviour
         btnStateSelect.GetComponentInChildren<TextMeshProUGUI>().text = !owned ? "Locked" : active ? "Active" : "Activate";
         btnStateSelect.transform.GetChild(0).GetComponent<Image>().color = !owned ? cantBuyTextColor : active ? activeEntityColor : selectColor;
 
-        bool hasUpgrades = currentItem.attribute != null && currentItem.attribute.Count > 0;
-        bool complete = owned && (!hasUpgrades || currentItem.Level >= currentItem.maxEntityLevel);
-        long price = owned ? currentItem.GetAttributeCostByLevel(currentItem.Level) : currentItem.cost;
-        btnBuyUpgrade.interactable = SaveGameController.CanSave && !complete && price >= 0 && SaveGameController.Data.Coins >= price;
+        bool hasUpgrades = currentItem.HasUpgrades;
+        bool complete = owned && !currentItem.CanUpgrade(currentItem.Level);
+        long price = currentItem.GetPurchaseCost(SaveGameController.Data);
+        btnBuyUpgrade.interactable = SaveGameController.CanSave && currentItem.CanPurchase(SaveGameController.Data);
         btnBuyUpgrade.image.color = btnBuyUpgrade.interactable ? buyColor : cantBuyTextColor;
         imgPremiumCoin.gameObject.SetActive(!complete);
         txtItemLevel.gameObject.SetActive(hasUpgrades);
@@ -167,33 +200,21 @@ public class UIShopMenu : MonoBehaviour
     private void UpdateAttributes()
     {
         int rowIndex = 0;
-        foreach (var attribute in currentItem.attribute)
+        int level = currentItem.Level;
+        if (currentItem.attribute != null)
         {
-            if (attribute == null || attribute.attributeType == EntityAttribute.eAttributeType.None) continue;
-            if (rowIndex >= attributeRows.Count)
+            foreach (var attribute in currentItem.attribute)
             {
-                var row = Instantiate(attributePrefab, attributeParent);
-                var description = row.transform.GetChild(1).gameObject;
-                var button = row.transform.GetChild(0).Find("Symbol/imgFrame").GetComponent<Button>();
-                UIController.Bind(button, () =>
+                if (attribute == null || attribute.attributeType == EntityAttribute.eAttributeType.None) continue;
+                if (rowIndex >= attributeRows.Count)
                 {
-                    description.SetActive(!description.activeSelf);
-                    Utilities.RefreshLayout(attributeParent);
-                });
-                attributeRows.Add(row);
+                    var instance = Instantiate(attributePrefab, attributeParent);
+                    attributeRows.Add(new AttributeRow(instance, attributeParent));
+                }
+                attributeRows[rowIndex++].Show(attribute, level, FindIcon(attribute.attributeType));
             }
-            var currentRow = attributeRows[rowIndex++];
-            currentRow.SetActive(true);
-            var header = currentRow.transform.GetChild(0);
-            header.Find("txtTotalValue").GetComponent<TextMeshProUGUI>().text = attribute.GetAttributeEffectString(currentItem.Level);
-            var info = currentRow.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            info.text = EntityAttribute.GetAttributeName(attribute.attributeType);
-            info.gameObject.SetActive(false);
-            var icon = header.Find("Symbol/imgFrame/imgSymbol").GetComponent<Image>();
-            icon.sprite = FindIcon(attribute.attributeType);
-            icon.gameObject.SetActive(icon.sprite);
         }
-        for (int i = rowIndex; i < attributeRows.Count; i++) attributeRows[i].SetActive(false);
+        for (int i = rowIndex; i < attributeRows.Count; i++) attributeRows[i].Instance.SetActive(false);
         Utilities.RefreshLayout(attributeParent);
     }
 

@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyController : MonoBehaviour
 {
     public static EnemyController Instance { get; private set; }
     public Transform spawnParent;
-    [Min(0.01f)] public float minSpawnRate = 0.3f;
+    [FormerlySerializedAs("minSpawnRate")]
+    [Min(0.01f)] public float minSpawnInterval = 0.3f;
     public Vector2 minMaxEnemyScale = new(0.2f, 0.5f);
     [Range(0f, 180f)] public float splitSpreadDegrees = 25f;
     [Min(1)] public int weaponEmitterAddByKills = 20;
@@ -14,7 +16,7 @@ public class EnemyController : MonoBehaviour
 
     private readonly List<Enemy> enemies = new();
     private GameObject[] enemyPrefabs;
-    private float startSpawnRate;
+    private float startSpawnInterval;
     private float splitChance;
     private int splitPieces;
     private float spawnCountdown;
@@ -31,10 +33,10 @@ public class EnemyController : MonoBehaviour
         ResetWeaponProgress();
         spawnCount = 0;
         spawnCountdown = 0f;
-        var game = GameController.Instance;
-        startSpawnRate = Mathf.Max(minSpawnRate, game.GetAttribute(EntityAttribute.eAttributeType.EnemySpawnRate, 2f));
-        splitChance = Mathf.Clamp01(game.GetAttribute(EntityAttribute.eAttributeType.EnemySplitChance));
-        splitPieces = Mathf.Max(0, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.EnemySplitCount, 2f)));
+        var stats = GameController.Instance.Stats;
+        startSpawnInterval = Mathf.Max(minSpawnInterval, stats.SpawnInterval);
+        splitChance = stats.SplitChance;
+        splitPieces = stats.MaxSplitPieces;
     }
 
     private void Update()
@@ -45,8 +47,8 @@ public class EnemyController : MonoBehaviour
         float scale = Random.Range(minMaxEnemyScale.x, minMaxEnemyScale.y);
         Spawn(RandomSpawnPosition(), Vector3.one * scale, false, Vector2.zero);
         float progress = Mathf.Clamp01(spawnCount++ / 150f);
-        float interval = Mathf.Lerp(startSpawnRate, minSpawnRate, progress * progress);
-        spawnCountdown = Mathf.Max(minSpawnRate, Random.Range(interval * 0.85f, interval * 1.15f));
+        float interval = Mathf.Lerp(startSpawnInterval, minSpawnInterval, progress * progress);
+        spawnCountdown = Mathf.Max(minSpawnInterval, Random.Range(interval * 0.85f, interval * 1.15f));
     }
 
     private Enemy Spawn(Vector2 position, Vector3 scale, bool split, Vector2 target)

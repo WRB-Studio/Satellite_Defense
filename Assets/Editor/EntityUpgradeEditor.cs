@@ -230,7 +230,7 @@ public class IngameEntityAttributeEditor : EditorWindow
                 EditorGUILayout.Space(8);
                 string costPerLevel = "Cost per Level:\n";
                 for (int j = 1; j <= targetEntity.maxEntityLevel; j++)
-                    costPerLevel += $"\tLvL {j} = {targetEntity.GetAttributeCostByLevel(j):0.###}\n";
+                    costPerLevel += $"\tLvL {j} = {targetEntity.GetUpgradeCost(j):0.###}\n";
                 EditorGUILayout.HelpBox(costPerLevel, MessageType.None);
 
                 if (EditorGUI.EndChangeCheck())

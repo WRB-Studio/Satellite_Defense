@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Weapon : IngameEntity
 {
@@ -8,12 +9,13 @@ public class Weapon : IngameEntity
     public GameObject jumpLaserPrefab;
     public Color normalLaserColor;
     [Min(0f)] public float jumpLaserDuration = 5f;
-    [Min(0.01f)] public float minFireRate = 0.1f;
+    [FormerlySerializedAs("minFireRate")]
+    [Min(0.01f)] public float minShotInterval = 0.1f;
     public GameObject deathExplosion;
 
     public int WeaponLevel { get; private set; } = 1;
     public bool CanUpgradeEmitters => WeaponLevel < 3;
-    public bool CanUpgradeFireRate => shotInterval > minFireRate;
+    public bool CanReduceShotInterval => shotInterval > minShotInterval;
     public bool IsJumpLaserActive => jumpLaserRemaining > 0f;
 
     private float rotationSpeed;
@@ -28,12 +30,12 @@ public class Weapon : IngameEntity
 
     public void Init()
     {
-        var game = GameController.Instance;
+        var stats = GameController.Instance.Stats;
         emitterGroup = transform.Find("LaserEmitterGrp");
-        rotationSpeed = Mathf.Max(0f, game.GetAttribute(EntityAttribute.eAttributeType.WeaponRotationSpeed, 40f));
-        shotInterval = Mathf.Max(minFireRate, game.GetAttribute(EntityAttribute.eAttributeType.WeaponFireRate, 1f));
-        projectileSpeed = Mathf.Clamp(game.GetAttribute(EntityAttribute.eAttributeType.WeaponProjectileSpeed, 1f), 0.1f, 10f);
-        damage = Mathf.Max(1, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.WeaponDamage, 1f)));
+        rotationSpeed = stats.WeaponRotationSpeed;
+        shotInterval = Mathf.Max(minShotInterval, stats.ShotInterval);
+        projectileSpeed = stats.ProjectileSpeed;
+        damage = stats.WeaponDamage;
         ResetWeaponLevel();
     }
 
@@ -82,7 +84,7 @@ public class Weapon : IngameEntity
             if (emitter.name.Contains("LVL" + WeaponLevel)) activeEmitters.Add(emitter);
     }
 
-    public void FireRateUpgrade(float amount) => shotInterval = Mathf.Max(minFireRate, shotInterval - Mathf.Max(0f, amount));
+    public void ReduceShotInterval(float amount) => shotInterval = Mathf.Max(minShotInterval, shotInterval - Mathf.Max(0f, amount));
     public void ActivateJumpLaser() => jumpLaserRemaining = Mathf.Max(0f, jumpLaserDuration);
 
     private void Fire()

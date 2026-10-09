@@ -44,9 +44,9 @@ public class GameController : MonoBehaviour
     public long LastRoundScore { get; private set; }
     public long LastRoundCoins { get; private set; }
     public bool LastRoundWasBest { get; private set; }
+    public LoadoutStats Stats { get; private set; }
 
     private readonly Dictionary<IngameEntity.eEntityType, IngameEntity> activeItems = new();
-    private readonly Dictionary<EntityAttribute.eAttributeType, float> attributes = new();
     private Coroutine starRoutine;
 
     private void Awake()
@@ -202,19 +202,7 @@ public class GameController : MonoBehaviour
                      IngameEntity.eEntityType.Background, IngameEntity.eEntityType.Enemy })
             activeItems.Add(category, SaveGameController.ResolveActiveItem(category, GetCategoryItems(category)));
 
-        attributes.Clear();
-        foreach (var item in activeItems.Values)
-        {
-            foreach (var attribute in item.attribute)
-            {
-                if (attribute == null || attribute.attributeType == EntityAttribute.eAttributeType.None) continue;
-                var type = attribute.attributeType;
-                bool multiply = EntityAttribute.IsMultiplier(type);
-                float previous = GetAttribute(type, multiply ? 1f : 0f);
-                float value = attribute.GetAttributeEffect(item.Level);
-                attributes[type] = multiply ? previous * Mathf.Max(0f, value) : previous + value;
-            }
-        }
+        Stats = new LoadoutStats(activeItems.Values, SaveGameController.Data, startLifes, maxLives);
 
         ActivePlanet = Instantiate(GetActiveItem(IngameEntity.eEntityType.Planet).gameObject, planetParent).GetComponent<Planet>();
         ActiveWeapon = Instantiate(GetActiveItem(IngameEntity.eEntityType.Weapon).gameObject, weaponParent).GetComponent<Weapon>();
@@ -247,14 +235,14 @@ public class GameController : MonoBehaviour
     }
 
     public float GetAttribute(EntityAttribute.eAttributeType type, float fallback = 0f) =>
-        attributes.TryGetValue(type, out float value) ? value : fallback;
+        Stats?.GetValue(type, fallback) ?? fallback;
 
     public bool HasAbility(EntityAttribute.eAttributeType type) => GetAttribute(type) > 0f;
-    public int MaxLives => Mathf.Max(1, Utilities.Round(GetAttribute(EntityAttribute.eAttributeType.PlanetMaxHP, maxLives)));
+    public int MaxLives => Stats?.MaxLives ?? Mathf.Max(1, maxLives);
 
     public void ResetLives()
     {
-        CurrentLives = Mathf.Clamp(Utilities.Round(GetAttribute(EntityAttribute.eAttributeType.PlanetStartHP, startLifes)), 1, MaxLives);
+        CurrentLives = Stats?.StartLives ?? Mathf.Clamp(startLifes, 1, MaxLives);
         UIIngameHud.Instance.SetLives(CurrentLives);
     }
 

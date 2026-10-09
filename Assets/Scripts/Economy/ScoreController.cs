@@ -22,8 +22,8 @@ public class ScoreController : MonoBehaviour
     {
         var game = GameController.Instance;
         if (!game || !game.IsPlaying || amount <= 0 || double.IsNaN(amount) || double.IsInfinity(amount)) return;
-        float factor = multiplier * game.GetAttribute(EntityAttribute.eAttributeType.ScoreMultiplier, 1f);
-        if (game.CurrentLives == 1) factor *= game.GetAttribute(EntityAttribute.eAttributeType.ScoreBoostOnLowHP, 1f);
+        float factor = multiplier * game.Stats.ScoreMultiplier;
+        if (game.CurrentLives == 1) factor *= game.Stats.LowHealthScoreMultiplier;
         total = Math.Min(long.MaxValue, total + amount * Mathf.Max(minMultiplier, factor));
         Changed?.Invoke(Score);
     }

@@ -41,9 +41,13 @@
 
 - `GameController` owns the game state and the four equipment catalogs. Pause and shop freeze simulation through `Time.timeScale`; UI animations use unscaled time.
 - `IngameEntity` prefabs contain item definitions. `Savegame` owns purchased items, levels, selection, coins and best score. Gameplay never writes progress into prefabs.
+- `LoadoutStats` combines the equipped item definitions and saved levels into a read-only set of gameplay values whenever the equipment changes. Attribute defaults, rounding and shared limits live there; weapon-specific shot and enemy spawn interval limits remain with their controllers. `GameController` coordinates the equipment and world objects.
+- `IngameEntity` defines purchase prices and upgrade eligibility against an explicit progress view. The shop and save transactions use these same rules; a transaction evaluates its candidate save rather than the live global state.
 - `SaveGameController` coordinates local progress through `SaveSession`. Gameplay reads a read-only view; purchases and selections commit to disk before the live state changes. Google Play/cloud-save and achievement placeholders have been removed.
 - Weapons own their projectiles. Enemies and power-ups unregister when removed; round transitions clear transient objects. Audio sources are reused with a fixed limit.
 - Equipped score multipliers multiply together. Other attributes add together. Fire/spawn rates represent seconds between events; rotation uses degrees per second and probability values use fractions from 0 to 1. Each item may contain an attribute type only once.
+
+The attribute refactor preserves existing item values, prices, combination rules, rewards and abilities. Serialized attribute IDs and names used by JSON backups and icons remain stable. Renamed interval fields use `FormerlySerializedAs` to preserve existing prefab and scene settings. Runtime verification of this refactor is pending; no tests or builds were run for it.
 
 The attribute editor remains available under **Tools > Attribute > IngameEntity Attribute Editor**. JSON imports are validated before any prefab is modified.
 

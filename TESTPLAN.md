@@ -20,6 +20,9 @@ Diese Prüfungen müssen nicht erneut erstellt werden. Auch ihre Ausführung erf
 | Performance | Eine längere Runde mit hoher Gegnerzahl, maximalen Emittern und vielen Effekten auf einem schwächeren Android-Gerät spielen. | Framerate, Speicherverbrauch und Garbage Collection messen; daraus gegebenenfalls gezielte Optimierungen ableiten. | Profiling |
 | Darstellung und Audio | Verschiedene unterstützte Bildschirmverhältnisse, Hintergrundwechsel und längere Spielsessions prüfen. | Bedienelemente bleiben erreichbar; Audio und UI kehren nach dem Fortsetzen in den richtigen Zustand zurück. | Gerätetest |
 | Spielbalance | Neue Installation bis zu mehreren Käufen und Upgrades durchspielen. | Schwierigkeit, Coin-Ertrag und Preise ergeben eine nachvollziehbare Progression. Auffälligkeiten dokumentieren. | Spieltest |
+| Attribut-Refactoring | Startausrüstung sowie Kombinationen mit maximalen Objektleveln vor und nach der Überarbeitung vergleichen. Wiederbelebung, Impulswelle, Schaden, Teilung, Coin-Ertrag und Punkte bei einem Leben einbeziehen. | Addition, Multiplikation, Ersatzwerte, Rundungen und Grenzen ergeben dieselben Spielwerte wie zuvor; dies ist eine Verhaltensprüfung, keine Balanceanpassung. | Spätere Regression / Spieltest |
+| Unity-Feldmigration | Bestehende Szene und Waffen-/Power-up-Prefabs nach dem Umbenennen der Intervallfelder öffnen, speichern und erneut laden. | `FormerlySerializedAs` erhält Schuss- und Spawn-Untergrenzen sowie die Intervallreduktion der Pickups; keine Rücksetzung auf Standardwerte. | Editorprüfung |
+| Shop-Regeln | Kaufpreis und Upgrade-Möglichkeit im Shop mit der zugehörigen Speichertransaktion vergleichen, einschließlich ungekaufter Objekte, leerer Attributlisten, maximaler Level und unzureichender Coins. | Anzeige und Transaktion verwenden dieselben Regeln und werten jeweils den richtigen Fortschrittsstand aus. | Spätere Regression / manuelle Prüfung |
 
 ## Android Release Tools – ausstehende Prüfungen
 

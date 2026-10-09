@@ -6,10 +6,25 @@ public class EntityAttribute
     // Numeric values are serialized in prefabs and attribute backups.
     public enum eAttributeType
     {
-        None, PlanetStartHP, PlanetMaxHP, PlanetRevive, PlanetExplosionOnHit,
-        WeaponRotationSpeed, WeaponFireRate, WeaponProjectileSpeed, WeaponDamage,
-        EnemyHP, EnemySpeed, EnemyDamage, EnemySplitCount, EnemySplitChance,
-        CoinChance, ScoreMultiplier, EnemySpawnRate, BonusCoinValue, ScoreBoostOnLowHP
+        None = 0,
+        PlanetStartHP = 1,
+        PlanetMaxHP = 2,
+        PlanetRevive = 3,
+        PlanetExplosionOnHit = 4,
+        WeaponRotationSpeed = 5,
+        WeaponFireRate = 6,
+        WeaponProjectileSpeed = 7,
+        WeaponDamage = 8,
+        EnemyHP = 9,
+        EnemySpeed = 10,
+        EnemyDamage = 11,
+        EnemySplitCount = 12,
+        EnemySplitChance = 13,
+        CoinChance = 14,
+        ScoreMultiplier = 15,
+        EnemySpawnRate = 16,
+        BonusCoinValue = 17,
+        ScoreBoostOnLowHP = 18
     }
 
     public eAttributeType attributeType;

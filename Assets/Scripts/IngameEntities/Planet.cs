@@ -43,7 +43,7 @@ public class Planet : IngameEntity
             ImpulseWave();
             return;
         }
-        if (!revived && game.HasAbility(EntityAttribute.eAttributeType.PlanetRevive))
+        if (!revived && game.Stats.CanRevive)
         {
             revived = true;
             game.ResetLives();
@@ -64,7 +64,7 @@ public class Planet : IngameEntity
     private void ImpulseWave()
     {
         var game = GameController.Instance;
-        if (!game.HasAbility(EntityAttribute.eAttributeType.PlanetExplosionOnHit) || currentImpulseWave) return;
+        if (!game.Stats.HasImpulseWave || currentImpulseWave) return;
         currentImpulseWave = game.SpawnEffect(animImpulseWave, transform.position, 1.4f);
         AudioController.PlaySound(soundImpulseWave, pitch: Random.Range(0.9f, 1.3f));
     }

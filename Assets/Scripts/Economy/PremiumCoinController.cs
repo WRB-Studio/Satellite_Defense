@@ -27,7 +27,7 @@ public class PremiumCoinController : MonoBehaviour
 
     public void CollectCoin(int baseValue, Vector3 position)
     {
-        int bonus = Utilities.Round(GameController.Instance.GetAttribute(EntityAttribute.eAttributeType.BonusCoinValue));
+        int bonus = GameController.Instance.Stats.BonusCoinValue;
         long credited = SaveGameController.CreditCoins(System.Math.Max(1L, (long)baseValue + bonus));
         if (credited == 0 || !txtPemiumCoinEffect) return;
         var effect = Instantiate(txtPemiumCoinEffect, UIIngameHud.Instance.ingameHud.transform);

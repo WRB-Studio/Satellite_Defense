@@ -52,14 +52,12 @@ public class PowerUpController : MonoBehaviour
         var weapon = game.ActiveWeapon;
         candidates.Clear();
         AddCandidate(itemHeart, PowerUp.enumItemType.hearth, game.CurrentLives < game.MaxLives ? 0.4f : 0f);
-        AddCandidate(itemFireRate, PowerUp.enumItemType.fireRate, weapon.CanUpgradeFireRate ? 0.35f : 0f);
+        AddCandidate(itemFireRate, PowerUp.enumItemType.fireRate, weapon.CanReduceShotInterval ? 0.35f : 0f);
         AddCandidate(itemShootUpgrade, PowerUp.enumItemType.shootUpgrade, weapon.CanUpgradeEmitters ? 0.15f : 0f);
         AddCandidate(itemJumpLaser, PowerUp.enumItemType.jumpLaser, weapon.IsJumpLaserActive ? 0f : 0.1f);
 
-        // CoinChance is the absolute probability within a successful drop, plus its base chance.
-        float coinChance = Mathf.Clamp01(0.15f + game.GetAttribute(EntityAttribute.eAttributeType.CoinChance));
         GameObject prefab = null;
-        if (itemCoin && !HasItem(PowerUp.enumItemType.coin) && Random.value < coinChance) prefab = itemCoin;
+        if (itemCoin && !HasItem(PowerUp.enumItemType.coin) && Random.value < game.Stats.CoinChance) prefab = itemCoin;
         else
         {
             float total = 0f;
