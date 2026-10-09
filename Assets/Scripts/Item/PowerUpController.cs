@@ -1,154 +1,112 @@
-﻿using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpController : MonoBehaviour
 {
-    public static PowerUpController Instance;
-
+    public static PowerUpController Instance { get; private set; }
     public Transform spawnParent;
-
-    [Header("Item drops")]
-    public float dropChance = 0.2f;
-    public float itemLifeTime = 5;
+    [Range(0f, 1f)] public float dropChance = 0.2f;
+    [Min(0.1f)] public float itemLifeTime = 5f;
     public GameObject itemHeart;
     public GameObject itemCoin;
     public GameObject itemFireRate;
     public GameObject itemShootUpgrade;
     public GameObject itemJumpLaser;
+    public IReadOnlyList<PowerUp> Items => items;
 
-    private List<PowerUp> instantiatedItems = new List<PowerUp>();
-
+    private readonly List<PowerUp> items = new();
+    private readonly List<(GameObject prefab, float weight)> candidates = new(5);
+    private int itemLayer;
 
     private void Awake()
     {
         Instance = this;
+        itemLayer = LayerMask.GetMask("Items");
     }
 
-    public void SpawnRandomItem(Vector2 spawnPosition)
+    private void Update()
     {
-        if (UIMainMenu.Instance.mainMenuPanel.activeSelf) return;
-        if (!Utilities.IsInsideViewWithPadding(spawnPosition, 0.5f)) return;
-        if (Random.value > dropChance) return;
-
-        var weapon = GameController.Instance.instantiatedWeapon.GetComponent<Weapon>();
-
-        // --- Gewichte (Basis) ---
-        float wHeart = 0.40f;
-        float wFire = 0.35f;
-        float wCoin = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.CoinChance);
-        float wJump = 0.10f;
-
-        // --- CoinChance-Upgrade einarbeiten ---
-        float coinChanceUpgrade = GameController.Instance
-            .GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.CoinChance); // z.B. +0.10
-        wCoin = Mathf.Max(0f, wCoin + coinChanceUpgrade); // negativ zulassen, aber nicht < 0
-
-        // Verfügbarkeit/Constraints: wenn nicht sinnvoll -> Gewicht = 0
-        if (!(GameController.Instance.currentLifes < GameController.Instance.GetMaxLives() &&
-              !checkItemExist(PowerUp.enumItemType.hearth)))
-            wHeart = 0f;
-
-        if (!(weapon.fireRate > weapon.minFireRate &&
-              !checkItemExist(PowerUp.enumItemType.fireRate)))
-            wFire = 0f;
-
-        if (checkItemExist(PowerUp.enumItemType.coin))
-            wCoin = 0f;
-
-        if (!(!weapon.jumpLaserActive && !checkItemExist(PowerUp.enumItemType.jumpLaser)))
-            wJump = 0f;
-
-        // Nichts zu droppen?
-        float wSum = wHeart + wFire + wCoin + wJump;
-        if (wSum <= 0f) return;
-
-        // Weighted Pick
-        float r = Random.value * wSum;
-        GameObject prefab;
-        if ((r -= wHeart) <= 0f) prefab = itemHeart;
-        else if ((r -= wFire) <= 0f) prefab = itemFireRate;
-        else if ((r -= wCoin) <= 0f) prefab = itemCoin;
-        else prefab = itemJumpLaser;
-
-        // Drop + SFX
-        var sfx = prefab == itemJumpLaser ? AudioController.Instance.soundPlanetDeath
-                                          : AudioController.Instance.soundItemDrop;
-        AudioController.PlaySound(sfx);
-
-        var newItem = Instantiate(prefab, spawnPosition, prefab.transform.rotation, spawnParent);
-        instantiatedItems.Add(newItem.GetComponent<PowerUp>());
-        Destroy(newItem, itemLifeTime);
-    }
-
-
-    //public void SpawnRandomItem(Vector2 spawnPosition)
-    //{
-    //    if (UIMainMenu.Instance.mainMenuPanel.activeSelf) return;
-    //    if (!Utilities.CheckIsInCameraView(spawnPosition, 0.5f)) return;
-    //    if (Random.value > dropChance) return;
-
-    //    var weapon = GameController.Instance.instantiatedWeapon.GetComponent<Weapon>();
-    //    GameObject prefab = null;
-    //    float r = Random.value;
-
-    //    float coinChanceUpgrade = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityUpgrade.eUpgradeType.CoinChance);
-
-    //    if (r < 0.40f &&
-    //        GameController.Instance.currentLifes < GameController.Instance.GetMaxLives() &&
-    //        !checkItemExist(PowerUp.enumItemType.hearth))
-    //    {
-    //        prefab = itemHeart;
-    //    }
-    //    else if (r < 0.75f &&
-    //             weapon.changeFireRate > weapon.minFireRate &&
-    //             !checkItemExist(PowerUp.enumItemType.fireRate))
-    //    {
-    //        prefab = itemFireRate;
-    //    }
-    //    else if (r < 0.90f && !checkItemExist(PowerUp.enumItemType.coin))
-    //    {
-    //        prefab = itemCoin;
-    //    }
-    //    else if (!weapon.jumpLaserActive &&
-    //             !checkItemExist(PowerUp.enumItemType.jumpLaser))
-    //    {
-    //        prefab = itemJumpLaser;
-    //    }
-
-    //    if (prefab != null)
-    //    {
-    //        var sfx = prefab == itemJumpLaser
-    //            ? AudioController.Instance.soundPlanetDeath
-    //            : AudioController.Instance.soundItemDrop;
-    //        AudioController.PlaySound(sfx);
-
-    //        var newItem = Instantiate(prefab, spawnPosition, prefab.transform.rotation, spawnParent);
-    //        instantiatedItems.Add(newItem.GetComponent<PowerUp>());
-    //        Destroy(newItem, itemLifeTime);
-    //    }
-    //}
-
-    private bool checkItemExist(PowerUp.enumItemType itemType)
-    {
-        foreach (PowerUp item in instantiatedItems)
+        if (!GameController.Instance.IsPlaying) return;
+        if (Input.touchCount > 0)
         {
-            if (item.itemType.Equals(itemType))
-                return true;
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                var touch = Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Began) CollectAt(touch.position);
+            }
         }
+        else if (Input.GetMouseButtonDown(0)) CollectAt(Input.mousePosition);
+    }
+
+    private void CollectAt(Vector2 screenPosition)
+    {
+        if (Utilities.IsPointerOverUI(screenPosition)) return;
+        var collider = Physics2D.OverlapPoint(Utilities.ScreenToWorld(screenPosition), itemLayer);
+        if (collider && collider.TryGetComponent<PowerUp>(out var item)) item.Collect();
+    }
+
+    public void SpawnRandomItem(Vector2 position)
+    {
+        var game = GameController.Instance;
+        if (!game.IsPlaying || !Utilities.IsInsideViewWithPadding(position, 0.5f) || Random.value >= dropChance) return;
+        var weapon = game.ActiveWeapon;
+        candidates.Clear();
+        AddCandidate(itemHeart, PowerUp.enumItemType.hearth, game.CurrentLives < game.MaxLives ? 0.4f : 0f);
+        AddCandidate(itemFireRate, PowerUp.enumItemType.fireRate, weapon.CanUpgradeFireRate ? 0.35f : 0f);
+        AddCandidate(itemShootUpgrade, PowerUp.enumItemType.shootUpgrade, weapon.CanUpgradeEmitters ? 0.15f : 0f);
+        AddCandidate(itemJumpLaser, PowerUp.enumItemType.jumpLaser, weapon.IsJumpLaserActive ? 0f : 0.1f);
+
+        // CoinChance is the absolute probability within a successful drop, plus its base chance.
+        float coinChance = Mathf.Clamp01(0.15f + game.GetAttribute(EntityAttribute.eAttributeType.CoinChance));
+        GameObject prefab = null;
+        if (itemCoin && !HasItem(PowerUp.enumItemType.coin) && Random.value < coinChance) prefab = itemCoin;
+        else
+        {
+            float total = 0f;
+            foreach (var candidate in candidates) total += candidate.weight;
+            if (total <= 0f) return;
+            float roll = Random.value * total;
+            foreach (var candidate in candidates)
+            {
+                roll -= candidate.weight;
+                if (roll > 0f) continue;
+                prefab = candidate.prefab;
+                break;
+            }
+        }
+        if (!prefab) return;
+        AudioController.PlaySound(prefab == itemJumpLaser ? AudioController.Instance.soundPlanetDeath : AudioController.Instance.soundItemDrop);
+        var item = Instantiate(prefab, position, prefab.transform.rotation, spawnParent).GetComponent<PowerUp>();
+        items.Add(item);
+        item.Init(itemLifeTime);
+    }
+
+    private void AddCandidate(GameObject prefab, PowerUp.enumItemType type, float weight)
+    {
+        if (prefab && weight > 0f && !HasItem(type)) candidates.Add((prefab, weight));
+    }
+
+    private bool HasItem(PowerUp.enumItemType type)
+    {
+        foreach (var item in items)
+            if (item && item.itemType == type) return true;
         return false;
     }
 
+    public void Unregister(PowerUp item) => items.Remove(item);
+
     public void RemoveAllItems()
     {
-        foreach (PowerUp item in instantiatedItems.ToArray())
-            RemoveItem(item);
+        while (items.Count > 0)
+        {
+            var item = items[items.Count - 1];
+            items.RemoveAt(items.Count - 1);
+            if (item) item.Despawn();
+        }
     }
 
-    public void RemoveItem(PowerUp item)
+    private void OnDestroy()
     {
-        instantiatedItems.Remove(item);
-        Destroy(item.gameObject);
+        if (Instance == this) Instance = null;
     }
-
 }

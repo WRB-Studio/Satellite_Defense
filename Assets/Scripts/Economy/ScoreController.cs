@@ -1,74 +1,36 @@
-﻿using System.Collections;
-using System.ComponentModel;
+using System;
 using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-    public static ScoreController Instance;
+    public static ScoreController Instance { get; private set; }
+    [Min(0f)] public float multiplier = 1f;
+    [Min(0f)] public float minMultiplier = 0.5f;
+    public long Score => Utilities.Round(total);
+    public event Action<long> Changed;
+    private double total;
 
-    public float multiplier = 1f;
-    public float minMultiplier = 0.5f;
+    private void Awake() => Instance = this;
 
-    public double Score;
-    public long score { get => Utilities.Round(Score); }
-    
-    [HideInInspector] public long bestScore = 0;
-
-    private Coroutine curScoreCountRoutine = null;
-
-
-
-    private void Awake()
+    public void ResetScore()
     {
-        Instance = this;
+        total = 0;
+        Changed?.Invoke(Score);
     }
 
-    public void Init()
+    public void AddScore(double amount)
     {
-        StopAllCoroutines();
-
-        Load();
-
-        Score = 0;
+        var game = GameController.Instance;
+        if (!game || !game.IsPlaying || amount <= 0 || double.IsNaN(amount) || double.IsInfinity(amount)) return;
+        float factor = multiplier * game.GetAttribute(EntityAttribute.eAttributeType.ScoreMultiplier, 1f);
+        if (game.CurrentLives == 1) factor *= game.GetAttribute(EntityAttribute.eAttributeType.ScoreBoostOnLowHP, 1f);
+        total = Math.Min(long.MaxValue, total + amount * Mathf.Max(minMultiplier, factor));
+        Changed?.Invoke(Score);
     }
 
-    private void Load()
+    private void OnDestroy()
     {
-        bestScore = SaveGameController.savegame.bestScore;
+        Changed = null;
+        if (Instance == this) Instance = null;
     }
-
-
-    public void AddScore(double addNewScore)
-    {
-        if (UIMainMenu.Instance.mainMenuPanel.activeSelf) return;
-
-        long oldScore = score;
-        var gc = GameController.Instance;
-
-        float scoreMultiplier = multiplier + gc.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.ScoreMultiplier);
-        if (gc.GetCurLives() == 1) scoreMultiplier += gc.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.ScoreBoostOnLowHP);
-        Score += addNewScore * scoreMultiplier;
-
-        if (curScoreCountRoutine != null) StopCoroutine(curScoreCountRoutine);
-        curScoreCountRoutine = StartCoroutine(AddScoreCountRoutine(oldScore, score));
-    }
-
-    public void checkScoreAchivement()
-    {
-        //TODO:
-        //if (score > 15000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_15k);
-        //if (score > 50000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_50k);
-        //if (score > 100000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_100k);
-        //if (score > 250000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_250k);
-        //if (score > 500000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_500k);
-        //if (score > 750000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_750k);
-        //if (score > 1000000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_1000k);
-        //if (score > 2000000) ghScrp.playCloudManagerScrp.unlockAchievement(GPGSIds.achievement_first_2000k);
-    }
-
-    private IEnumerator AddScoreCountRoutine(long oldScore, long newScore)
-    {
-        yield return Utilities.CountAnimationRoutine(UIIngameHud.Instance.txtScoreIngame, oldScore, newScore, 0.05f, 0.2f);
-    }
-
 }

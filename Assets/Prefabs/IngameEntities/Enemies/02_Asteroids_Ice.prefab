@@ -48,9 +48,6 @@ MonoBehaviour:
   id: 2
   itemName: Ice Asteroids
   cost: 94
-  unlocked: 1
-  active: 1
-  entityLevel: 1
   maxEntityLevel: 4
   upgradeBaseCost: 28
   upgradeCostMultiplier: 1.65
@@ -64,9 +61,6 @@ MonoBehaviour:
   - attributeType: 17
     initialValue: 0
     attributeIncrement: 0.33
-  - attributeType: 16
-    initialValue: 2.2
-    attributeIncrement: -0.5
   - attributeType: 16
     initialValue: 2.2
     attributeIncrement: -0.5

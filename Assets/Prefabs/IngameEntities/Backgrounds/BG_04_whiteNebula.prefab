@@ -104,9 +104,6 @@ MonoBehaviour:
   id: 4
   itemName: White Nebula
   cost: 230
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 6
   upgradeBaseCost: 69
   upgradeCostMultiplier: 1.01

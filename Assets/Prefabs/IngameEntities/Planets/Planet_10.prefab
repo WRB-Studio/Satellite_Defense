@@ -194,9 +194,6 @@ MonoBehaviour:
   id: 10
   itemName: Ignara
   cost: 7348
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 8
   upgradeBaseCost: 2204
   upgradeCostMultiplier: 0.84
@@ -213,7 +210,7 @@ MonoBehaviour:
   - attributeType: 18
     initialValue: 1.75
     attributeIncrement: 0.28
-  rotationSpeed: 0.02
+  rotationSpeed: 1.2
   planetExplosion: {fileID: 8433945774835284879, guid: 45c22fdec1ca23a40aa9a658e32d11ec,
     type: 3}
   animExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,

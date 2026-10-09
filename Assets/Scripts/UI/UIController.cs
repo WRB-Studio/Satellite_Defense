@@ -1,159 +1,106 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
-using static UIShopMenu;
 
 public class UIController : MonoBehaviour
 {
-    public static UIController Instance;
-
-    public enum eMenuType { None, MainMenu, Shop, PauseMenu, IngameMenu, GameOverMenu };
-
-    [Header("Splash Screen")]
+    public static UIController Instance { get; private set; }
+    public enum eMenuType { None, MainMenu, Shop, PauseMenu, IngameMenu, GameOverMenu }
+    [Header("Splash screen")]
     public GameObject splashScreen;
     public float splashScreenShowDuration = 2f;
     public float splashScreenFadeDuration = 2f;
-
-    [Header("Modal Panels")]
     public GameObject modalPanelShop;
-
-    [Header("UI Premium coins positions")]
+    [Header("Coin display")]
     public Transform premiumcoinsGroup;
     public Transform premCoinsPosMainMenu;
     public Transform premCoinsPosShop;
     public Transform premCoinsPosPauseMenu;
-
-    [Header("UI settings")]
     public float animiationCountDelay = 0.1f;
 
-
+    private bool initialized;
 
     private void Awake()
     {
         Instance = this;
-
         splashScreen.SetActive(true);
     }
 
     public void Init()
     {
+        if (initialized) return;
+        initialized = true;
         UIMainMenu.Instance.Init();
         UIShopMenu.Instance.Init();
         UIPauseMenu.Instance.Init();
         UIIngameHud.Instance.Init();
-
         UIToastMessage.Instance.Init();
-
-        ShowHideMenu(eMenuType.MainMenu, true);
+        SaveGameController.SaveFailed += ShowSaveMessage;
     }
 
-    public void ShowHideMenu(eMenuType menuType, bool show)
+    public void ShowSaveMessage(string message)
     {
-        UIMainMenu mainMenu = UIMainMenu.Instance;
-        UIShopMenu shopMenu = UIShopMenu.Instance;
-        UIPauseMenu pauseMenu = UIPauseMenu.Instance;
-        UIIngameHud ingameMenu = UIIngameHud.Instance;
+        if (!this || string.IsNullOrEmpty(message) || splashScreen.activeSelf) return;
+        UIToastMessage.Instance.ShowToast(message, 8f);
+    }
 
-        mainMenu.ShowHideMenu(false);
-        shopMenu.ShowHideMenu(false);
-        pauseMenu.ShowHideMenu(false);
-        ingameMenu.ShowHideMenu(false);
-        modalPanelShop.SetActive(false);
-
-        switch (menuType)
+    public static void Bind(Button button, UnityAction action)
+    {
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() =>
         {
-            case eMenuType.None:
-                break;
-
-            case eMenuType.MainMenu:
-                mainMenu.ShowHideMenu(show);
-                break;
-
-            case eMenuType.Shop:
-                shopMenu.ShowHideMenu(show);
-                mainMenu.ShowHideMenu(true);
-
-                break;
-
-            case eMenuType.PauseMenu:
-                pauseMenu.ShowHideMenu(show);
-                ingameMenu.ShowHideMenu(true);
-                break;
-
-            case eMenuType.IngameMenu:
-                ingameMenu.ShowHideMenu(show);
-                break;
-
-            case eMenuType.GameOverMenu:
-                if (show)
-                {
-                    pauseMenu.ShowGameOver();
-                    ingameMenu.ShowHideMenu(true);
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        ChangePremiumCoinsGroupParent(menuType);
+            AudioController.PlaySound(AudioController.Instance.soundClick);
+            action();
+        });
     }
 
-    private void ChangePremiumCoinsGroupParent(eMenuType menuType)
+    public void ShowMenu(eMenuType menu)
     {
-        switch (menuType)
+        UIMainMenu.Instance.Show(menu == eMenuType.MainMenu || menu == eMenuType.Shop);
+        UIShopMenu.Instance.Show(menu == eMenuType.Shop);
+        UIPauseMenu.Instance.Hide();
+        UIIngameHud.Instance.ingameHud.SetActive(menu == eMenuType.IngameMenu || menu == eMenuType.PauseMenu || menu == eMenuType.GameOverMenu);
+        UIIngameHud.Instance.btnPause.interactable = menu == eMenuType.IngameMenu;
+        modalPanelShop.SetActive(menu == eMenuType.Shop);
+        if (menu == eMenuType.PauseMenu) UIPauseMenu.Instance.ShowPause();
+        if (menu == eMenuType.GameOverMenu) UIPauseMenu.Instance.ShowGameOver();
+
+        Transform parent = menu switch
         {
-            case eMenuType.MainMenu:
-                premiumcoinsGroup.SetParent(premCoinsPosMainMenu, false);
-                break;
-
-            case eMenuType.Shop:
-                premiumcoinsGroup.SetParent(premCoinsPosShop, false);
-                break;
-
-            case eMenuType.PauseMenu:
-                premiumcoinsGroup.SetParent(premCoinsPosPauseMenu, false);
-                break;
-
-            default:
-                break;
-        }
+            eMenuType.Shop => premCoinsPosShop,
+            eMenuType.PauseMenu or eMenuType.GameOverMenu => premCoinsPosPauseMenu,
+            _ => premCoinsPosMainMenu
+        };
+        premiumcoinsGroup.SetParent(parent, false);
     }
 
+    public void FadeOutSplashScreen() => StartCoroutine(FadeSplash());
 
-    /*---------------Splash Screen-----------------*/
-
-    public void FadeOutSplashScreen()
+    private IEnumerator FadeSplash()
     {
-        StartCoroutine(SplashScreenRoutine());
-    }
-
-    private IEnumerator SplashScreenRoutine()
-    {
-        Image backgroundImage = splashScreen.GetComponent<Image>();
-        Image titleImage = splashScreen.transform.GetChild(0).GetComponent<Image>();
-
-        float t = 0f;
-
-        // Ausgangsfarben sichern
-        Color startPanelColor = backgroundImage.color;
-        Color startTextColor = titleImage.color;
-
-        yield return new WaitForSeconds(splashScreenShowDuration);
-
-        while (t < splashScreenFadeDuration)
+        var images = splashScreen.GetComponentsInChildren<Image>();
+        yield return new WaitForSecondsRealtime(Mathf.Max(0f, splashScreenShowDuration));
+        float elapsed = 0f;
+        while (elapsed < splashScreenFadeDuration)
         {
-            t += Time.unscaledDeltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, t / splashScreenFadeDuration);
-
-            backgroundImage.color = new Color(startPanelColor.r, startPanelColor.g, startPanelColor.b, alpha);
-            titleImage.color = new Color(startTextColor.r, startTextColor.g, startTextColor.b, alpha);
-
+            elapsed += Time.unscaledDeltaTime;
+            float alpha = 1f - Mathf.Clamp01(elapsed / splashScreenFadeDuration);
+            foreach (var image in images)
+            {
+                var color = image.color;
+                color.a = alpha;
+                image.color = color;
+            }
             yield return null;
         }
-
-        splashScreen.gameObject.SetActive(false);
+        splashScreen.SetActive(false);
+        ShowSaveMessage(SaveGameController.LastError ?? SaveGameController.LoadMessage);
     }
 
+    private void OnDestroy()
+    {
+        SaveGameController.SaveFailed -= ShowSaveMessage;
+        if (Instance == this) Instance = null;
+    }
 }

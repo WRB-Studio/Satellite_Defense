@@ -1,355 +1,327 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UIShopMenu;
 
-public class GameController : MonoBehaviour, ISaveable
+public class GameController : MonoBehaviour
 {
-    public static GameController Instance;
+    public enum GameState { MainMenu, Shop, Playing, Paused, GameOver }
+    public static GameController Instance { get; private set; }
+    public GameState State { get; private set; } = GameState.MainMenu;
+    public bool IsPlaying => State == GameState.Playing;
+    public bool IsSimulationRunning => State == GameState.Playing || State == GameState.MainMenu;
+    public bool IsInitialized { get; private set; }
 
-    [Header("Live settings")]
+    [Header("Lives")]
     public Image imgLive;
-    public int startLifes = 3;
-    public int currentLifes = 0;
-    public int maxLives = 5;
+    [Min(1)] public int startLifes = 3;
+    [Min(1)] public int maxLives = 5;
     public Transform imgLiveParent;
-    private List<Image> instantiatedImgLives = new List<Image>();
+    public int CurrentLives { get; private set; }
 
-    [Header("Game stops")]
-    private static bool isPause = false;
-    private static bool isGameOver = false;
-    [HideInInspector] public static bool gameIsInitialized = false;
+    [Header("Shop catalog")]
+    public GameObject[] planetPrefabs;
+    public GameObject[] weaponPrefabs;
+    public GameObject[] backgroundPrefabs;
+    public GameObject[] enemyTypePrefabs;
 
-    [Header("Parents")]
+    [Header("World")]
     public Transform planetParent;
     public Transform weaponParent;
     public Transform backgroundParent;
-    public Transform enemyParent;
-
-    [Header("Background settings")]
     public GameObject star;
 
-    [Header("Joystick")]
-    public bool enableJoystickControll = false;
+    [Header("Input")]
+    public bool enableJoystickControll;
     public GameObject joystickGO;
     public Joystick joystick;
 
-    [HideInInspector] public GameObject instantiatedPlanet;
-    [HideInInspector] public GameObject instantiatedWeapon;
-    [HideInInspector] public GameObject instantiatedBackground;
+    public Planet ActivePlanet { get; private set; }
+    public Weapon ActiveWeapon { get; private set; }
+    public Background ActiveBackground { get; private set; }
+    public Transform EffectsRoot { get; private set; }
+    public Camera GameCamera { get; private set; }
+    public long LastRoundScore { get; private set; }
+    public long LastRoundCoins { get; private set; }
+    public bool LastRoundWasBest { get; private set; }
 
+    private readonly Dictionary<IngameEntity.eEntityType, IngameEntity> activeItems = new();
+    private readonly Dictionary<EntityAttribute.eAttributeType, float> attributes = new();
+    private Coroutine starRoutine;
 
     private void Awake()
     {
         Instance = this;
+        Time.timeScale = 1f;
+        GameCamera = Camera.main;
+        EffectsRoot = new GameObject("Effects").transform;
+        EffectsRoot.SetParent(transform);
     }
 
-    private void Start()
-    {
-        Init();
-    }
+    private void Start() => Init();
 
     public void Init()
     {
-        if (enableJoystickControll)
-            joystickGO.SetActive(true);
-        else
-            joystickGO.SetActive(false);
-
-        Load();
-
-        InitAllScripts();
-
-        UIController.Instance.FadeOutSplashScreen();
-
-        gameIsInitialized = true;
-    }
-
-    public void InitAllScripts()
-    {
+        if (IsInitialized) return;
+        SaveGameController.Load();
         UIController.Instance.Init();
-
-        ScoreController.Instance.Init();
         PremiumCoinController.Instance.Init();
-        EnemyController.Instance.Init();
-
-        InstantiateActiveItem(IngameEntity.eEntityType.Planet);
-        InstantiateActiveItem(IngameEntity.eEntityType.Weapon);
-        InstantiateActiveItem(IngameEntity.eEntityType.Background);
-        InstantiateActiveItem(IngameEntity.eEntityType.Enemy);
+        IsInitialized = true;
+        ReturnToMainMenu();
+        SaveGameController.Save();
+        UIController.Instance.FadeOutSplashScreen();
     }
 
-    public static void SetPause(bool pause)
+    private void Update()
     {
-        isPause = pause;
-
-        Utilities.SetAllParticlesPaused(isPause, new List<GameObject>() { GameObject.Find("PlanetExplosion") });
+        if (!IsInitialized) return;
+        SaveGameController.Tick(Time.unscaledDeltaTime);
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        switch (State)
+        {
+            case GameState.Playing: Pause(); break;
+            case GameState.Paused: Resume(); break;
+            case GameState.Shop: CloseShop(); break;
+            case GameState.GameOver: ReturnToMainMenu(); break;
+            case GameState.MainMenu: UIMainMenu.Instance.ExitGame(); break;
+        }
     }
 
-    public static void SetPauseOnlyValue(bool pause)
+    private void SetState(GameState state)
     {
-        isPause = pause;
+        State = state;
+        Time.timeScale = state == GameState.Paused || state == GameState.Shop ? 0f : 1f;
+        if (joystickGO) joystickGO.SetActive(enableJoystickControll && IsSimulationRunning);
     }
-
-    public static bool GetIsPause()
-    {
-        return isPause;
-    }
-
 
     public void StartNewGame()
     {
+        if (!SaveGameController.CanSave)
+        {
+            UIController.Instance.ShowSaveMessage(SaveGameController.LastError);
+            return;
+        }
+        SaveGameController.Save();
+        SetState(GameState.Playing);
+        RebuildLoadout();
+        ScoreController.Instance.ResetScore();
+        ResetLives();
+        UIController.Instance.ShowMenu(UIController.eMenuType.IngameMenu);
         AudioController.PlayMusic(AudioController.Instance.ingameMusic);
+    }
 
-        UIController.Instance.Init();
-        ScoreController.Instance.Init();
-        PremiumCoinController.Instance.Init();
-        EnemyController.Instance.Init();
+    public void ReturnToMainMenu()
+    {
+        SaveGameController.Save();
+        SetState(GameState.MainMenu);
+        RebuildLoadout();
+        ScoreController.Instance.ResetScore();
+        ResetLives();
+        UIController.Instance.ShowMenu(UIController.eMenuType.MainMenu);
+        AudioController.PlayMusic(AudioController.Instance.mainMenuMusic);
+    }
 
-        InstantiateActiveItem(IngameEntity.eEntityType.Planet);
-        InstantiateActiveItem(IngameEntity.eEntityType.Weapon);
-        InstantiateActiveItem(IngameEntity.eEntityType.Background);
-        InstantiateActiveItem(IngameEntity.eEntityType.Enemy);
+    public void OpenShop()
+    {
+        if (State != GameState.MainMenu) return;
+        SetState(GameState.Shop);
+        UIController.Instance.ShowMenu(UIController.eMenuType.Shop);
+    }
 
-        ResetLifes();
+    public void CloseShop()
+    {
+        if (State != GameState.Shop) return;
+        SetState(GameState.MainMenu);
+        UIController.Instance.ShowMenu(UIController.eMenuType.MainMenu);
+    }
+
+    public void Pause()
+    {
+        if (State != GameState.Playing) return;
+        SetState(GameState.Paused);
+        SaveGameController.Save();
+        UIController.Instance.ShowMenu(UIController.eMenuType.PauseMenu);
+    }
+
+    public void Resume()
+    {
+        if (State != GameState.Paused) return;
+        SetState(GameState.Playing);
+        UIController.Instance.ShowMenu(UIController.eMenuType.IngameMenu);
+    }
+
+    public void EndRound()
+    {
+        if (!IsPlaying) return;
+        SetState(GameState.GameOver);
+        LastRoundScore = ScoreController.Instance.Score;
+        LastRoundCoins = LastRoundScore / System.Math.Max(1, PremiumCoinController.Instance.premiumCoinsPerScore);
+        LastRoundWasBest = LastRoundScore > SaveGameController.Data.BestScore;
+        SaveGameController.RecordRound(LastRoundScore, LastRoundCoins);
 
         EnemyController.Instance.RemoveAllEnemies();
         PowerUpController.Instance.RemoveAllItems();
-
-        isGameOver = false;
-        isPause = false;
-
-        StopAllCoroutines();
-        StartCoroutine(RandomStarBlink());
-
-        UIController.Instance.ShowHideMenu(UIController.eMenuType.IngameMenu, true);
+        if (ActiveWeapon) ActiveWeapon.DestroyWeapon();
+        UIController.Instance.ShowMenu(UIController.eMenuType.GameOverMenu);
     }
 
-    public void ResetLifes()
+    public GameObject[] GetCategoryItems(IngameEntity.eEntityType category) => category switch
     {
-        //remove all lifes
-        for (int i = 0; i < imgLiveParent.childCount; i++)
-            Destroy(imgLiveParent.GetChild(i).gameObject);
-        instantiatedImgLives = new List<Image>();
-        currentLifes = 0;
+        IngameEntity.eEntityType.Planet => planetPrefabs,
+        IngameEntity.eEntityType.Weapon => weaponPrefabs,
+        IngameEntity.eEntityType.Background => backgroundPrefabs,
+        IngameEntity.eEntityType.Enemy => enemyTypePrefabs,
+        _ => System.Array.Empty<GameObject>()
+    };
 
-        //add start lifes
-        int startUpgradeLives = Utilities.Round(GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.PlanetStartHP));
-        ChangeLife(startUpgradeLives, false);
+    public IngameEntity GetActiveItem(IngameEntity.eEntityType category) =>
+        activeItems.TryGetValue(category, out var item) ? item : null;
+
+    public bool SelectItem(IngameEntity item)
+    {
+        if (State != GameState.Shop || !IsCatalogItem(item) || !SaveGameController.Select(item)) return false;
+        RebuildLoadout();
+        return true;
     }
 
-
-    public static void SetGameOver()
+    public bool PurchaseItem(IngameEntity item)
     {
-        UIController.Instance.ShowHideMenu(UIController.eMenuType.GameOverMenu, true);
+        if (State != GameState.Shop || !IsCatalogItem(item) || !SaveGameController.TryPurchase(item)) return false;
+        RebuildLoadout();
+        return true;
     }
 
-    public static void SetGameOverOnlyValue(bool gameOver)
-    {
-        isGameOver = gameOver;
-    }
+    private bool IsCatalogItem(IngameEntity item) =>
+        item && System.Array.IndexOf(GetCategoryItems(item.entityType), item.gameObject) >= 0;
 
-    public static bool GetIsGameOver()
+    private void RebuildLoadout()
     {
-        return isGameOver;
-    }
+        ClearWorld();
+        activeItems.Clear();
+        foreach (var category in new[] { IngameEntity.eEntityType.Planet, IngameEntity.eEntityType.Weapon,
+                     IngameEntity.eEntityType.Background, IngameEntity.eEntityType.Enemy })
+            activeItems.Add(category, SaveGameController.ResolveActiveItem(category, GetCategoryItems(category)));
 
-
-    /*---------------Upgrade Getter methods-----------------*/
-    public float GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType upgradeType)
-    {
-        float SafeGetEffect(GameObject obj)
+        attributes.Clear();
+        foreach (var item in activeItems.Values)
         {
-            if (obj == null) return 0f;
-
-            var entity = obj.GetComponent<IngameEntity>();
-            if (entity == null) return 0f;
-
-            var upgrade = entity.GetAttributeByType(upgradeType);
-            if (upgrade == null) return 0f;
-
-            return upgrade.GetAttributeEffect(entity.entityLevel);
+            foreach (var attribute in item.attribute)
+            {
+                if (attribute == null || attribute.attributeType == EntityAttribute.eAttributeType.None) continue;
+                var type = attribute.attributeType;
+                bool multiply = EntityAttribute.IsMultiplier(type);
+                float previous = GetAttribute(type, multiply ? 1f : 0f);
+                float value = attribute.GetAttributeEffect(item.Level);
+                attributes[type] = multiply ? previous * Mathf.Max(0f, value) : previous + value;
+            }
         }
 
-        float result = 0;
-        result += SafeGetEffect(instantiatedPlanet);
-        result += SafeGetEffect(instantiatedWeapon);
-        result += SafeGetEffect(instantiatedBackground);
-        result += SafeGetEffect(UIShopMenu.Instance.activeEnemyTypeItem);
-
-        return result;
+        ActivePlanet = Instantiate(GetActiveItem(IngameEntity.eEntityType.Planet).gameObject, planetParent).GetComponent<Planet>();
+        ActiveWeapon = Instantiate(GetActiveItem(IngameEntity.eEntityType.Weapon).gameObject, weaponParent).GetComponent<Weapon>();
+        ActiveBackground = Instantiate(GetActiveItem(IngameEntity.eEntityType.Background).gameObject, backgroundParent).GetComponent<Background>();
+        ActivePlanet.Init();
+        ActiveWeapon.Init();
+        EnemyController.Instance.Init((EnemyType)GetActiveItem(IngameEntity.eEntityType.Enemy));
+        if (star) starRoutine = StartCoroutine(RandomStarBlink());
     }
 
-    public bool UpgradeActive(EntityAttribute.eAttributeType upgradeType)
+    private void ClearWorld()
     {
-        bool SafeIsUpgraded(GameObject obj)
-        {
-            if (obj == null) return false;
-
-            var entity = obj.GetComponent<IngameEntity>();
-            if (entity == null) return false;
-
-            var upgrade = entity.GetAttributeByType(upgradeType);
-            if (upgrade == null) return false;
-
-            return entity.entityLevel > 1;
-        }
-
-        return SafeIsUpgraded(instantiatedPlanet) 
-            || SafeIsUpgraded(instantiatedWeapon) 
-            || SafeIsUpgraded(instantiatedBackground) 
-            || SafeIsUpgraded(UIShopMenu.Instance.activeEnemyTypeItem);
+        PremiumCoinController.Instance.ClearPopups();
+        if (starRoutine != null) StopCoroutine(starRoutine);
+        starRoutine = null;
+        EnemyController.Instance.RemoveAllEnemies();
+        PowerUpController.Instance.RemoveAllItems();
+        if (ActiveWeapon) ActiveWeapon.ClearBullets();
+        RemoveObject(ActivePlanet ? ActivePlanet.gameObject : null);
+        RemoveObject(ActiveWeapon ? ActiveWeapon.gameObject : null);
+        RemoveObject(ActiveBackground ? ActiveBackground.gameObject : null);
+        for (int i = EffectsRoot.childCount - 1; i >= 0; i--) RemoveObject(EffectsRoot.GetChild(i).gameObject);
     }
 
+    private static void RemoveObject(GameObject instance)
+    {
+        if (!instance) return;
+        instance.SetActive(false);
+        Destroy(instance);
+    }
 
+    public float GetAttribute(EntityAttribute.eAttributeType type, float fallback = 0f) =>
+        attributes.TryGetValue(type, out float value) ? value : fallback;
 
-    /*---------------Life methods-----------------*/
-    //public void ChangeLife(bool add, bool PlaySound = true)
-    //{
-    //    if (add && (instantiatedImgLives.Count < maxLives))
-    //    {
-    //        if (PlaySound)
-    //            AudioController.PlaySound(AudioController.Instance.soundAddLive);
+    public bool HasAbility(EntityAttribute.eAttributeType type) => GetAttribute(type) > 0f;
+    public int MaxLives => Mathf.Max(1, Utilities.Round(GetAttribute(EntityAttribute.eAttributeType.PlanetMaxHP, maxLives)));
 
-    //        instantiatedImgLives.Add(Instantiate(imgLive,
-    //            new Vector2(imgLive.transform.position.x + (imgLive.GetComponent<RectTransform>().rect.width * instantiatedImgLives.Count), imgLive.transform.position.y),
-    //            imgLive.transform.rotation, imgLiveParent));
-
-    //        currentLifes++;
-    //    }
-    //    else if (!add)
-    //    {
-    //        Image lastLife = instantiatedImgLives[instantiatedImgLives.Count - 1];
-    //        instantiatedImgLives.Remove(lastLife);
-    //        Destroy(lastLife.gameObject);
-
-    //        currentLifes--;
-    //    }
-    //}
+    public void ResetLives()
+    {
+        CurrentLives = Mathf.Clamp(Utilities.Round(GetAttribute(EntityAttribute.eAttributeType.PlanetStartHP, startLifes)), 1, MaxLives);
+        UIIngameHud.Instance.SetLives(CurrentLives);
+    }
 
     public void ChangeLife(int amount, bool playSound = true)
     {
-        if (amount > 0)
-        {
-            for (int i = 0; i < amount; i++)
-            {
-                if (instantiatedImgLives.Count >= maxLives)
-                    break;
-
-                if (playSound)
-                    AudioController.PlaySound(AudioController.Instance.soundAddLive);
-
-                instantiatedImgLives.Add(Instantiate(
-                    imgLive,
-                    new Vector2(
-                        imgLive.transform.position.x + (imgLive.GetComponent<RectTransform>().rect.width * instantiatedImgLives.Count),
-                        imgLive.transform.position.y),
-                    imgLive.transform.rotation,
-                    imgLiveParent));
-
-                currentLifes++;
-            }
-        }
-        else if (amount < 0)
-        {
-            for (int i = 0; i < -amount; i++)
-            {
-                if (instantiatedImgLives.Count <= 0)
-                    break;
-
-                Image lastLife = instantiatedImgLives[instantiatedImgLives.Count - 1];
-                instantiatedImgLives.Remove(lastLife);
-                Destroy(lastLife.gameObject);
-
-                currentLifes--;
-            }
-        }
+        int previous = CurrentLives;
+        CurrentLives = (int)System.Math.Clamp((long)CurrentLives + amount, 0, MaxLives);
+        if (CurrentLives == previous) return;
+        UIIngameHud.Instance.SetLives(CurrentLives);
+        if (playSound && CurrentLives > previous) AudioController.PlaySound(AudioController.Instance.soundAddLive);
     }
 
-
-    public int GetMaxLives()
+    public void ResetWeaponProgress()
     {
-        int maxUpgradeLives = (int)GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.PlanetMaxHP);
-        return maxUpgradeLives > 0 ? maxLives : maxUpgradeLives;
+        EnemyController.Instance.ResetWeaponProgress();
+        if (ActiveWeapon) ActiveWeapon.ResetWeaponLevel();
     }
 
-    public int GetCurLives()
+    public GameObject SpawnEffect(GameObject prefab, Vector3 position, float lifetime)
     {
-        return currentLifes;
+        if (!prefab) return null;
+        var instance = Instantiate(prefab, position, prefab.transform.rotation, EffectsRoot);
+        Destroy(instance, lifetime);
+        return instance;
     }
 
-    public void ResetWeaponEmitterKillCounter()
-    {
-        EnemyController.Instance.killCounterForWeaponEmitterActivation = 0;
-        instantiatedWeapon.GetComponent<Weapon>().ChangeWeaponLevel(0);
-    }
-
-
-    /*---------------Load active items (planet, weapon, background, enemy)-----------------*/
-
-    public void InstantiateActiveItem(IngameEntity.eEntityType category)
-    {
-        switch (category)
-        {
-            case IngameEntity.eEntityType.Planet:
-                if (instantiatedPlanet != null) Destroy(instantiatedPlanet);
-                instantiatedPlanet = Instantiate(UIShopMenu.Instance.activePlanetItem, planetParent);
-                instantiatedPlanet.GetComponent<Planet>().Init();
-                break;
-
-            case IngameEntity.eEntityType.Weapon:
-                if (instantiatedWeapon != null) Destroy(instantiatedWeapon);
-                instantiatedWeapon = Instantiate(UIShopMenu.Instance.activeWeaponItem, weaponParent);
-                instantiatedWeapon.GetComponent<Weapon>().Init();
-                break;
-
-            case IngameEntity.eEntityType.Background:
-                if (instantiatedBackground != null) Destroy(instantiatedBackground);
-                instantiatedBackground = Instantiate(UIShopMenu.Instance.activeBackgroundItem, backgroundParent);
-                break;
-
-            case IngameEntity.eEntityType.Enemy:
-                EnemyController.Instance.LoadActiveEnemyType();
-                EnemyController.Instance.Init();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-
-    /*---------------Starblink animation-----------------*/
     private IEnumerator RandomStarBlink()
     {
         while (true)
         {
-            for (int starSpawnCount = 0; starSpawnCount < Random.Range(1, 20); starSpawnCount++)
+            int count = Random.Range(1, 20);
+            for (int i = 0; i < count; i++)
             {
-                GameObject starInstanz = Instantiate(star, new Vector2(Random.Range(-8, 8), Random.Range(-8, 8)), star.transform.rotation);
-                starInstanz.transform.parent = instantiatedBackground.transform;
-                Destroy(starInstanz, 1);
-
+                if (!ActiveBackground) yield break;
+                if (IsSimulationRunning)
+                {
+                    Vector3 position = GameCamera.ViewportToWorldPoint(new Vector3(Random.value, Random.value, -GameCamera.transform.position.z));
+                    var instance = Instantiate(star, position, star.transform.rotation, ActiveBackground.transform);
+                    Destroy(instance, 1f);
+                }
                 yield return new WaitForSeconds(Random.Range(0.01f, 0.06f));
             }
             yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
         }
     }
 
-
-    /*---------------Save & Load-----------------*/
-
-    public void Load()
+    private void OnApplicationPause(bool paused)
     {
-        SaveGameController.Load();
+        if (!IsInitialized || !paused) return;
+        Pause();
+        SaveGameController.Save();
     }
 
-    public void Save()
+    private void OnApplicationFocus(bool focused)
     {
-
+        if (!IsInitialized || focused) return;
+        Pause();
+        SaveGameController.Save();
     }
 
+    private void OnApplicationQuit() => SaveGameController.Save();
+
+    private void OnDestroy()
+    {
+        if (Instance != this) return;
+        SaveGameController.Save();
+        Time.timeScale = 1f;
+        Instance = null;
+    }
 }

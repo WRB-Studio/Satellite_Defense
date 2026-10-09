@@ -104,9 +104,6 @@ MonoBehaviour:
   id: 1
   itemName: Stars
   cost: 0
-  unlocked: 1
-  active: 1
-  entityLevel: 1
   maxEntityLevel: 3
   upgradeBaseCost: 13
   upgradeCostMultiplier: 1.13

@@ -4,106 +4,52 @@ using UnityEngine.UI;
 
 public class UIMainMenu : MonoBehaviour
 {
-    public static UIMainMenu Instance;
-
-    [Header("UI Main menu")]
+    public const string PrivacyPolicyUrl = "https://wrb-studio.github.io/Satellite_Defense/privacy-policy.html";
+    public static UIMainMenu Instance { get; private set; }
     public GameObject mainMenuPanel;
     public TextMeshProUGUI txtPremiumCoins;
     public TextMeshProUGUI txtBestScore;
     public Button btnPlay;
     public Button btnShop;
     public Button btnExit;
-    public Button btnAchivement;
+    public Button btnPrivacyPolicy;
 
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() => Instance = this;
 
     public void Init()
     {
-        btnPlay.onClick.RemoveAllListeners();
-        btnShop.onClick.RemoveAllListeners();
-        btnExit.onClick.RemoveAllListeners();
-        btnAchivement.onClick.RemoveAllListeners();
-
-        //main menu buttons
-        btnPlay.onClick.AddListener(delegate
-        {
-            AudioController.PlaySound(AudioController.Instance.soundClick);
-            GameController.Instance.StartNewGame();
-        });
-
-        btnShop.onClick.AddListener(delegate
-        {
-            AudioController.PlaySound(AudioController.Instance.soundClick);
-            UIController.Instance.ShowHideMenu(UIController.eMenuType.Shop, true);
-        });
-
-        btnExit.onClick.AddListener(delegate
-        {
-            AudioController.PlaySound(AudioController.Instance.soundClick);
-            ExitGame();
-        });
-
-        btnAchivement.onClick.AddListener(delegate
-        {
-            AudioController.PlaySound(AudioController.Instance.soundClick);
-            UIToastMessage.Instance.ShowToast("Coming soon...", 3f); //TODO: implement achivement system
-        });
-
-        btnPlay.interactable = true;
-        btnShop.interactable = true;
-        btnExit.interactable = true;
-        btnAchivement.interactable = true;
-
-        ShowHideMenu(false);
+        UIController.Bind(btnPlay, () => GameController.Instance.StartNewGame());
+        UIController.Bind(btnShop, () => GameController.Instance.OpenShop());
+        UIController.Bind(btnExit, ExitGame);
+        UIController.Bind(btnPrivacyPolicy, () => Application.OpenURL(PrivacyPolicyUrl));
     }
 
-
-    public void ShowHideMenu(bool show)
+    public void Show(bool visible)
     {
-        if (show)
-        {
-            AudioController.PlayMusic(AudioController.Instance.mainMenuMusic);
-
-            mainMenuPanel.SetActive(true);
-
-            if (SaveGameController.savegame.bestScore <= 0)
-                txtBestScore.transform.parent.gameObject.SetActive(false);
-            else
-                txtBestScore.transform.parent.gameObject.SetActive(true);
-
-            txtPremiumCoins.text = Utilities.numberToString(SaveGameController.savegame.premiumCoins);
-            txtBestScore.text = Utilities.numberToString(SaveGameController.savegame.bestScore);
-
-            GameController.SetPauseOnlyValue(false);
-            GameController.SetGameOverOnlyValue(false);
-        }
-        else
-        {
-            mainMenuPanel.SetActive(false);
-        }
-    }
-
-    public void ShowHideMenu()
-    {
-        UIController.Instance.ShowHideMenu(UIController.eMenuType.MainMenu, !mainMenuPanel.activeSelf);
+        mainMenuPanel.SetActive(visible);
+        if (!visible) return;
+        btnPlay.interactable = SaveGameController.CanSave;
+        txtBestScore.transform.parent.gameObject.SetActive(SaveGameController.Data.BestScore > 0);
+        txtBestScore.text = Utilities.NumberToString(SaveGameController.Data.BestScore);
+        txtPremiumCoins.text = Utilities.NumberToString(SaveGameController.Data.Coins);
     }
 
     public void ExitGame()
     {
-        //scoreScrp.save();
-        //premiumCoinsScrp.save();
-
-        //TODO: playCloudManagerScrp.SaveToCloud();
-
+        if (!SaveGameController.Save() && SaveGameController.HasPendingChanges)
+        {
+            UIController.Instance.ShowSaveMessage("Progress is still waiting to be saved. Check free space and try again.");
+            return;
+        }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-                        Application.Quit();
+        Application.Quit();
 #endif
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 }

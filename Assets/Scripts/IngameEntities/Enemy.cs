@@ -1,149 +1,114 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
-    public enum eHitType { None, Planet, Laser }
-
-    private int healthPoints;
-    private int damage = 1;
-    private float moveSpeed = 1;
-
-    [Header("")]
-    public float rotationSpeed = 1;
+    public float rotationSpeed = 30f;
     public bool randomRotation = true;
     public int scoreGain = 1;
-    public bool isSplitPiece = false;
-
-    private Vector2 target = Vector2.zero;
-
-    [Header("Animations")]
+    public bool isSplitPiece;
     public GameObject deathExplosion;
     public GameObject bulletExplosion;
+    public bool IsAlive => !removed;
+    public Vector2 Direction { get; private set; }
 
+    private Rigidbody2D body;
+    private int healthPoints;
+    private int damage;
+    private float moveSpeed;
+    private bool removed;
     private Transform trail;
 
-    private bool inSplitProgress = false;
-
-
-    public void Init(Vector2 newTarget = new Vector2())
+    public void Init(Vector2 target)
     {
-        if (randomRotation) rotationSpeed = Random.Range(-rotationSpeed, rotationSpeed);
-
-        trail = transform.GetChild(0);
-
-        healthPoints = Utilities.Round(GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.EnemyHP));
-        damage = Utilities.Round(GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.EnemyDamage));
-        moveSpeed = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.EnemySpeed);
-        
-        if (isSplitPiece) 
-            moveSpeed *= Random.Range(0.65f, 0.85f);
-        else 
-            moveSpeed *= Random.Range(0.85f, 1.15f);
-
-        target = newTarget;        
+        var game = GameController.Instance;
+        body = GetComponent<Rigidbody2D>();
+        if (randomRotation) rotationSpeed = Random.Range(-Mathf.Abs(rotationSpeed), Mathf.Abs(rotationSpeed));
+        if (transform.childCount > 0) trail = transform.GetChild(0);
+        healthPoints = Mathf.Max(1, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.EnemyHP, 1f)));
+        damage = Mathf.Max(1, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.EnemyDamage, 1f)));
+        moveSpeed = Mathf.Max(0.01f, game.GetAttribute(EntityAttribute.eAttributeType.EnemySpeed, 1f));
+        moveSpeed *= isSplitPiece ? Random.Range(0.65f, 0.85f) : Random.Range(0.85f, 1.15f);
+        Direction = (target - body.position).normalized;
+        if (Direction.sqrMagnitude < 0.001f) Direction = Vector2.down;
+        body.linearVelocity = Direction * moveSpeed;
+        body.angularVelocity = rotationSpeed;
     }
 
-    public void OnUpdate()
+    private void FixedUpdate()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
-        transform.Rotate(0, 0, rotationSpeed);
-
-        if(Utilities.IsOutsideViewWithMargin(transform, 8f)) EnemyController.RemoveEnemy(this);
+        if (removed || !GameController.Instance.IsSimulationRunning) return;
+        body.linearVelocity = Direction * moveSpeed;
+        body.angularVelocity = rotationSpeed;
+        if (Utilities.IsOutsideViewWithMargin(transform.position, 8f)) Despawn();
     }
 
-    public void hit(int damage, eHitType currentHitType, Vector2 hitPoint)
+    public void Hit(int amount, Vector2 hitPoint)
     {
-        healthPoints -= damage;
-
-        switch (currentHitType)
+        if (removed || !GameController.Instance.IsSimulationRunning) return;
+        healthPoints -= Mathf.Max(0, amount);
+        if (healthPoints > 0)
         {
-            case eHitType.None:
-                break;
-
-            case eHitType.Planet:
-                AudioController.PlaySound(AudioController.Instance.soundPlanetHit);
-                DetachTrail();
-                Destroy(Instantiate(deathExplosion, transform.position, deathExplosion.transform.rotation), 2);
-                EnemyController.RemoveEnemy(this);
-
-                return;
-
-            case eHitType.Laser:
-                if (healthPoints <= 0)
-                {
-                    AudioController.PlaySound(AudioController.Instance.soundEnemyHit);
-                    DetachTrail();
-                    Destroy(Instantiate(deathExplosion, transform.position, deathExplosion.transform.rotation), 2);
-
-                    //multiplie score gain with current move speed (faster meteors, more points)
-                    float tmpScoreGainMulti = moveSpeed * 2;
-                    if (tmpScoreGainMulti < 1) tmpScoreGainMulti = 1;
-                    int newScore = Utilities.Round(scoreGain * tmpScoreGainMulti);
-                    ScoreController.Instance.AddScore(newScore);
-
-                    if (currentHitType == eHitType.Laser) EnemyController.Instance.AddKill();
-
-                    if (!isSplitPiece && !inSplitProgress)
-                    {
-                        inSplitProgress = true;
-                        EnemyController.Instance.TryToSplit(transform);
-                    }
-                    else
-                    {
-                        PowerUpController.Instance.SpawnRandomItem(transform.position);
-                    }
-
-                    EnemyController.RemoveEnemy(this);
-                }
-                else
-                {
-                    AudioController.PlaySound(clip: AudioController.Instance.soundEnemyHit, pitch: 2.5f);
-                    if (bulletExplosion != null)
-                        Destroy(Instantiate(bulletExplosion, hitPoint, bulletExplosion.transform.rotation, transform), 2);
-                }
-                break;
+            AudioController.PlaySound(AudioController.Instance.soundEnemyHit, pitch: 2.5f);
+            GameController.Instance.SpawnEffect(bulletExplosion, hitPoint, 2f);
+            return;
         }
-    }
-
-    private void DetachTrail()
-    {
-        if (!trail) return;
-
-        trail.SetParent(null, worldPositionStays: true);
-
-        var ps = trail.GetComponent<ParticleSystem>();
-        if (ps != null)
-        {
-            var main = ps.main;
-            main.loop = false;
-            ps.Stop();
-        }
-
-        Destroy(trail.gameObject, 3f);
+        // Disable immediately: other contacts in this physics step must not award another kill.
+        removed = true;
+        AudioController.PlaySound(AudioController.Instance.soundEnemyHit);
+        DeathEffect();
+        ScoreController.Instance.AddScore(scoreGain * Mathf.Max(1f, moveSpeed * 2f));
+        EnemyController.Instance.AddKill();
+        if (!EnemyController.Instance.TrySplit(this)) PowerUpController.Instance.SpawnRandomItem(transform.position);
+        Remove();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Planet")
-        {
-            collision.transform.GetComponent<Planet>().Hit(damage);
-
-            AudioController.PlaySound(AudioController.Instance.soundPlanetHit);
-            Destroy(Instantiate(deathExplosion, transform.position, deathExplosion.transform.rotation), 2);
-            EnemyController.RemoveEnemy(this);
-        }
+        if (removed || !GameController.Instance.IsSimulationRunning ||
+            !collision.gameObject.TryGetComponent<Planet>(out var planet)) return;
+        removed = true;
+        DeathEffect();
+        AudioController.PlaySound(AudioController.Instance.soundPlanetHit);
+        Remove();
+        planet.Hit(damage);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "ImpulseWave")
-        {
-            AudioController.PlaySound(AudioController.Instance.soundPlanetHit, pitch: Random.Range(1.3f, 1.5f));
-            Destroy(Instantiate(deathExplosion, transform.position, deathExplosion.transform.rotation), 2);
-            EnemyController.RemoveEnemy(this);
-        }
+        if (removed || !GameController.Instance.IsSimulationRunning || !collision.CompareTag("ImpulseWave")) return;
+        removed = true;
+        DeathEffect();
+        AudioController.PlaySound(AudioController.Instance.soundPlanetHit, pitch: Random.Range(1.3f, 1.5f));
+        Remove();
     }
 
+    private void DeathEffect()
+    {
+        var game = GameController.Instance;
+        game.SpawnEffect(deathExplosion, transform.position, 2f);
+        if (!trail) return;
+        trail.SetParent(game.EffectsRoot, true);
+        if (trail.TryGetComponent<ParticleSystem>(out var particles)) particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        Destroy(trail.gameObject, 3f);
+        trail = null;
+    }
+
+    public void Despawn()
+    {
+        removed = true;
+        Remove();
+    }
+
+    private void Remove()
+    {
+        if (EnemyController.Instance) EnemyController.Instance.Unregister(this);
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (EnemyController.Instance) EnemyController.Instance.Unregister(this);
+    }
 }

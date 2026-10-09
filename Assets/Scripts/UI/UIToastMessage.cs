@@ -1,97 +1,87 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIToastMessage : MonoBehaviour
 {
-    public static UIToastMessage Instance;
-
-    [Header("UI")]
+    public static UIToastMessage Instance { get; private set; }
     public GameObject toastPanel;
     public TextMeshProUGUI txtMessage;
+    [Min(0f)] public float showDuration = 2f;
+    [Min(0f)] public float fadeDuration = 0.3f;
+
     private Image panelImage;
+    private readonly Queue<(string message, float duration)> queue = new();
+    private bool showing;
+    private string currentMessage;
 
-    [Header("Timing")]
-    public float showDuration = 2f;     // Wie lange sichtbar
-    public float fadeDuration = 0.3f;   // Dauer für Ein-/Ausblenden
-
-    private readonly Queue<(string msg, float dur)> queue = new();
-    private bool isShowing;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() => Instance = this;
 
     public void Init()
     {
         StopAllCoroutines();
         queue.Clear();
-        isShowing = false;
-        toastPanel.SetActive(false);
+        showing = false;
+        currentMessage = null;
         panelImage = toastPanel.GetComponent<Image>();
-
-        var c = panelImage.color;
-        c.a = 0f;
-        panelImage.color = c;
+        toastPanel.SetActive(false);
+        SetAlpha(0f);
     }
 
-    public void ShowToast(string message, float dur = 0f)
+    public void ShowToast(string message, float duration = 0f)
     {
-        if (queue.Any(q => q.msg == message)) return;
-
-        queue.Enqueue((message, dur > 0f ? dur : showDuration));
-
-        if (!isShowing) StartCoroutine(ProcessQueue());
+        if (string.IsNullOrWhiteSpace(message) || message == currentMessage) return;
+        foreach (var pending in queue)
+            if (pending.message == message) return;
+        queue.Enqueue((message, duration > 0f ? duration : showDuration));
+        if (!showing) StartCoroutine(ProcessQueue());
     }
 
     private IEnumerator ProcessQueue()
     {
-        isShowing = true;
-
+        showing = true;
         while (queue.Count > 0)
         {
-            var (msg, dur) = queue.Dequeue();
-
-            txtMessage.text = msg;
+            var next = queue.Dequeue();
+            currentMessage = next.message;
+            txtMessage.text = next.message;
+            SetAlpha(0f);
             toastPanel.SetActive(true);
-
-            // Fade In
-            yield return Fade(0f, 1f, fadeDuration);
-
-            // Anzeigen für showDuration
-            yield return new WaitForSecondsRealtime(dur);
-
-            // Fade Out
-            yield return Fade(1f, 0f, fadeDuration);
-
+            yield return Fade(0f, 1f);
+            yield return new WaitForSecondsRealtime(Mathf.Max(0f, next.duration));
+            yield return Fade(1f, 0f);
             toastPanel.SetActive(false);
+            currentMessage = null;
         }
-
-        isShowing = false;
+        showing = false;
     }
 
-    private IEnumerator Fade(float from, float to, float duration)
+    private IEnumerator Fade(float from, float to)
     {
-        float t = 0f;
-        var c = panelImage.color;
-
-        while (t < duration)
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
         {
-            t += Time.unscaledDeltaTime;
-            float alpha = Mathf.Lerp(from, to, t / duration);
-            panelImage.color = new Color(c.r, c.g, c.b, alpha);
-
-            if (txtMessage) // Text gleich mitfaden
-            {
-                var tc = txtMessage.color;
-                txtMessage.color = new Color(tc.r, tc.g, tc.b, alpha);
-            }
-
+            elapsed += Time.unscaledDeltaTime;
+            SetAlpha(Mathf.Lerp(from, to, elapsed / fadeDuration));
             yield return null;
         }
+        SetAlpha(to);
+    }
+
+    private void SetAlpha(float alpha)
+    {
+        var color = panelImage.color;
+        color.a = alpha;
+        panelImage.color = color;
+        color = txtMessage.color;
+        color.a = alpha;
+        txtMessage.color = color;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 }

@@ -149,16 +149,13 @@ MonoBehaviour:
   id: 12
   itemName: G.O.-Prism
   cost: 20944
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 10
   upgradeBaseCost: 6283
   upgradeCostMultiplier: 0.71
   attribute:
   - attributeType: 5
-    initialValue: 2.72
-    attributeIncrement: 0.25
+    initialValue: 136
+    attributeIncrement: 12.5
   - attributeType: 7
     initialValue: 2.6
     attributeIncrement: 0.6
@@ -171,25 +168,16 @@ MonoBehaviour:
   - attributeType: 13
     initialValue: 0.56
     attributeIncrement: 0.03
-  - attributeType: 13
-    initialValue: 0.56
-    attributeIncrement: 0.03
   - attributeType: 12
     initialValue: 4
     attributeIncrement: 0.02
-  rotateSmooth: 0
   normalLaserPrefab: {fileID: 1170660001892344, guid: 4a949c81946342848ae744dfb9c5fe01,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0, g: 1, b: 0.052369595, a: 1}
   jumpLaserDuration: 8
-  jumpLaserActive: 0
-  fireRate: 0.1
   minFireRate: 0.1
-  fireRatePowerUpped: 0.01
-  maxShootUpgrades: 6
-  curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &4737397444004902397

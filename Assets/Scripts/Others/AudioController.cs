@@ -1,17 +1,13 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    public static AudioController Instance;
-
+    public static AudioController Instance { get; private set; }
     [Header("Music")]
     public AudioClip mainMenuMusic;
     public AudioClip ingameMusic;
-    private static AudioSource musicSource;
-
-    [Header("UI sound")]
+    [Header("UI")]
     public AudioClip soundClick;
     public AudioClip openDisplay;
     public AudioClip soundAddLive;
@@ -19,77 +15,76 @@ public class AudioController : MonoBehaviour
     public AudioClip soundBuy;
     public AudioClip soundSelect;
     public AudioClip soundNewBestScore;
-
-    [Header("Enemy sounds")]
+    [Header("Gameplay")]
     public AudioClip soundEnemyHit;
-
-    [Header("Item sounds")]
     public AudioClip soundItemDrop;
-
-    [Header("Planet")]
     public AudioClip soundPlanetHit;
     public AudioClip soundPlanetDeath;
+    [Range(0f, 1f)] public float volume = 0.6f;
+    [Min(1)] public int maxSoundSources = 32;
 
-    public static float stdVolume = 0.6f;
-    private static List<AudioSource> audioSrcSoundList = new List<AudioSource>();
-
-
+    private readonly List<AudioSource> soundSources = new();
+    private AudioSource musicSource;
+    private int nextSource;
 
     private void Awake()
     {
         Instance = this;
-    }
-
-    private AudioSource CreateAudioSource(string name = "tmpAudioSrc")
-    {
-        var go = new GameObject(name);
-        var src = go.AddComponent<AudioSource>();
-        audioSrcSoundList.Add(src);
-
-        src.playOnAwake = false;
-        src.loop = false;
-        src.volume = stdVolume;
-        src.spatialBlend = 0f; // 2D
-
-        return src;
-    }
-
-    public static AudioSource PlaySound(AudioClip clip, bool randomPitch = false, float? pitch = null)
-    {
-        var src = Instance.CreateAudioSource();
-
-        src.clip = clip;
-        if (randomPitch) src.pitch = Random.Range(0.8f, 0.9f);
-        else if (pitch.HasValue) src.pitch = pitch.Value;
-        else src.pitch = 1f;
-
-        src.Play();
-
-        DontDestroyOnLoad(src.gameObject);
-        // Laufzeit an Pitch anpassen (bei höherer Pitch kürzer)
-        var lifeTime = clip.length / Mathf.Max(Mathf.Abs(src.pitch), 0.01f);
-        Destroy(src.gameObject, lifeTime);
-
-        return src;
-    }
-
-    public static void PlayMusic(AudioClip musicClip)
-    {
-        if (musicSource == null)
-        {
-            GameObject goAudioSrc = new GameObject("tmpAudioSrcMusic");
-            AudioSource audioSrc = goAudioSrc.AddComponent<AudioSource>();
-            musicSource = audioSrc;
-        }
-        musicSource.volume = stdVolume;
-        musicSource.clip = musicClip;
+        musicSource = CreateSource("Music");
         musicSource.loop = true;
-        musicSource.Play();
-        DontDestroyOnLoad(musicSource.gameObject);
     }
 
-    public static AudioSource GetAudioSrcMusic()
+    private AudioSource CreateSource(string objectName)
     {
-        return musicSource;
+        var go = new GameObject(objectName);
+        go.transform.SetParent(transform);
+        var source = go.AddComponent<AudioSource>();
+        source.playOnAwake = false;
+        source.spatialBlend = 0f;
+        return source;
+    }
+
+    public static void PlaySound(AudioClip clip, bool randomPitch = false, float? pitch = null)
+    {
+        if (!Instance || !clip) return;
+        AudioSource source = null;
+        foreach (var candidate in Instance.soundSources)
+        {
+            if (!candidate.isPlaying)
+            {
+                source = candidate;
+                break;
+            }
+        }
+        if (!source && Instance.soundSources.Count < Mathf.Max(1, Instance.maxSoundSources))
+        {
+            source = Instance.CreateSource("Sound");
+            Instance.soundSources.Add(source);
+        }
+        if (!source)
+        {
+            source = Instance.soundSources[Instance.nextSource];
+            Instance.nextSource = (Instance.nextSource + 1) % Instance.soundSources.Count;
+        }
+        source.Stop();
+        source.volume = Instance.volume;
+        source.pitch = Mathf.Clamp(pitch ?? (randomPitch ? Random.Range(0.8f, 0.9f) : 1f), 0.1f, 3f);
+        source.clip = clip;
+        source.Play();
+    }
+
+    public static void PlayMusic(AudioClip clip)
+    {
+        if (!Instance || !clip) return;
+        var source = Instance.musicSource;
+        source.volume = Instance.volume;
+        if (source.clip == clip && source.isPlaying) return;
+        source.clip = clip;
+        source.Play();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 }

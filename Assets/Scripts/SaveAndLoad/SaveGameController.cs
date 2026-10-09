@@ -1,157 +1,77 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.IO;
 using UnityEngine;
 
-public class SaveGameController : MonoBehaviour
+public static class SaveGameController
 {
-    private static string key = "sattelite_defense_savegame";
+    public static IReadOnlySavegame Data => session != null ? session : defaults;
+    public static bool CanSave => session != null && session.CanSave;
+    public static bool HasPendingChanges => session != null && session.HasPendingChanges;
+    public static string LastError => session?.LastError;
+    public static string LoadMessage => session?.LoadMessage;
+    public static event Action Changed;
+    public static event Action<string> SaveFailed;
 
-    public static Savegame savegame;
+    private static readonly Savegame defaults = new();
+    private static SaveSession session;
+    private static string directoryOverride;
 
-
-    public static void SaveBestScore(long score)
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics()
     {
-        savegame.bestScore = score;
-        Save();
-    }
-
-    public static void SavePremiumCoins(long coins)
-    {
-        savegame.premiumCoins = coins;
-        Save();
-    }
-
-    public static void SaveActiveItem(IngameEntity.eEntityType category, int itemID)
-    {
-        switch (category)
-        {
-            case IngameEntity.eEntityType.Planet:
-                savegame.activePlanetID = itemID;
-                break;
-            case IngameEntity.eEntityType.Weapon:
-                savegame.activeWeaponID = itemID;
-                break;
-            case IngameEntity.eEntityType.Background:
-                savegame.activeBackgroundID = itemID;
-                break;
-            case IngameEntity.eEntityType.Enemy:
-                savegame.activeEnemyTypeID = itemID;
-                break;
-        }
-
-        Save();
-    }
-
-    public static void SaveUnlockedItem(IngameEntity.eEntityType category, int itemID, int level)
-    {
-        List<EntityLevelEntry> list = null;
-
-        switch (category)
-        {
-            case IngameEntity.eEntityType.Planet:
-                savegame.unlockedPlanetIDs.Add(itemID);
-                list = savegame.planetLevels;
-                break;
-            case IngameEntity.eEntityType.Weapon:
-                savegame.unlockedWeaponIDs.Add(itemID);
-                list = savegame.weaponLevels;
-                break;
-            case IngameEntity.eEntityType.Background:
-                savegame.unlockedBackgroundIDs.Add(itemID);
-                list = savegame.backgroundLevels;
-                break;
-            case IngameEntity.eEntityType.Enemy:
-                savegame.unlockedEnemyTypeIDs.Add(itemID);
-                list = savegame.enemyTypeLevels;
-                break;
-        }
-
-        if (list != null)
-        {
-            var entry = list.Find(e => e.id == itemID);
-            if (entry == null)
-                list.Add(new EntityLevelEntry(itemID, level));
-            else
-                entry.level = level;
-        }
-
-        Save();
-    }
-
-
-
-    public static void Save()
-    {
-        string json = JsonUtility.ToJson(savegame);
-        PlayerPrefs.SetString(key, json);
-        PlayerPrefs.Save();
+        session?.Dispose();
+        session = null;
+        directoryOverride = null;
+        Changed = null;
+        SaveFailed = null;
     }
 
     public static void Load()
     {
-        if (!PlayerPrefs.HasKey(key))
+        session?.Dispose();
+        string directory = directoryOverride ?? Path.Combine(Application.persistentDataPath, "Saves");
+        session = new SaveSession(new FileSaveStore(directory));
+        session.Changed += () => Changed?.Invoke();
+        session.SaveFailed += message => SaveFailed?.Invoke(message);
+        session.Load();
+    }
+
+    public static void Tick(float unscaledDeltaTime) => session?.Tick(unscaledDeltaTime);
+    public static bool Save() => session != null && session.Flush();
+    public static bool TryPurchase(IngameEntity item) => session != null && session.TryPurchase(item);
+    public static bool Select(IngameEntity item) => session != null && session.Select(item);
+    public static long CreditCoins(long amount) => session?.CreditCoins(amount) ?? 0;
+    public static bool RecordRound(long score, long coins) => session != null && session.RecordRound(score, coins);
+    public static Savegame GetSnapshot() => session?.Snapshot() ?? new Savegame();
+
+    public static IngameEntity ResolveActiveItem(IngameEntity.eEntityType category, GameObject[] prefabs)
+    {
+        IngameEntity fallback = null;
+        foreach (var prefab in prefabs)
         {
-            savegame = new Savegame();
-            Save();
-            return;
+            if (prefab == null || !prefab.TryGetComponent<IngameEntity>(out var item)) continue;
+            if (item.entityType != category || item.id <= 0) continue;
+            if (fallback == null) fallback = item;
+            if (item.id == Data.GetActiveId(category) && Data.IsUnlocked(category, item.id)) return item;
         }
-
-        string json = PlayerPrefs.GetString(key);
-        savegame = JsonUtility.FromJson<Savegame>(json);
-
-        if (savegame.planetLevels == null) savegame.planetLevels = new();
-        if (savegame.weaponLevels == null) savegame.weaponLevels = new();
-        if (savegame.backgroundLevels == null) savegame.backgroundLevels = new();
-        if (savegame.enemyTypeLevels == null) savegame.enemyTypeLevels = new();
-
-        void EnsureEntry(List<EntityLevelEntry> l, int id, int lvl)
-        {
-            if (l.Find(e => e.id == id) == null) l.Add(new EntityLevelEntry(id, lvl));
-        }
-        EnsureEntry(savegame.planetLevels, 1, 1);
-        EnsureEntry(savegame.weaponLevels, 1, 1);
-        EnsureEntry(savegame.backgroundLevels, 1, 1);
-        EnsureEntry(savegame.enemyTypeLevels, 1, 1);
+        if (fallback == null) throw new InvalidOperationException($"No valid shop items for {category}.");
+        session?.UseFallback(fallback);
+        return fallback;
     }
 
-
-    public static void RemoveSaveGame()
+#if UNITY_EDITOR
+    public static void UseStorageDirectoryForValidation(string directory)
     {
-        PlayerPrefs.DeleteAll();
+        session?.Dispose();
+        session = null;
+        directoryOverride = Path.GetFullPath(directory);
     }
 
-
-
-
-    private static List<EntityLevelEntry> GetLevelList(IngameEntity.eEntityType category)
+    public static void CloseStorageForValidation()
     {
-        switch (category)
-        {
-            case IngameEntity.eEntityType.Planet: return savegame.planetLevels;
-            case IngameEntity.eEntityType.Weapon: return savegame.weaponLevels;
-            case IngameEntity.eEntityType.Background: return savegame.backgroundLevels;
-            case IngameEntity.eEntityType.Enemy: return savegame.enemyTypeLevels;
-            default: return savegame.weaponLevels; // Fallback
-        }
+        session?.Dispose();
+        session = null;
+        directoryOverride = null;
     }
-
-    public static int GetEntityLevel(IngameEntity.eEntityType category, int itemID)
-    {
-        var list = GetLevelList(category);
-        var entry = list.FirstOrDefault(e => e.id == itemID);
-        return entry != null ? Mathf.Max(1, entry.level) : 1;
-    }
-
-    public static void SaveEntityLevel(IngameEntity.eEntityType category, int itemID, int level)
-    {
-        var list = GetLevelList(category);
-        var entry = list.FirstOrDefault(e => e.id == itemID);
-        if (entry == null)
-            list.Add(new EntityLevelEntry(itemID, Mathf.Max(0, level)));
-        else
-            entry.level = Mathf.Max(0, level);
-
-        Save();
-    }
-
+#endif
 }

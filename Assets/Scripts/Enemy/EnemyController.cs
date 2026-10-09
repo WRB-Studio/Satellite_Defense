@@ -1,214 +1,112 @@
-﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public static EnemyController Instance;
-
-    [Header("References")]
+    public static EnemyController Instance { get; private set; }
     public Transform spawnParent;
+    [Min(0.01f)] public float minSpawnRate = 0.3f;
+    public Vector2 minMaxEnemyScale = new(0.2f, 0.5f);
+    [Range(0f, 180f)] public float splitSpreadDegrees = 25f;
+    [Min(1)] public int weaponEmitterAddByKills = 20;
+    public int Kills { get; private set; }
+    public IReadOnlyList<Enemy> Enemies => enemies;
+
+    private readonly List<Enemy> enemies = new();
     private GameObject[] enemyPrefabs;
-    private static List<Enemy> instantiatedEnemys = new List<Enemy>();
+    private float startSpawnRate;
+    private float splitChance;
+    private int splitPieces;
+    private float spawnCountdown;
+    private int spawnCount;
+    private int killsSinceUpgrade;
 
-    [Header("Spawn Settings")]
-    private float startSpawnRate = 2f;
-    public float minSpawnRate = 0.3f;
-    private float ticksToMinSpawnRate = 150f;
-    public Vector2 minMaxEnemyScale = new Vector2(0.2f, 0.5f);
-    private float splitChance = 0.1f;
-    private int splitPieces = 2;
-    public float splitSpreadDegrees = 25f;
+    private void Awake() => Instance = this;
 
-
-    [Header("Enemy Settings")]
-    public int kills = 0;
-    public int weaponEmitterAddByKills = 20;
-    [HideInInspector] public int killCounterForWeaponEmitterActivation = 0;
-
-
-
-    private void Awake()
+    public void Init(EnemyType type)
     {
-        Instance = this;
-    }
-
-    public void Init()
-    {
-        kills = 0;
-
-        startSpawnRate = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.EnemySpawnRate);
-
-        splitChance = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.EnemySplitChance);
-
-        splitPieces = Utilities.Round(GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.EnemySplitCount));
-
-        LoadActiveEnemyType();
-
-        StopAllCoroutines();
         RemoveAllEnemies();
-
-        StartCoroutine(EnemySpawnRoutine());
+        enemyPrefabs = type.enemyPrefabs;
+        Kills = 0;
+        ResetWeaponProgress();
+        spawnCount = 0;
+        spawnCountdown = 0f;
+        var game = GameController.Instance;
+        startSpawnRate = Mathf.Max(minSpawnRate, game.GetAttribute(EntityAttribute.eAttributeType.EnemySpawnRate, 2f));
+        splitChance = Mathf.Clamp01(game.GetAttribute(EntityAttribute.eAttributeType.EnemySplitChance));
+        splitPieces = Mathf.Max(0, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.EnemySplitCount, 2f)));
     }
 
-
-    void Update()
+    private void Update()
     {
-        //if game is paused
-        if (GameController.GetIsPause()) return;
-
-        //enemy moving
-        foreach (Enemy enemy in instantiatedEnemys.ToArray())
-        {
-            if (enemy == null)
-            {
-                instantiatedEnemys.Remove(enemy);
-                continue;
-            }
-            enemy.OnUpdate();
-        }
+        if (!GameController.Instance.IsSimulationRunning || enemyPrefabs == null || enemyPrefabs.Length == 0) return;
+        spawnCountdown -= Time.deltaTime;
+        if (spawnCountdown > 0f) return;
+        float scale = Random.Range(minMaxEnemyScale.x, minMaxEnemyScale.y);
+        Spawn(RandomSpawnPosition(), Vector3.one * scale, false, Vector2.zero);
+        float progress = Mathf.Clamp01(spawnCount++ / 150f);
+        float interval = Mathf.Lerp(startSpawnRate, minSpawnRate, progress * progress);
+        spawnCountdown = Mathf.Max(minSpawnRate, Random.Range(interval * 0.85f, interval * 1.15f));
     }
 
-
-    private IEnumerator EnemySpawnRoutine()
+    private Enemy Spawn(Vector2 position, Vector3 scale, bool split, Vector2 target)
     {
-        int spawnCount = 0;
-
-        while (true)
-        {
-            yield return new WaitWhile(() => GameController.GetIsPause() || GameController.GetIsGameOver());
-
-            SpawnRandomEnemy().GetComponent<Enemy>().Init();
-
-            // Progress ratio: 0 = start speed, 1 = maximum intensity (minimum delay)
-            float progress = Mathf.Clamp01((float)spawnCount / ticksToMinSpawnRate);
-            float currentSpawnDelay = Mathf.Lerp(startSpawnRate, minSpawnRate, progress * progress);
-
-            float randomizedDelay = Mathf.Max(minSpawnRate, Random.Range(currentSpawnDelay * 0.85f, currentSpawnDelay * 1.15f));
-            yield return new WaitForSeconds(randomizedDelay);
-
-            spawnCount++;
-        }
-    }
-
-    private void SpawnSplittedEnemy(Transform dyingEnemy)
-    {
-        GameObject go = SpawnRandomEnemy();
-        Enemy enemy = go.GetComponent<Enemy>();
-        enemy.isSplitPiece = true;
-
-        // leicht versetzt spawnen
-        float size = Mathf.Max(dyingEnemy.lossyScale.x, dyingEnemy.lossyScale.y) * 0.5f;
-        Vector2 offset = Random.insideUnitCircle * size * 1.5f;
-        Vector2 startPos = (Vector2)dyingEnemy.position + offset;
-        go.transform.position = startPos;
-
-        // kleiner skalieren
-        float scaleFactor = Random.Range(0.4f, 0.7f);
-        go.transform.localScale = dyingEnemy.localScale * scaleFactor;
-
-        // Zielpunkt berechnen und an Init() übergeben
-        Vector2 target = ComputeSplitTarget(dyingEnemy);
+        var prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        var enemy = Instantiate(prefab, position, Quaternion.identity, spawnParent).GetComponent<Enemy>();
+        enemy.transform.localScale = scale;
+        enemy.isSplitPiece = split;
+        enemies.Add(enemy);
         enemy.Init(target);
+        return enemy;
     }
 
-    private Vector2 ComputeSplitTarget(Transform dyingEnemy)
+    public bool TrySplit(Enemy source)
     {
-        // Basisrichtung: Rigidbody2D-velocity oder Fallback
-        Vector2 baseDir = Vector2.zero;
-        if (dyingEnemy.TryGetComponent<Rigidbody2D>(out var rb))
-            baseDir = rb.linearVelocity;
-
-        if (baseDir.sqrMagnitude < 0.0001f)
-            baseDir = Random.insideUnitCircle.normalized;
-        else
-            baseDir.Normalize();
-
-        // Streuung
-        float angle = Random.Range(-splitSpreadDegrees, splitSpreadDegrees);
-        Quaternion rot = Quaternion.Euler(0f, 0f, angle);
-        Vector2 dir = ((Vector2)(rot * baseDir)).normalized;
-
-        // Ziel = aktuelle Position + Richtung * Distanz
-        return (Vector2)dyingEnemy.position + dir * 30f;
-    }
-
-
-    public bool TryToSplit(Transform dyingEnemy)
-    {
-        if (Random.value < splitChance)
+        if (source.isSplitPiece || splitPieces <= 0 || Random.value >= splitChance) return false;
+        int count = Random.Range(1, splitPieces + 1);
+        for (int i = 0; i < count; i++)
         {
-            for (int i = 0; i < Random.Range(1, splitPieces + 1); i++)
-                SpawnSplittedEnemy(dyingEnemy);
-
-            return true;
+            var offset = Random.insideUnitCircle * Mathf.Max(source.transform.lossyScale.x, source.transform.lossyScale.y) * 0.75f;
+            Vector2 position = (Vector2)source.transform.position + offset;
+            Vector2 direction = Quaternion.Euler(0f, 0f, Random.Range(-splitSpreadDegrees, splitSpreadDegrees)) * source.Direction;
+            Spawn(position, source.transform.localScale * Random.Range(0.4f, 0.7f), true, position + direction * 30f);
         }
-
-        return false;
-    }
-
-
-    private GameObject SpawnRandomEnemy()
-    {
-        GameObject randomEnemy = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        GameObject newEnemy = Instantiate(randomEnemy, RandomSpawnPosition(), Quaternion.identity, spawnParent);
-        Enemy enemyScript = newEnemy.GetComponent<Enemy>();
-        enemyScript.isSplitPiece = false;
-
-        float randScale = Random.Range(minMaxEnemyScale.x, minMaxEnemyScale.y);
-        newEnemy.transform.localScale = Vector3.one * randScale;
-
-        instantiatedEnemys.Add(enemyScript);
-
-        return newEnemy;
+        return true;
     }
 
     private Vector2 RandomSpawnPosition()
     {
-        float height = Camera.main.orthographicSize;
-        float width = Camera.main.orthographicSize * Camera.main.aspect;
-
-        float randTopOrButtom;
-        if (Random.value < 0.5f)
-            randTopOrButtom = -height - 0.5f;
-        else
-            randTopOrButtom = height + 0.5f;
-
-        return new Vector2(Random.Range(-width - 1.5f, width + 1.5f), randTopOrButtom);
-    }
-
-    public List<Enemy> GetInstantiatedEnemys()
-    {
-        return instantiatedEnemys;
+        var camera = GameController.Instance.GameCamera;
+        float height = camera.orthographicSize;
+        float width = height * camera.aspect;
+        return (Vector2)camera.transform.position +
+            new Vector2(Random.Range(-width - 1.5f, width + 1.5f), (Random.value < 0.5f ? -1f : 1f) * (height + 0.5f));
     }
 
     public void RemoveAllEnemies()
     {
-        foreach (Enemy enemy in instantiatedEnemys.ToArray())
-            RemoveEnemy(enemy);
-    }
-
-    public static void RemoveEnemy(Enemy enemy)
-    {
-        instantiatedEnemys.Remove(enemy);
-        Destroy(enemy.gameObject);
-    }
-
-    public void LoadActiveEnemyType()
-    {
-        enemyPrefabs = UIShopMenu.Instance.activeEnemyTypeItem.GetComponent<EnemyType>().enemyPrefabs;
-    }
-
-    public void AddKill()
-    {
-        kills++;
-        killCounterForWeaponEmitterActivation++;
-        if (killCounterForWeaponEmitterActivation >= weaponEmitterAddByKills)
+        while (enemies.Count > 0)
         {
-            killCounterForWeaponEmitterActivation = 0;
-            GameController.Instance.instantiatedWeapon.GetComponent<Weapon>().ChangeWeaponLevel(1);
+            var enemy = enemies[enemies.Count - 1];
+            enemies.RemoveAt(enemies.Count - 1);
+            if (enemy) enemy.Despawn();
         }
     }
 
+    public void Unregister(Enemy enemy) => enemies.Remove(enemy);
+    public void ResetWeaponProgress() => killsSinceUpgrade = 0;
+
+    public void AddKill()
+    {
+        if (!GameController.Instance.IsPlaying) return;
+        Kills++;
+        if (++killsSinceUpgrade < Mathf.Max(1, weaponEmitterAddByKills)) return;
+        killsSinceUpgrade = 0;
+        GameController.Instance.ActiveWeapon.UpgradeEmitters();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 }

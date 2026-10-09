@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +21,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         set { deadZone = Mathf.Abs(value); }
     }
 
-    public AxisOptions AxisOptions { get { return AxisOptions; } set { axisOptions = value; } }
+    public AxisOptions AxisOptions { get { return axisOptions; } set { axisOptions = value; } }
     public bool SnapX { get { return snapX; } set { snapX = value; } }
     public bool SnapY { get { return snapY; } set { snapY = value; } }
 
@@ -39,6 +39,16 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     private Camera cam;
 
     private Vector2 input = Vector2.zero;
+    public bool IsPressed { get; private set; }
+    protected int activePointerId = int.MinValue;
+
+    protected virtual void OnDisable()
+    {
+        IsPressed = false;
+        activePointerId = int.MinValue;
+        input = Vector2.zero;
+        if (handle) handle.anchoredPosition = Vector2.zero;
+    }
 
     protected virtual void Start()
     {
@@ -59,11 +69,15 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
+        if (IsPressed) return;
+        IsPressed = true;
+        activePointerId = eventData.pointerId;
         OnDrag(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!IsPressed || eventData.pointerId != activePointerId) return;
         cam = null;
         if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
             cam = canvas.worldCamera;
@@ -131,6 +145,9 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
+        if (eventData.pointerId != activePointerId) return;
+        IsPressed = false;
+        activePointerId = int.MinValue;
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
     }

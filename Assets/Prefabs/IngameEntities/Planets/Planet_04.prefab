@@ -107,9 +107,6 @@ MonoBehaviour:
   id: 4
   itemName: Cobatae
   cost: 105
-  unlocked: 1
-  active: 1
-  entityLevel: 1
   maxEntityLevel: 4
   upgradeBaseCost: 32
   upgradeCostMultiplier: 1.08
@@ -123,7 +120,7 @@ MonoBehaviour:
   - attributeType: 3
     initialValue: 1
     attributeIncrement: 0
-  rotationSpeed: 0.02
+  rotationSpeed: 1.2
   planetExplosion: {fileID: 675976027193676039, guid: 7bef642a608175341b7dbca6c92b9bec,
     type: 3}
   animExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,

@@ -149,16 +149,13 @@ MonoBehaviour:
   id: 2
   itemName: Hypron
   cost: 77
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 3
   upgradeBaseCost: 23
   upgradeCostMultiplier: 1.11
   attribute:
   - attributeType: 5
-    initialValue: 1
-    attributeIncrement: 0.09
+    initialValue: 50
+    attributeIncrement: 4.5
   - attributeType: 7
     initialValue: 1.1
     attributeIncrement: 0.15
@@ -171,25 +168,16 @@ MonoBehaviour:
   - attributeType: 13
     initialValue: 0.15
     attributeIncrement: 0
-  - attributeType: 13
-    initialValue: 0.15
-    attributeIncrement: 0
   - attributeType: 12
     initialValue: 2
     attributeIncrement: 0
-  rotateSmooth: 0
   normalLaserPrefab: {fileID: 294839221748330241, guid: 69b72e767eba7244dbbba84c53fab865,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.08235294, g: 0.8313726, b: 0.8941177, a: 1}
   jumpLaserDuration: 8
-  jumpLaserActive: 0
-  fireRate: 0.1
   minFireRate: 0.1
-  fireRatePowerUpped: 0.01
-  maxShootUpgrades: 6
-  curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &4737397444004902397

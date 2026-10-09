@@ -360,16 +360,13 @@ MonoBehaviour:
   id: 11
   itemName: Zerathis
   cost: 14517
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 9
   upgradeBaseCost: 4355
   upgradeCostMultiplier: 0.75
   attribute:
   - attributeType: 5
-    initialValue: 2.52
-    attributeIncrement: 0.23
+    initialValue: 126
+    attributeIncrement: 11.5
   - attributeType: 7
     initialValue: 2.2
     attributeIncrement: 0.64
@@ -382,24 +379,15 @@ MonoBehaviour:
   - attributeType: 13
     initialValue: 0.53
     attributeIncrement: 0.02
-  - attributeType: 13
-    initialValue: 0.53
-    attributeIncrement: 0.02
   - attributeType: 12
     initialValue: 3
     attributeIncrement: 0.1
-  rotateSmooth: 0
   normalLaserPrefab: {fileID: 9077752343443420686, guid: 7ff5551ce08808b43937503b1e7bdb44,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.9333334, g: 0.6666667, b: 0, a: 1}
   jumpLaserDuration: 8
-  jumpLaserActive: 0
-  fireRate: 0.1
   minFireRate: 0.1
-  fireRatePowerUpped: 0.01
-  maxShootUpgrades: 6
-  curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}

@@ -1,78 +1,57 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PremiumCoinController : MonoBehaviour, ISaveable
+public class PremiumCoinController : MonoBehaviour
 {
-    public static PremiumCoinController Instance;
-
+    public static PremiumCoinController Instance { get; private set; }
     public GameObject txtPemiumCoinEffect;
     public long premiumCoinsPerScore = 100000;
+    public long Coins => SaveGameController.Data.Coins;
+    private readonly List<GameObject> popups = new();
 
-    public long premiumCoins = 0;
-
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() => Instance = this;
 
     public void Init()
     {
-        StopAllCoroutines();
-
-        Load();
+        SaveGameController.Changed -= RefreshDisplay;
+        SaveGameController.Changed += RefreshDisplay;
+        RefreshDisplay();
     }
 
-    private void OnValidate()
+    private void RefreshDisplay()
     {
-        if (GameController.gameIsInitialized && premiumCoins > 0)
+        if (UIMainMenu.Instance)
+            UIMainMenu.Instance.txtPremiumCoins.text = Utilities.NumberToString(Coins);
+    }
+
+    public void CollectCoin(int baseValue, Vector3 position)
+    {
+        int bonus = Utilities.Round(GameController.Instance.GetAttribute(EntityAttribute.eAttributeType.BonusCoinValue));
+        long credited = SaveGameController.CreditCoins(System.Math.Max(1L, (long)baseValue + bonus));
+        if (credited == 0 || !txtPemiumCoinEffect) return;
+        var effect = Instantiate(txtPemiumCoinEffect, UIIngameHud.Instance.ingameHud.transform);
+        effect.transform.position = GameController.Instance.GameCamera.WorldToScreenPoint(position);
+        effect.GetComponentInChildren<TextMeshProUGUI>().text = "+" + Utilities.NumberToString(credited);
+        popups.RemoveAll(popup => !popup);
+        popups.Add(effect);
+        Destroy(effect, 3f);
+    }
+
+    public void ClearPopups()
+    {
+        foreach (var popup in popups)
         {
-            UIMainMenu.Instance.txtPremiumCoins.text = Utilities.numberToString(premiumCoins);
-
-            SaveGameController.SavePremiumCoins(premiumCoins);
+            if (!popup) continue;
+            popup.SetActive(false);
+            Destroy(popup);
         }
+        popups.Clear();
     }
 
-    public void AddPremiumCoins(long addNewPremiumCoins)
+    private void OnDestroy()
     {
-        long oldPremiumCoins = premiumCoins;
-
-        premiumCoins += addNewPremiumCoins;
-
-        if(!UIMainMenu.Instance.mainMenuPanel.activeSelf)
-            UIMainMenu.Instance.txtPremiumCoins.text = Utilities.numberToString(premiumCoins);
-        else
-            StartCoroutine(Utilities.CountAnimationRoutine(UIMainMenu.Instance.txtPremiumCoins, oldPremiumCoins, premiumCoins, 0.05f, 0.5f, AudioController.Instance.soundCoinCount));
-
-        SaveGameController.SavePremiumCoins(premiumCoins);
+        SaveGameController.Changed -= RefreshDisplay;
+        if (Instance == this) Instance = null;
     }
-
-    public void AddPremiumCoins(long addNewPremiumCoins, Vector3 position)
-    {
-        GameObject newEffect = Instantiate(txtPemiumCoinEffect, UIIngameHud.Instance.ingameHud.transform);
-        newEffect.transform.position = Camera.main.WorldToScreenPoint(position);
-        newEffect.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = addNewPremiumCoins.ToString();
-        Destroy(newEffect, 3);
-
-        AddPremiumCoins(addNewPremiumCoins + Utilities.Round(GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.BonusCoinValue)));
-    }
-
-
-    /*---------------Save & Load-----------------*/
-
-    public void Load()
-    {
-        premiumCoins = SaveGameController.savegame.premiumCoins;
-        UIMainMenu.Instance.txtPremiumCoins.text = Utilities.numberToString(premiumCoins);
-    }
-
-    public void Save()
-    {
-
-    }
-
 }

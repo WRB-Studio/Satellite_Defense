@@ -1,121 +1,71 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Planet : IngameEntity
 {
-    public static Planet Instance;
-
-    [Header("----------------------------------------")]
-
     [Header("Movement")]
     public float rotationSpeed;
-
-    [Header("Animation GO's")]
+    [Header("Effects")]
     public GameObject planetExplosion;
     public GameObject animExplosion;
     public GameObject animImpulseWave;
-    private GameObject currentImpulseWave;
-
-    [Header("Sounds")]
     public AudioClip soundExplosion;
     public AudioClip soundImpulseWave;
 
-    private bool revived = false;
-
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private GameObject currentImpulseWave;
+    private bool revived;
+    private bool dead;
 
     public void Init()
     {
-        if (Random.value < 0.5f)
-            rotationSpeed = -rotationSpeed;
+        if (Random.value < 0.5f) rotationSpeed = -rotationSpeed;
     }
 
     private void Update()
     {
-        transform.Rotate(0, 0, rotationSpeed);
+        if (GameController.Instance.IsSimulationRunning)
+            transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
     }
-
 
     public void Hit(int damage = 1)
     {
-        //endless mode in main menu
-        if (UIMainMenu.Instance.mainMenuPanel.activeSelf)
+        var game = GameController.Instance;
+        if (dead || damage <= 0 || !game.IsSimulationRunning) return;
+        game.ResetWeaponProgress();
+        if (!game.IsPlaying)
         {
-            GameController.Instance.ResetWeaponEmitterKillCounter();
-            ImpulesWave();
+            ImpulseWave();
+            return;
         }
-        else
+        if (game.GameCamera.TryGetComponent<Animator>(out var animator)) animator.Play("hitShake");
+        game.ChangeLife(-damage);
+        if (game.CurrentLives > 0)
         {
-            GameController.Instance.ResetWeaponEmitterKillCounter();
-            Camera.main.transform.GetComponent<Animator>().Play("hitShake");
-
-            GameController.Instance.ChangeLife(-damage);
-
-            if (GameController.Instance.currentLifes <= 0)
-            {
-                if (GameController.Instance.UpgradeActive(EntityAttribute.eAttributeType.PlanetRevive) && !revived)
-                {
-                    revived = true;
-                    GameController.Instance.ResetLifes();
-                    ImpulesWave();
-                    EnemyController.Instance.RemoveAllEnemies();
-                    return;
-                }
-
-                GameObject explosion = Instantiate(animExplosion);
-                explosion.transform.localScale *= 2f;
-                Destroy(explosion, 20);
-                AudioController.PlaySound(soundExplosion);
-
-                GameController.SetGameOver();
-                if (planetExplosion != null)
-                {
-                    GameObject planetExp = Instantiate(planetExplosion, transform.position, Quaternion.identity);
-                    planetExp.name = "PlanetExplosion";
-                    Destroy(planetExp, 20);
-                }
-
-                Destroy(gameObject);
-            }
-            else
-            {
-                ImpulesWave();
-            }
-        }            
+            ImpulseWave();
+            return;
+        }
+        if (!revived && game.HasAbility(EntityAttribute.eAttributeType.PlanetRevive))
+        {
+            revived = true;
+            game.ResetLives();
+            ImpulseWave();
+            EnemyController.Instance.RemoveAllEnemies();
+            return;
+        }
+        dead = true;
+        var explosion = game.SpawnEffect(animExplosion, transform.position, 20f);
+        if (explosion) explosion.transform.localScale *= 2f;
+        game.SpawnEffect(planetExplosion, transform.position, 20f);
+        AudioController.PlaySound(soundExplosion);
+        game.EndRound();
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
-    private void ImpulesWave()
+    private void ImpulseWave()
     {
-        //Explosion on hit when upgrade type eUpgradeType.PlanetExplosionOnHit is active
-        if (!GameController.Instance.UpgradeActive(EntityAttribute.eAttributeType.PlanetExplosionOnHit) || currentImpulseWave != null) return;
-
-        currentImpulseWave = Instantiate(animImpulseWave);
-        Destroy(currentImpulseWave, 1.4f);
+        var game = GameController.Instance;
+        if (!game.HasAbility(EntityAttribute.eAttributeType.PlanetExplosionOnHit) || currentImpulseWave) return;
+        currentImpulseWave = game.SpawnEffect(animImpulseWave, transform.position, 1.4f);
         AudioController.PlaySound(soundImpulseWave, pitch: Random.Range(0.9f, 1.3f));
     }
-
-
-    public void Save()
-    {
-    }
-
-    public void Load()
-    {
-        /*PlanetData data = SaveSystem.loadPlanet(id);
-        if (data == null)
-        {
-            save();
-            data = SaveSystem.loadPlanet(id);
-        }
-
-        unlocked = data.unlocked;
-        active = data.active;*/
-    }
-
 }

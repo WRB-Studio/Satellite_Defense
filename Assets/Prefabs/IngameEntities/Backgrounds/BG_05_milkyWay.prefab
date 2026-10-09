@@ -104,9 +104,6 @@ MonoBehaviour:
   id: 5
   itemName: Milky Way
   cost: 553
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 7
   upgradeBaseCost: 166
   upgradeCostMultiplier: 0.97

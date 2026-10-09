@@ -1,42 +1,41 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIIngameHud : MonoBehaviour
 {
-    public static UIIngameHud Instance;
-
-    [Header("UI IngameMenu")]
+    public static UIIngameHud Instance { get; private set; }
     public GameObject ingameHud;
     public TextMeshProUGUI txtScoreIngame;
     public Button btnPause;
+    private readonly List<Image> lives = new();
 
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() => Instance = this;
 
     public void Init()
     {
-        btnPause.onClick.RemoveAllListeners();
-
-        btnPause.onClick.AddListener(delegate
-        {
-            AudioController.PlaySound(AudioController.Instance.soundClick);
-            UIPauseMenu.Instance.ShowHideMenu(!GameController.GetIsPause());
-        });
-
-        btnPause.interactable = true;
-
-        txtScoreIngame.text = "0";
-
-        ShowHideMenu(false);
+        UIController.Bind(btnPause, () => GameController.Instance.Pause());
+        ScoreController.Instance.Changed -= ShowScore;
+        ScoreController.Instance.Changed += ShowScore;
+        if (lives.Count == 0)
+            foreach (Transform child in GameController.Instance.imgLiveParent)
+                if (child.TryGetComponent<Image>(out var image)) lives.Add(image);
+        ShowScore(0);
     }
 
-    public void ShowHideMenu(bool show)
+    private void ShowScore(long score) => txtScoreIngame.text = Utilities.NumberToString(score);
+
+    public void SetLives(int count)
     {
-        ingameHud.SetActive(show);
+        var game = GameController.Instance;
+        while (lives.Count < count) lives.Add(Instantiate(game.imgLive, game.imgLiveParent));
+        for (int i = 0; i < lives.Count; i++) lives[i].gameObject.SetActive(i < count);
     }
 
+    private void OnDestroy()
+    {
+        if (ScoreController.Instance) ScoreController.Instance.Changed -= ShowScore;
+        if (Instance == this) Instance = null;
+    }
 }

@@ -104,9 +104,6 @@ MonoBehaviour:
   id: 2
   itemName: Green Nebula
   cost: 59
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 4
   upgradeBaseCost: 18
   upgradeCostMultiplier: 1.09

@@ -48,9 +48,6 @@ MonoBehaviour:
   id: 3
   itemName: Crystal Asteroids
   cost: 359
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 5
   upgradeBaseCost: 108
   upgradeCostMultiplier: 1.61
@@ -64,9 +61,6 @@ MonoBehaviour:
   - attributeType: 17
     initialValue: 0
     attributeIncrement: 0.75
-  - attributeType: 16
-    initialValue: 1.7
-    attributeIncrement: -0.3
   - attributeType: 16
     initialValue: 1.7
     attributeIncrement: -0.3

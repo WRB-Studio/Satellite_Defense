@@ -1,234 +1,123 @@
-﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Weapon : IngameEntity
 {
-    [Header("----------------------------------------")]
-
-    private float rotationSpeed = 1f;
-    public bool rotateSmooth = false;
-
     [Header("Prefabs & Projectiles")]
     public GameObject normalLaserPrefab;
     public GameObject jumpLaserPrefab;
-
-    [Header("Projectile Settings")]
     public Color normalLaserColor;
-    public float jumpLaserDuration = 5f;
-    public bool jumpLaserActive = false;
-    private float projectileSpeed = 1;
-    private int damage = 1;
-
-    [Header("Firing Attributes")]
-    [HideInInspector] public float fireRate = 0.1f;
-    public float minFireRate = 0.1f;
-    public float fireRatePowerUpped = 0.1f;
-    private float fireRateCountDown = 0f;
-
-    [Header("Weapon Progression")]
-    private int level = 1;
-    public int maxShootUpgrades = 6;
-    public int curShootUpgrade = 1;
-
-    [Header("Visuals")]
+    [Min(0f)] public float jumpLaserDuration = 5f;
+    [Min(0.01f)] public float minFireRate = 0.1f;
     public GameObject deathExplosion;
 
-    private Transform[] allLaserEmitter;
-    private List<Transform> activeEmitters = new List<Transform>();
+    public int WeaponLevel { get; private set; } = 1;
+    public bool CanUpgradeEmitters => WeaponLevel < 3;
+    public bool CanUpgradeFireRate => shotInterval > minFireRate;
+    public bool IsJumpLaserActive => jumpLaserRemaining > 0f;
 
-    private static List<Bullet> instantiatedBullets = new List<Bullet>();
-    private Coroutine jumpLaserRoutine = null;
-
-
-    private void OnValidate()
-    {
-        /*
-         SpriteRenderer sr = transform.Find("SatelliteModel").GetComponent<SpriteRenderer>();
-        if(sr.sprite != weaponSprite)
-            sr.sprite = weaponSprite;
-
-        sr.color = Color.white;
-
-        sr.transform.localScale = new Vector3 (weaponScale, weaponScale, weaponScale);
-
-        sr.transform.localPosition = new Vector3(0, weaponPosY, 0);
-         */
-    }
+    private float rotationSpeed;
+    private float projectileSpeed;
+    private int damage;
+    private float shotInterval;
+    private float shotCooldown;
+    private float jumpLaserRemaining;
+    private Transform emitterGroup;
+    private readonly List<Transform> activeEmitters = new();
+    private readonly List<Bullet> bullets = new();
 
     public void Init()
     {
-        allLaserEmitter = transform.Find("LaserEmitterGrp").Cast<Transform>().ToArray();
-
-        ChangeWeaponLevel(0);
-
-        rotationSpeed = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.WeaponRotationSpeed);
-
-        fireRate = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.WeaponFireRate);
-
-        projectileSpeed = GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.WeaponProjectileSpeed);
-
-        damage = (int)GameController.Instance.GetAllUpgradeEffectValuesOfType(EntityAttribute.eAttributeType.WeaponDamage);
+        var game = GameController.Instance;
+        emitterGroup = transform.Find("LaserEmitterGrp");
+        rotationSpeed = Mathf.Max(0f, game.GetAttribute(EntityAttribute.eAttributeType.WeaponRotationSpeed, 40f));
+        shotInterval = Mathf.Max(minFireRate, game.GetAttribute(EntityAttribute.eAttributeType.WeaponFireRate, 1f));
+        projectileSpeed = Mathf.Clamp(game.GetAttribute(EntityAttribute.eAttributeType.WeaponProjectileSpeed, 1f), 0.1f, 10f);
+        damage = Mathf.Max(1, Utilities.Round(game.GetAttribute(EntityAttribute.eAttributeType.WeaponDamage, 1f)));
+        ResetWeaponLevel();
     }
 
     private void FixedUpdate()
     {
-        if (GameController.GetIsPause())
-            return;
+        var game = GameController.Instance;
+        if (!game || !game.IsSimulationRunning) return;
+        shotCooldown = Mathf.Max(0f, shotCooldown - Time.fixedDeltaTime);
+        jumpLaserRemaining = Mathf.Max(0f, jumpLaserRemaining - Time.fixedDeltaTime);
 
-        if (GameController.Instance.enableJoystickControll && GameController.Instance.joystickGO.activeSelf)
+        Vector2 direction;
+        if (game.enableJoystickControll)
         {
-            if (Input.GetMouseButton(0) || Input.touchCount > 0)
-            {
-                LookAtJoystickDirection();
-                shoot();
-            }
+            if (!game.joystick.IsPressed || game.joystick.Direction.sqrMagnitude < 0.001f) return;
+            direction = game.joystick.Direction;
         }
         else
         {
-            if ((Input.GetMouseButton(0) || Input.touchCount > 0) &&
-                ((!UIMainMenu.Instance.mainMenuPanel.activeSelf && !Utilities.isPointerOverUIElement()) ||
-                (UIMainMenu.Instance.mainMenuPanel.activeSelf)))
-            {
-                if (!GameController.GetIsGameOver() && !UIShopMenu.Instance.shopMenuPanel.activeSelf)
-                {
-                    LookAtClickOrTouch();
-                    shoot();
-                }
-            }
+            if (!Utilities.TryGetAimPosition(out Vector2 screenPosition)) return;
+            direction = Utilities.ScreenToWorld(screenPosition) - (Vector2)transform.position;
         }
-
-        //bullet moving
-        foreach (Bullet bullet in instantiatedBullets.ToArray())
-        {
-            if (bullet == null)
-            {
-                instantiatedBullets.Remove(bullet);
-                continue;
-            }
-            bullet.OnFixedUpdate();
-        }
+        if (direction.sqrMagnitude < 0.001f) return;
+        var rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
+        if (shotCooldown > 0f) return;
+        shotCooldown = shotInterval;
+        Fire();
     }
 
-    private void OnDestroy()
+    public void ResetWeaponLevel()
     {
-        foreach (Bullet bullet in instantiatedBullets.ToArray())
-            if (bullet != null) RemoveBullet(bullet);
+        WeaponLevel = 1;
+        RefreshEmitters();
     }
 
-
-    public void ChangeWeaponLevel(int value)
+    public void UpgradeEmitters()
     {
-        level = Mathf.Clamp(level + value, 1, 3);
+        WeaponLevel = Mathf.Min(3, WeaponLevel + 1);
+        RefreshEmitters();
+    }
 
+    private void RefreshEmitters()
+    {
         activeEmitters.Clear();
-        foreach (var item in allLaserEmitter)
+        foreach (Transform emitter in emitterGroup)
+            if (emitter.name.Contains("LVL" + WeaponLevel)) activeEmitters.Add(emitter);
+    }
+
+    public void FireRateUpgrade(float amount) => shotInterval = Mathf.Max(minFireRate, shotInterval - Mathf.Max(0f, amount));
+    public void ActivateJumpLaser() => jumpLaserRemaining = Mathf.Max(0f, jumpLaserDuration);
+
+    private void Fire()
+    {
+        bool jump = IsJumpLaserActive;
+        var prefab = jump ? jumpLaserPrefab : normalLaserPrefab;
+        for (int i = 0; i < activeEmitters.Count; i++)
         {
-            if (item.name.Contains(level.ToString()))
-                activeEmitters.Add(item);
+            var emitter = activeEmitters[i];
+            var bullet = Instantiate(prefab, emitter.position, emitter.rotation, GameController.Instance.EffectsRoot).GetComponent<Bullet>();
+            bullets.Add(bullet);
+            bullet.Init(this, emitter.up, jump, normalLaserColor, i == 0, damage, projectileSpeed);
+            if (jump) break;
         }
     }
 
+    public void RemoveBullet(Bullet bullet) => bullets.Remove(bullet);
 
-
-    private void LookAtJoystickDirection()
+    public void ClearBullets()
     {
-        float heading = Mathf.Atan2(-GameController.Instance.joystick.Horizontal * 50f, GameController.Instance.joystick.Vertical * 50f);
-        Quaternion newRotation = Quaternion.Euler(0f, 0f, heading * Mathf.Rad2Deg);
-        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.fixedDeltaTime * rotationSpeed);
-    }
-
-    private void LookAtClickOrTouch()
-    {
-        Vector3 inputPos = (Application.platform == RuntimePlatform.Android && Input.touchCount > 0)
-            ? (Vector3)Input.GetTouch(0).position
-            : Input.mousePosition;
-
-        inputPos.z = 10f;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(inputPos);
-        Quaternion targetRot = Quaternion.Euler(0f, 0f, Mathf.Atan2(worldPos.y, worldPos.x) * Mathf.Rad2Deg - 90f);
-
-        if (rotateSmooth)
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
-        else
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime * 50f);
-    }
-
-
-
-    private void shoot()
-    {
-        if (Time.time >= fireRateCountDown)
+        while (bullets.Count > 0)
         {
-            fireRateCountDown = Time.time + fireRate;
-
-            InstantiateBullet();
+            var bullet = bullets[bullets.Count - 1];
+            bullets.RemoveAt(bullets.Count - 1);
+            if (bullet) bullet.Despawn();
         }
     }
 
     public void DestroyWeapon()
     {
-        Destroy(Instantiate(deathExplosion, transform.position, deathExplosion.transform.rotation), 2);
-        Destroy(gameObject, 0.25f);
+        ClearBullets();
+        GameController.Instance.SpawnEffect(deathExplosion, transform.position, 2f);
+        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
-
-    public void FireRateUpgrade(float delta)
-    {
-        fireRate = Mathf.Max(fireRate - delta, minFireRate);
-    }
-
-
-
-    public void shootUpgrade()
-    {
-        if (curShootUpgrade < maxShootUpgrades)
-            curShootUpgrade++;
-    }
-
-    public void setJumpLaser()
-    {
-        if (jumpLaserRoutine != null) StopCoroutine(jumpLaserRoutine);
-        jumpLaserRoutine = StartCoroutine(activateJumpLaser());
-    }
-
-    private IEnumerator activateJumpLaser()
-    {
-        jumpLaserActive = true;
-        yield return new WaitForSeconds(jumpLaserDuration);
-        jumpLaserActive = false;
-        jumpLaserRoutine = null;
-    }
-
-
-    private void InstantiateBullet()
-    {
-        GameObject chooseLaser = jumpLaserActive ? jumpLaserPrefab : normalLaserPrefab;
-
-        bool PlaySound = true;
-
-        foreach (Transform activeEmitter in activeEmitters)
-        {
-            GameObject bullet = Instantiate(chooseLaser, activeEmitter.position, activeEmitter.transform.rotation);
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-            Vector2 shootDirection = activeEmitter.up;
-
-            bulletScript.initLaser(shootDirection, jumpLaserActive, normalLaserColor, PlaySound, damage, projectileSpeed);
-            instantiatedBullets.Add(bulletScript);
-
-            if (jumpLaserActive)
-                break;
-
-            PlaySound = false;
-        }
-    }
-
-    public static void RemoveBullet(Bullet bullet)
-    {
-        instantiatedBullets.Remove(bullet);
-        Destroy(bullet.gameObject);
-    }
-
+    private void OnDestroy() => ClearBullets();
 }
-

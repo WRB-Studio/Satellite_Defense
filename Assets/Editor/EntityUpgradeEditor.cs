@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -238,10 +238,10 @@ public class IngameEntityAttributeEditor : EditorWindow
                     RecordAnd(() =>
                     {
                         targetEntity.itemName = newName;
-                        targetEntity.cost = newCost;
-                        targetEntity.maxEntityLevel = newLevel;
-                        targetEntity.upgradeBaseCost = newAttributeBaseCost;
-                        targetEntity.upgradeCostMultiplier = newUpgradeCostMultiplier;
+                        targetEntity.cost = Math.Max(0, newCost);
+                        targetEntity.maxEntityLevel = Mathf.Clamp(newLevel, 1, 100);
+                        targetEntity.upgradeBaseCost = Math.Max(0, newAttributeBaseCost);
+                        targetEntity.upgradeCostMultiplier = float.IsNaN(newUpgradeCostMultiplier) || float.IsInfinity(newUpgradeCostMultiplier) ? 1f : Mathf.Max(0.01f, newUpgradeCostMultiplier);
                     }, "Edit Attribute");
                 }
             }
@@ -392,6 +392,7 @@ public class IngameEntityAttributeEditor : EditorWindow
         for (int i = 0; i < list.Count; i++)
         {
             var attribute = list[i];
+            if (attribute == null) continue;
 
             // --- getönte Box nur für den Rahmen, nicht für Child-Controls ---
             var prevBg = GUI.backgroundColor;
@@ -411,7 +412,6 @@ public class IngameEntityAttributeEditor : EditorWindow
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("▲", GUILayout.Width(26)) && i > 0) { Move(list, i, i - 1); selectedIndex = i - 1; }
                 if (GUILayout.Button("▼", GUILayout.Width(26)) && i < list.Count - 1) { Move(list, i, i + 1); selectedIndex = i + 1; }
-                if (GUILayout.Button("Dup", GUILayout.Width(40))) { InsertDuplicate(list, i); selectedIndex = i + 1; }
                 if (GUILayout.Button("Del", GUILayout.Width(40)))
                 {
                     if (EditorUtility.DisplayDialog("Löschen?", $"Attribute {attribute.attributeType} entfernen?", "Löschen", "Abbrechen"))
@@ -436,16 +436,22 @@ public class IngameEntityAttributeEditor : EditorWindow
 
                 string effectPerLevel = "Effect per Level:\n";
                 for (int j = 1; j <= targetEntity.maxEntityLevel; j++)
-                    effectPerLevel += $"\tLvL {j} = {attribute.GetAttributeEffect(j):0.###}\n";
+                    effectPerLevel += $"\tLvL {j} = {attribute.GetAttributeEffectString(j)}\n";
                 EditorGUILayout.HelpBox(effectPerLevel, MessageType.None);
 
                 if (EditorGUI.EndChangeCheck())
                 {
                     RecordAnd(() =>
                     {
+                        if (newType != EntityAttribute.eAttributeType.None &&
+                            list.Exists(other => other != null && other != attribute && other.attributeType == newType))
+                        {
+                            Debug.LogWarning("Dieses Attribut ist bereits vorhanden.");
+                            return;
+                        }
                         attribute.attributeType = newType;
-                        attribute.initialValue = newInit;
-                        attribute.attributeIncrement = newInc;
+                        attribute.initialValue = float.IsNaN(newInit) || float.IsInfinity(newInit) ? 0f : newInit;
+                        attribute.attributeIncrement = float.IsNaN(newInc) || float.IsInfinity(newInc) ? 0f : newInc;
                     }, "Edit Attribute");
                 }
             }
@@ -460,7 +466,12 @@ public class IngameEntityAttributeEditor : EditorWindow
             {
                 RecordAnd(() =>
                 {
-                    targetEntity.attribute.Add(new EntityAttribute());
+                    foreach (EntityAttribute.eAttributeType type in Enum.GetValues(typeof(EntityAttribute.eAttributeType)))
+                    {
+                        if (type == EntityAttribute.eAttributeType.None || targetEntity.attribute.Exists(a => a != null && a.attributeType == type)) continue;
+                        targetEntity.attribute.Add(new EntityAttribute { attributeType = type, attributeIncrement = 0f });
+                        break;
+                    }
                     selectedIndex = targetEntity.attribute.Count - 1;
                 }, "Add Attribute");
             }
@@ -570,12 +581,43 @@ public class IngameEntityAttributeEditor : EditorWindow
         var path = EditorUtility.OpenFilePanel("Load ALL Entities JSON", Application.dataPath, "json");
         if (string.IsNullOrEmpty(path)) return;
 
-        var json = File.ReadAllText(path);
-        var all = JsonUtility.FromJson<AllEntitiesSave>(json);
+        AllEntitiesSave all;
+        try { all = JsonUtility.FromJson<AllEntitiesSave>(File.ReadAllText(path)); }
+        catch (Exception exception) when (exception is IOException || exception is ArgumentException || exception is UnauthorizedAccessException)
+        {
+            EditorUtility.DisplayDialog("Import fehlgeschlagen", exception.Message, "OK");
+            return;
+        }
         if (all == null || all.entities == null || all.entities.Count == 0)
         {
             EditorUtility.DisplayDialog("Fehler", "JSON enthält keine gültigen Entities.", "OK");
             return;
+        }
+
+        // Validate the complete file before modifying any prefab.
+        var identities = new HashSet<(int, IngameEntity.eEntityType)>();
+        foreach (var entity in all.entities)
+        {
+            bool valid = entity != null &&
+                Enum.TryParse(entity.entityType, true, out IngameEntity.eEntityType category) &&
+                Enum.IsDefined(typeof(IngameEntity.eEntityType), category) && category != IngameEntity.eEntityType.None &&
+                entity.entityId > 0 && identities.Add((entity.entityId, category)) &&
+                entity.cost >= 0 && entity.maxEntityLevel >= 1 && entity.maxEntityLevel <= 100 &&
+                entity.upgradeBaseCost >= 0 && entity.upgradeCostMultiplier > 0f &&
+                !float.IsInfinity(entity.upgradeCostMultiplier);
+            var types = new HashSet<EntityAttribute.eAttributeType>();
+            if (entity?.attributes != null)
+                foreach (var attribute in entity.attributes)
+                    valid &= attribute != null && attribute.attributeType != EntityAttribute.eAttributeType.None &&
+                        Enum.IsDefined(typeof(EntityAttribute.eAttributeType), attribute.attributeType) &&
+                        types.Add(attribute.attributeType) && !float.IsNaN(attribute.initialValue) &&
+                        !float.IsInfinity(attribute.initialValue) && !float.IsNaN(attribute.attributeIncrement) &&
+                        !float.IsInfinity(attribute.attributeIncrement);
+            if (!valid)
+            {
+                EditorUtility.DisplayDialog("Import abgebrochen", "Ungültige Werte oder doppelte IDs/Attribute. Es wurden keine Prefabs geändert.", "OK");
+                return;
+            }
         }
 
         // Map der vorhandenen Prefabs (ID+Type) -> Info
@@ -611,8 +653,7 @@ public class IngameEntityAttributeEditor : EditorWindow
             updated++;
         }
 
-        if (!Application.isPlaying)
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        AssetDatabase.SaveAssets();
 
         EditorUtility.DisplayDialog("Import abgeschlossen",
             $"Aktualisiert: {updated}\nNicht gefunden: {missing}", "OK");
@@ -629,8 +670,8 @@ public class IngameEntityAttributeEditor : EditorWindow
     private void MarkDirty(UnityEngine.Object obj)
     {
         EditorUtility.SetDirty(obj);
-        if (!Application.isPlaying)
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        if (!Application.isPlaying && obj is Component component && !EditorUtility.IsPersistent(component))
+            EditorSceneManager.MarkSceneDirty(component.gameObject.scene);
     }
 
     private void Move<T>(List<T> list, int from, int to)
@@ -644,10 +685,4 @@ public class IngameEntityAttributeEditor : EditorWindow
         }, "Reorder Attributes");
     }
 
-    private void InsertDuplicate(List<EntityAttribute> list, int index)
-    {
-        var src = list[index];
-        var clone = JsonUtility.FromJson<EntityAttribute>(JsonUtility.ToJson(src));
-        RecordAnd(() => list.Insert(index + 1, clone), "Duplicate attributes");
-    }
 }

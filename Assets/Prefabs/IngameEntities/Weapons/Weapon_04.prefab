@@ -81,15 +81,12 @@ MonoBehaviour:
   id: 4
   itemName: Orion
   cost: 173
-  unlocked: 1
-  active: 1
-  entityLevel: 1
   maxEntityLevel: 5
   upgradeBaseCost: 52
   upgradeCostMultiplier: 1.03
   attribute:
   - attributeType: 5
-    initialValue: 1.35
+    initialValue: 67.5
     attributeIncrement: 0
   - attributeType: 7
     initialValue: 2.4
@@ -103,25 +100,16 @@ MonoBehaviour:
   - attributeType: 13
     initialValue: 0.21
     attributeIncrement: 0.02
-  - attributeType: 13
-    initialValue: 0.21
-    attributeIncrement: 0.02
   - attributeType: 12
     initialValue: 2
     attributeIncrement: 0
-  rotateSmooth: 0
   normalLaserPrefab: {fileID: 1899656501315429359, guid: d5e5e35a7c9b3c848a16679c04463e65,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.18039216, g: 0.80392164, b: 0.19215688, a: 1}
   jumpLaserDuration: 8
-  jumpLaserActive: 0
-  fireRate: 0.1
   minFireRate: 0.1
-  fireRatePowerUpped: 0.01
-  maxShootUpgrades: 6
-  curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &3330262786178279813

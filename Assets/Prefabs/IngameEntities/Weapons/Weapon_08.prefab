@@ -81,16 +81,13 @@ MonoBehaviour:
   id: 8
   itemName: Hexora
   cost: 2672
-  unlocked: 0
-  active: 0
-  entityLevel: 1
   maxEntityLevel: 7
   upgradeBaseCost: 802
   upgradeCostMultiplier: 0.87
   attribute:
   - attributeType: 5
-    initialValue: 1.93
-    attributeIncrement: 0.17
+    initialValue: 96.5
+    attributeIncrement: 8.5
   - attributeType: 7
     initialValue: 1.8
     attributeIncrement: 0.6
@@ -103,25 +100,16 @@ MonoBehaviour:
   - attributeType: 13
     initialValue: 0.4
     attributeIncrement: 0.02
-  - attributeType: 13
-    initialValue: 0.4
-    attributeIncrement: 0.02
   - attributeType: 12
     initialValue: 3
     attributeIncrement: 0
-  rotateSmooth: 0
   normalLaserPrefab: {fileID: 6430290154494053698, guid: 417a02d56ca70d942bdfcc0dde1bb359,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.58431375, g: 0, b: 0.7411765, a: 1}
   jumpLaserDuration: 8
-  jumpLaserActive: 0
-  fireRate: 0.1
   minFireRate: 0.1
-  fireRatePowerUpped: 0.01
-  maxShootUpgrades: 6
-  curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &3330262786178279813

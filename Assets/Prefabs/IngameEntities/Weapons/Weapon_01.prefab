@@ -81,16 +81,13 @@ MonoBehaviour:
   id: 1
   itemName: Solaris-C1
   cost: 0
-  unlocked: 1
-  active: 1
-  entityLevel: 1
   maxEntityLevel: 3
   upgradeBaseCost: 17
   upgradeCostMultiplier: 1.15
   attribute:
   - attributeType: 5
-    initialValue: 0.8
-    attributeIncrement: 0.1
+    initialValue: 40
+    attributeIncrement: 5
   - attributeType: 7
     initialValue: 1
     attributeIncrement: 0
@@ -103,25 +100,18 @@ MonoBehaviour:
   - attributeType: 13
     initialValue: 0.13
     attributeIncrement: 0
-  - attributeType: 13
-    initialValue: 0.13
-    attributeIncrement: 0
   - attributeType: 12
     initialValue: 2
     attributeIncrement: 0
-  rotateSmooth: 0
   normalLaserPrefab: {fileID: 1170660001892344, guid: 4a949c81946342848ae744dfb9c5fe01,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.15686275, g: 0.6901961, b: 1, a: 1}
   jumpLaserDuration: 8
-  jumpLaserActive: 0
   shotsPerSecond: 2
   minShotsPerSecond: 2
   maxShotsPerSecond: 30
-  maxShootUpgrades: 6
-  curShootUpgrade: 1
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &2754354431140751049
