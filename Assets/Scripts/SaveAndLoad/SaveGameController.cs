@@ -36,6 +36,11 @@ public static class SaveGameController
         session.Load();
     }
 
+    public static void EnsureLoaded()
+    {
+        if (session == null) Load();
+    }
+
     public static void Tick(float unscaledDeltaTime) => session?.Tick(unscaledDeltaTime);
     public static bool Save() => session != null && session.Flush();
     public static bool TryPurchase(IngameEntity item) => session != null && session.TryPurchase(item);

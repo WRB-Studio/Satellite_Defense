@@ -9,6 +9,21 @@ Hier sammeln wir Testideen für eine spätere gemeinsame Umsetzung. Tests werden
 
 Diese Prüfungen müssen nicht erneut erstellt werden. Auch ihre Ausführung erfolgt nur nach ausdrücklicher Anweisung.
 
+Nach der Szenentrennung ist `ProjectValidation` noch auf die frühere kombinierte `MainScene` ausgelegt. Szenenpfad, Abläufe zwischen Menü und Spiel sowie dessen Development-Build-Szenenliste müssen vor der nächsten beauftragten Ausführung angepasst werden. Der Runner wurde nicht geändert oder ausgeführt.
+
+## Szenentrennung – ausstehende Prüfungen
+
+- Coin-Anzeige im Pausenmenü: `txtAvailableCoins` im Inspector leeren und Ingame starten. Die Initialisierung findet die bestehende Anzeige im Coin-Slot, auch bei ausgeblendetem Pausenmenü; kein NullReference-Fehler. Ohne Coin-Anzeige bleibt der Spielstart möglich.
+- App über `MainMenu` starten, im Shop kaufen, upgraden und Ausrüstung auswählen, anschließend spielen. Menüvorschau und `Ingame` übernehmen denselben Coin-Stand, dieselben Objektlevel und dieselbe Auswahl.
+- Menüvorschau: mit Maus/Touch im freien Hintergrund sowie mit aktiviertem Joystick drehen und schießen. Asteroiden erscheinen, können abgeschossen werden und treffen den Planeten ohne Lebensverlust oder Game Over. Auch bei vielen Abschüssen und Teilungen entstehen weder Power-ups noch Score, Coins oder permanente Fortschrittsänderungen.
+- Menüvorschau und Shop: alle vier aktiven Kategorien wechseln, den Shop schließen und die tatsächlichen Weltobjekte prüfen. Planet, Hintergrund, Satellit und Asteroidentyp entsprechen der aktiven Auswahl. Der Shop pausiert die Vorschau; Menübuttons lösen keine Schüsse aus, der freie Hintergrund bleibt zum Zielen erreichbar.
+- `Ingame` direkt im Editor öffnen. Der Spielstand wird geladen und eine Runde beginnt mit HUD und gewählter Ausrüstung; Menü- und Shop-Objekte sind nicht Bestandteil dieser Szene.
+- Mehrmals zwischen Menü und Spiel wechseln sowie Pause, Fortsetzen, Replay und Game Over verwenden. Keine doppelten Kameras, Musikquellen oder Event-Abonnements; neue Runden beginnen mit korrekten Leben, Punkten und Gegnern.
+- Aus Pause und Game Over ins Menü zurückkehren und erneut starten. Der Szenenwechsel stellt `Time.timeScale` auf 1 zurück; Shop und Pause bleiben weiterhin korrekt pausiert.
+- Coins sammeln, einen Schreibfehler provozieren, ins Menü wechseln und Speicherzugriff wieder ermöglichen. Die laufende Speichersitzung behält ausstehende Belohnungen und kann sie später schreiben; der Szenenwechsel lädt keinen älteren Dateistand darüber.
+- Blockierten oder beschädigten Spielstand beim Direktstart von `Ingame` berücksichtigen. Rückkehr ins Menü mit verständlicher Meldung; keine neue Runde oder stiller Fortschrittsverlust.
+- Splash screen nur beim ersten Menüstart prüfen; Rückkehr aus dem Spiel zeigt das Hauptmenü ohne erneute Splash-Wartezeit. MainMenu und Ingame enthalten die bisherigen manuell eingerichteten UI-Layouts ohne automatische Safe-Area- oder Größenanpassung.
+
 ## Offene Testideen
 
 | Bereich | Szenario | Erwartetes Ergebnis | Art |

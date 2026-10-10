@@ -13,6 +13,7 @@ public class UIPauseMenu : MonoBehaviour
     public TextMeshProUGUI txtStopGame;
     public TextMeshProUGUI txtScoreGameOver;
     public TextMeshProUGUI txtPremiumCoinsGameOver;
+    public TextMeshProUGUI txtAvailableCoins;
     public TextMeshProUGUI txtBestScore;
     public Image imgNewBestSymbol;
 
@@ -22,6 +23,11 @@ public class UIPauseMenu : MonoBehaviour
 
     public void Init()
     {
+        if (!txtAvailableCoins)
+        {
+            var coinDisplay = pauseMenuPanel.transform.Find("PremiumCoinsPosPauseMenu");
+            if (coinDisplay) txtAvailableCoins = coinDisplay.GetComponentInChildren<TextMeshProUGUI>(true);
+        }
         UIController.Bind(btnContinue, () => GameController.Instance.Resume());
         UIController.Bind(btnReplay, () => GameController.Instance.StartNewGame());
         UIController.Bind(btnBackToMainMenu, () => GameController.Instance.ReturnToMainMenu());

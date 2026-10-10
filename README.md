@@ -35,11 +35,19 @@
 
 1. Clone the repository.
 2. Open it in Unity Hub with Unity `6000.3.25f1`.
-3. Open `Assets/Scenes/MainScene.unity` and press Play.
+3. Open `Assets/Scenes/MainMenu.unity` and press Play. `Ingame.unity` can also be opened directly for gameplay work.
+
+## Scenes
+
+- `MainMenu`: main menu, shop, privacy link, splash screen and an interactive preview of the selected equipment. Aim and shoot with the satellite while asteroids arrive. The planet cannot lose lives; enemies award no score, coins or power-ups. It contains no pickup controller, score controller, HUD or pause/game-over UI.
+- `Ingame`: gameplay, joystick, HUD, pickups, enemies and pause/game-over UI. It contains no main-menu or shop UI and starts a new round when opened directly.
+
+Both scenes are registered in build settings, with `MainMenu` first. Play loads `Ingame`; returning from pause or game over loads `MainMenu`. Replay restarts the round in the gameplay scene. Scene-local cameras, audio and controllers are replaced on transitions; the static save session is loaded once and retained, including pending progression after a failed save. Scene transitions flush progress and reset the paused time scale.
 
 ## Code structure
 
 - `GameController` owns the game state and the four equipment catalogs. Pause and shop freeze simulation through `Time.timeScale`; UI animations use unscaled time.
+- The scene's `isGameplayScene` flag determines whether `GameController` starts a scored round or presents the interactive menu preview. Both use the active shop loadout. Opening the shop pauses the preview; changing the active selection rebuilds the displayed equipment and enemies. Menu buttons consume their own input, while the background remains available for aiming.
 - `IngameEntity` prefabs contain item definitions. `Savegame` owns purchased items, levels, selection, coins and best score. Gameplay never writes progress into prefabs.
 - `LoadoutStats` combines the equipped item definitions and saved levels into a read-only set of gameplay values whenever the equipment changes. Attribute defaults, rounding and shared limits live there; weapon-specific shot and enemy spawn interval limits remain with their controllers. `GameController` coordinates the equipment and world objects.
 - `IngameEntity` defines purchase prices and upgrade eligibility against an explicit progress view. The shop and save transactions use these same rules; a transaction evaluates its candidate save rather than the live global state.
@@ -75,12 +83,8 @@ Coin pickups update memory immediately and are saved in batches every five secon
 
 ## Validation
 
-Run **Tools > Validation > Run regression checks** from edit mode. The checks cover checksums, malformed/future saves, backup recovery, interrupted writes, real filesystem failures, purchase rollback, background-save ordering, reward overflow, prefab scripts, all 36 shop items, repeated rounds, pause/background callbacks, joystick ownership, actual projectile collisions and one-time revival. They use real files in isolated temporary directories under `Logs`, leave player saves untouched and restore the previous play-mode start scene. Results are written to `Logs/Validation-results.txt`.
+The existing `ProjectValidation` regression runner and its development-build method still target the original combined `MainScene`. They need adaptation to the separate scenes and scene transitions before their next explicitly authorized use. They were not changed or run for this scene split. The release helper in `UnityAndroidBuild` uses the enabled build-settings scenes, which now include both `MainMenu` and `Ingame`.
 
-For unattended checks, run Unity with `-batchmode -nographics -projectPath <project> -executeMethod ProjectValidation.RunBatch -logFile <log>`. Omit `-quit`: the runner exits after the play-mode checks. Use a separate project copy if the project is already open in Unity.
-
-The runner also prepares an isolated restart fixture. After that Unity process exits, launch another with `-batchmode -nographics -quit -projectPath <project> -executeMethod SaveStorageValidation.VerifyRestartCheck -logFile <log>`. It verifies saved coins, score, equipment and upgrades in the new process, ignores an unfinished temporary write, removes the fixture and writes `Logs/Save-restart-result.txt`.
-
-An Android development APK can be built with `-batchmode -nographics -quit -buildTarget Android -projectPath <project> -executeMethod ProjectValidation.BuildAndroidDevelopment -logFile <log>`. It is debug-signed and written to `Builds/SatelliteDefense-development.apk`; this is a local test build, not a store release.
+The existing storage checks remain in `SaveStorageValidation`. Tests and builds require explicit approval under `AGENTS.md`; pending scene-transition, storage and UI acceptance scenarios are listed in `TESTPLAN.md`. The scene split has only been inspected statically and has not been compiled or exercised in Unity.
 
 Before a release, test touch aiming and pickups on a phone, background/resume, audio and UI layout at the supported aspect ratios. Review gameplay balance as well: corrected damage, score multipliers, coin bonuses and item drops affect progression compared with the old implementation.

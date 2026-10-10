@@ -57,9 +57,11 @@ public class Enemy : MonoBehaviour
         removed = true;
         AudioController.PlaySound(AudioController.Instance.soundEnemyHit);
         DeathEffect();
-        ScoreController.Instance.AddScore(scoreGain * Mathf.Max(1f, moveSpeed * 2f));
+        if (GameController.Instance.IsPlaying)
+            ScoreController.Instance.AddScore(scoreGain * Mathf.Max(1f, moveSpeed * 2f));
         EnemyController.Instance.AddKill();
-        if (!EnemyController.Instance.TrySplit(this)) PowerUpController.Instance.SpawnRandomItem(transform.position);
+        if (!EnemyController.Instance.TrySplit(this) && GameController.Instance.IsPlaying)
+            PowerUpController.Instance.SpawnRandomItem(transform.position);
         Remove();
     }
 

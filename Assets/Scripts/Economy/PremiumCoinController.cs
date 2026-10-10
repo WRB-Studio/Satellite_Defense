@@ -26,8 +26,9 @@ public class PremiumCoinController : MonoBehaviour
             string value = Utilities.NumberToString(Coins);
             UIMainMenu.Instance.txtPremiumCoins.text = value;
             UIMainMenu.Instance.txtShopCoins.text = value;
-            UIMainMenu.Instance.txtPauseCoins.text = value;
         }
+        if (UIPauseMenu.Instance && UIPauseMenu.Instance.txtAvailableCoins)
+            UIPauseMenu.Instance.txtAvailableCoins.text = Utilities.NumberToString(Coins);
     }
 
     public void CollectCoin(int baseValue, Vector3 position)

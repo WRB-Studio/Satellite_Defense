@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -8,9 +9,12 @@ public class GameController : MonoBehaviour
     public enum GameState { MainMenu, Shop, Playing, Paused, GameOver }
     public static GameController Instance { get; private set; }
     public GameState State { get; private set; } = GameState.MainMenu;
-    public bool IsPlaying => State == GameState.Playing;
-    public bool IsSimulationRunning => State == GameState.Playing || State == GameState.MainMenu;
+    public bool IsPlaying => State == GameState.Playing && !changingScene;
+    public bool IsSimulationRunning => !changingScene && (State == GameState.Playing || State == GameState.MainMenu);
     public bool IsInitialized { get; private set; }
+
+    [Header("Scene")]
+    public bool isGameplayScene;
 
     [Header("Lives")]
     public Image imgLive;
@@ -48,6 +52,7 @@ public class GameController : MonoBehaviour
 
     private readonly Dictionary<IngameEntity.eEntityType, IngameEntity> activeItems = new();
     private Coroutine starRoutine;
+    private bool changingScene;
 
     private void Awake()
     {
@@ -63,18 +68,27 @@ public class GameController : MonoBehaviour
     public void Init()
     {
         if (IsInitialized) return;
-        SaveGameController.Load();
+        SaveGameController.EnsureLoaded();
         UIController.Instance.Init();
         PremiumCoinController.Instance.Init();
         IsInitialized = true;
-        ReturnToMainMenu();
+        if (isGameplayScene)
+        {
+            if (!SaveGameController.CanSave)
+            {
+                ReturnToMainMenu();
+                return;
+            }
+            StartNewGame();
+        }
+        else ReturnToMainMenu();
         SaveGameController.Save();
         UIController.Instance.FadeOutSplashScreen();
     }
 
     private void Update()
     {
-        if (!IsInitialized) return;
+        if (!IsInitialized || changingScene) return;
         SaveGameController.Tick(Time.unscaledDeltaTime);
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
         switch (State)
@@ -96,12 +110,18 @@ public class GameController : MonoBehaviour
 
     public void StartNewGame()
     {
+        if (changingScene) return;
         if (!SaveGameController.CanSave)
         {
             UIController.Instance.ShowSaveMessage(SaveGameController.LastError);
             return;
         }
         SaveGameController.Save();
+        if (!isGameplayScene)
+        {
+            ChangeScene("Ingame");
+            return;
+        }
         SetState(GameState.Playing);
         RebuildLoadout();
         ScoreController.Instance.ResetScore();
@@ -112,13 +132,24 @@ public class GameController : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        if (changingScene) return;
         SaveGameController.Save();
+        if (isGameplayScene)
+        {
+            ChangeScene("MainMenu");
+            return;
+        }
         SetState(GameState.MainMenu);
         RebuildLoadout();
-        ScoreController.Instance.ResetScore();
-        ResetLives();
         UIController.Instance.ShowMenu(UIController.eMenuType.MainMenu);
         AudioController.PlayMusic(AudioController.Instance.mainMenuMusic);
+    }
+
+    private void ChangeScene(string sceneName)
+    {
+        changingScene = true;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     public void OpenShop()
@@ -218,8 +249,8 @@ public class GameController : MonoBehaviour
         PremiumCoinController.Instance.ClearPopups();
         if (starRoutine != null) StopCoroutine(starRoutine);
         starRoutine = null;
-        EnemyController.Instance.RemoveAllEnemies();
-        PowerUpController.Instance.RemoveAllItems();
+        if (EnemyController.Instance) EnemyController.Instance.RemoveAllEnemies();
+        if (PowerUpController.Instance) PowerUpController.Instance.RemoveAllItems();
         if (ActiveWeapon) ActiveWeapon.ClearBullets();
         RemoveObject(ActivePlanet ? ActivePlanet.gameObject : null);
         RemoveObject(ActiveWeapon ? ActiveWeapon.gameObject : null);
@@ -257,7 +288,7 @@ public class GameController : MonoBehaviour
 
     public void ResetWeaponProgress()
     {
-        EnemyController.Instance.ResetWeaponProgress();
+        if (EnemyController.Instance) EnemyController.Instance.ResetWeaponProgress();
         if (ActiveWeapon) ActiveWeapon.ResetWeaponLevel();
     }
 
@@ -277,7 +308,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 if (!ActiveBackground) yield break;
-                if (IsSimulationRunning)
+                if (!changingScene && (IsPlaying || State == GameState.MainMenu))
                 {
                     Vector3 position = GameCamera.ViewportToWorldPoint(new Vector3(Random.value, Random.value, -GameCamera.transform.position.z));
                     var instance = Instantiate(star, position, star.transform.rotation, ActiveBackground.transform);
@@ -291,14 +322,14 @@ public class GameController : MonoBehaviour
 
     private void OnApplicationPause(bool paused)
     {
-        if (!IsInitialized || !paused) return;
+        if (!IsInitialized || changingScene || !paused) return;
         Pause();
         SaveGameController.Save();
     }
 
     private void OnApplicationFocus(bool focused)
     {
-        if (!IsInitialized || focused) return;
+        if (!IsInitialized || changingScene || focused) return;
         Pause();
         SaveGameController.Save();
     }
@@ -308,7 +339,7 @@ public class GameController : MonoBehaviour
     private void OnDestroy()
     {
         if (Instance != this) return;
-        SaveGameController.Save();
+        if (!changingScene) SaveGameController.Save();
         Time.timeScale = 1f;
         Instance = null;
     }

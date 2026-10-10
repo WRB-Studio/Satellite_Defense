@@ -30,12 +30,12 @@ public class Planet : IngameEntity
     {
         var game = GameController.Instance;
         if (dead || damage <= 0 || !game.IsSimulationRunning) return;
-        game.ResetWeaponProgress();
         if (!game.IsPlaying)
         {
             ImpulseWave();
             return;
         }
+        game.ResetWeaponProgress();
         if (game.GameCamera.TryGetComponent<Animator>(out var animator)) animator.Play("hitShake");
         game.ChangeLife(-damage);
         if (game.CurrentLives > 0)

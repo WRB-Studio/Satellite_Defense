@@ -16,28 +16,32 @@ public class UIController : MonoBehaviour
     public float animiationCountDelay = 0.1f;
 
     private bool initialized;
+    private static bool splashShown;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetSplash() => splashShown = false;
 
     private void Awake()
     {
         Instance = this;
-        splashScreen.SetActive(true);
+        if (splashScreen) splashScreen.SetActive(!splashShown);
     }
 
     public void Init()
     {
         if (initialized) return;
         initialized = true;
-        UIMainMenu.Instance.Init();
-        UIShopMenu.Instance.Init();
-        UIPauseMenu.Instance.Init();
-        UIIngameHud.Instance.Init();
+        if (UIMainMenu.Instance) UIMainMenu.Instance.Init();
+        if (UIShopMenu.Instance) UIShopMenu.Instance.Init();
+        if (UIPauseMenu.Instance) UIPauseMenu.Instance.Init();
+        if (UIIngameHud.Instance) UIIngameHud.Instance.Init();
         UIToastMessage.Instance.Init();
         SaveGameController.SaveFailed += ShowSaveMessage;
     }
 
     public void ShowSaveMessage(string message)
     {
-        if (!this || string.IsNullOrEmpty(message) || splashScreen.activeSelf) return;
+        if (!this || string.IsNullOrEmpty(message) || (splashScreen && splashScreen.activeSelf)) return;
         UIToastMessage.Instance.ShowToast(message, 8f);
     }
 
@@ -53,18 +57,31 @@ public class UIController : MonoBehaviour
 
     public void ShowMenu(eMenuType menu)
     {
-        UIMainMenu.Instance.Show(menu == eMenuType.MainMenu);
-        UIShopMenu.Instance.Show(menu == eMenuType.Shop);
-        UIPauseMenu.Instance.Hide();
-        UIIngameHud.Instance.ingameHud.SetActive(menu == eMenuType.IngameMenu || menu == eMenuType.PauseMenu || menu == eMenuType.GameOverMenu);
-        UIIngameHud.Instance.btnPause.interactable = menu == eMenuType.IngameMenu;
-        modalPanelShop.SetActive(menu == eMenuType.Shop);
-        if (menu == eMenuType.PauseMenu) UIPauseMenu.Instance.ShowPause();
-        if (menu == eMenuType.GameOverMenu) UIPauseMenu.Instance.ShowGameOver();
-
+        if (UIMainMenu.Instance) UIMainMenu.Instance.Show(menu == eMenuType.MainMenu);
+        if (UIShopMenu.Instance) UIShopMenu.Instance.Show(menu == eMenuType.Shop);
+        if (UIPauseMenu.Instance)
+        {
+            UIPauseMenu.Instance.Hide();
+            if (menu == eMenuType.PauseMenu) UIPauseMenu.Instance.ShowPause();
+            if (menu == eMenuType.GameOverMenu) UIPauseMenu.Instance.ShowGameOver();
+        }
+        if (UIIngameHud.Instance)
+        {
+            UIIngameHud.Instance.ingameHud.SetActive(menu == eMenuType.IngameMenu || menu == eMenuType.PauseMenu || menu == eMenuType.GameOverMenu);
+            UIIngameHud.Instance.btnPause.interactable = menu == eMenuType.IngameMenu;
+        }
+        if (modalPanelShop) modalPanelShop.SetActive(menu == eMenuType.Shop);
     }
 
-    public void FadeOutSplashScreen() => StartCoroutine(FadeSplash());
+    public void FadeOutSplashScreen()
+    {
+        if (splashScreen && splashScreen.activeSelf)
+        {
+            splashShown = true;
+            StartCoroutine(FadeSplash());
+        }
+        else ShowSaveMessage(SaveGameController.LastError ?? SaveGameController.LoadMessage);
+    }
 
     private IEnumerator FadeSplash()
     {

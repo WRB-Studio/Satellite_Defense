@@ -9,7 +9,6 @@ public class UIMainMenu : MonoBehaviour
     public GameObject mainMenuPanel;
     public TextMeshProUGUI txtPremiumCoins;
     public TextMeshProUGUI txtShopCoins;
-    public TextMeshProUGUI txtPauseCoins;
     public TextMeshProUGUI txtBestScore;
     public Button btnPlay;
     public Button btnShop;
