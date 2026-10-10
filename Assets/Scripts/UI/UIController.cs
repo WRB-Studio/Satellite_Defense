@@ -13,10 +13,6 @@ public class UIController : MonoBehaviour
     public float splashScreenFadeDuration = 2f;
     public GameObject modalPanelShop;
     [Header("Coin display")]
-    public Transform premiumcoinsGroup;
-    public Transform premCoinsPosMainMenu;
-    public Transform premCoinsPosShop;
-    public Transform premCoinsPosPauseMenu;
     public float animiationCountDelay = 0.1f;
 
     private bool initialized;
@@ -57,7 +53,7 @@ public class UIController : MonoBehaviour
 
     public void ShowMenu(eMenuType menu)
     {
-        UIMainMenu.Instance.Show(menu == eMenuType.MainMenu || menu == eMenuType.Shop);
+        UIMainMenu.Instance.Show(menu == eMenuType.MainMenu);
         UIShopMenu.Instance.Show(menu == eMenuType.Shop);
         UIPauseMenu.Instance.Hide();
         UIIngameHud.Instance.ingameHud.SetActive(menu == eMenuType.IngameMenu || menu == eMenuType.PauseMenu || menu == eMenuType.GameOverMenu);
@@ -66,13 +62,6 @@ public class UIController : MonoBehaviour
         if (menu == eMenuType.PauseMenu) UIPauseMenu.Instance.ShowPause();
         if (menu == eMenuType.GameOverMenu) UIPauseMenu.Instance.ShowGameOver();
 
-        Transform parent = menu switch
-        {
-            eMenuType.Shop => premCoinsPosShop,
-            eMenuType.PauseMenu or eMenuType.GameOverMenu => premCoinsPosPauseMenu,
-            _ => premCoinsPosMainMenu
-        };
-        premiumcoinsGroup.SetParent(parent, false);
     }
 
     public void FadeOutSplashScreen() => StartCoroutine(FadeSplash());

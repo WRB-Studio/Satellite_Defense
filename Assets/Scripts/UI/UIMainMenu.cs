@@ -8,6 +8,8 @@ public class UIMainMenu : MonoBehaviour
     public static UIMainMenu Instance { get; private set; }
     public GameObject mainMenuPanel;
     public TextMeshProUGUI txtPremiumCoins;
+    public TextMeshProUGUI txtShopCoins;
+    public TextMeshProUGUI txtPauseCoins;
     public TextMeshProUGUI txtBestScore;
     public Button btnPlay;
     public Button btnShop;

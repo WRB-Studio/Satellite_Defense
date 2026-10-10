@@ -32,12 +32,12 @@ public class UIShopMenu : MonoBehaviour
     public TextMeshProUGUI txtItemLevel;
     public Transform attributeParent;
     public GameObject attributePrefab;
+    public ScrollRect attributeScroll;
     public Sprite[] attributeIcons;
 
     private Color tabColor;
     private Color selectColor;
     private Color buyColor;
-    private Vector2 costSize;
     private IngameEntity.eEntityType category = IngameEntity.eEntityType.Planet;
     private GameObject[] catalog;
     private int index;
@@ -48,6 +48,7 @@ public class UIShopMenu : MonoBehaviour
     {
         public GameObject Instance { get; }
         private readonly TextMeshProUGUI value;
+        private readonly TextMeshProUGUI title;
         private readonly TextMeshProUGUI description;
         private readonly Image icon;
 
@@ -56,6 +57,7 @@ public class UIShopMenu : MonoBehaviour
             Instance = instance;
             var header = instance.transform.GetChild(0);
             value = header.Find("txtTotalValue").GetComponent<TextMeshProUGUI>();
+            title = header.Find("txtAttributeName").GetComponent<TextMeshProUGUI>();
             description = instance.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             icon = header.Find("Symbol/imgFrame/imgSymbol").GetComponent<Image>();
             var button = header.Find("Symbol/imgFrame").GetComponent<Button>();
@@ -70,7 +72,8 @@ public class UIShopMenu : MonoBehaviour
         {
             Instance.SetActive(true);
             value.text = attribute.GetAttributeEffectString(level);
-            description.text = EntityAttribute.GetAttributeName(attribute.attributeType);
+            title.text = EntityAttribute.GetAttributeName(attribute.attributeType);
+            description.text = attribute.GetDescription();
             description.gameObject.SetActive(false);
             icon.sprite = sprite;
             icon.gameObject.SetActive(sprite);
@@ -84,7 +87,6 @@ public class UIShopMenu : MonoBehaviour
         tabColor = btnTabPlanets.image.color;
         selectColor = btnStateSelect.transform.GetChild(0).GetComponent<Image>().color;
         buyColor = btnBuyUpgrade.image.color;
-        costSize = txtItemCost.rectTransform.sizeDelta;
         UIController.Bind(btnTabPlanets, () => SelectCategory(IngameEntity.eEntityType.Planet));
         UIController.Bind(btnTabWeapons, () => SelectCategory(IngameEntity.eEntityType.Weapon));
         UIController.Bind(btnTabEnemyTypes, () => SelectCategory(IngameEntity.eEntityType.Enemy));
@@ -161,9 +163,9 @@ public class UIShopMenu : MonoBehaviour
         imgPremiumCoin.gameObject.SetActive(!complete);
         txtItemLevel.gameObject.SetActive(hasUpgrades);
         txtItemCost.text = complete ? (hasUpgrades ? "Max Level" : "Purchased") : Utilities.NumberToString(price);
-        txtItemCost.rectTransform.sizeDelta = complete ? costSize * 1.5f : costSize;
         UpdateAttributes();
-        Utilities.RefreshLayout(shopMenuPanel.transform);
+        attributeScroll.StopMovement();
+        attributeScroll.verticalNormalizedPosition = 1f;
     }
 
     private void UpdatePreview()
@@ -174,17 +176,15 @@ public class UIShopMenu : MonoBehaviour
         imgPlanetAtmosphere.gameObject.SetActive(planet);
         imgPlanetOrWeapon.gameObject.SetActive(!background);
         imgBackground.transform.parent.gameObject.SetActive(background);
-        imgPlanetOrWeapon.rectTransform.localScale = Vector3.one;
 
         SpriteRenderer sprite;
         if (planet)
         {
+            sprite = currentItem.GetComponent<SpriteRenderer>();
             var atmosphere = currentItem.transform.Find("Atmosphere");
             var renderer = atmosphere.GetComponent<SpriteRenderer>();
             imgPlanetAtmosphere.sprite = renderer.sprite;
             imgPlanetAtmosphere.color = renderer.color;
-            imgPlanetAtmosphere.rectTransform.localScale = atmosphere.localScale;
-            sprite = currentItem.GetComponent<SpriteRenderer>();
         }
         else if (category == IngameEntity.eEntityType.Weapon)
             sprite = currentItem.transform.Find("SatelliteModel").GetComponent<SpriteRenderer>();

@@ -22,7 +22,12 @@ public class PremiumCoinController : MonoBehaviour
     private void RefreshDisplay()
     {
         if (UIMainMenu.Instance)
-            UIMainMenu.Instance.txtPremiumCoins.text = Utilities.NumberToString(Coins);
+        {
+            string value = Utilities.NumberToString(Coins);
+            UIMainMenu.Instance.txtPremiumCoins.text = value;
+            UIMainMenu.Instance.txtShopCoins.text = value;
+            UIMainMenu.Instance.txtPauseCoins.text = value;
+        }
     }
 
     public void CollectCoin(int baseValue, Vector3 position)

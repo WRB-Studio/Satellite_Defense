@@ -24,6 +24,15 @@ Diese Prüfungen müssen nicht erneut erstellt werden. Auch ihre Ausführung erf
 | Unity-Feldmigration | Bestehende Szene und Waffen-/Power-up-Prefabs nach dem Umbenennen der Intervallfelder öffnen, speichern und erneut laden. | `FormerlySerializedAs` erhält Schuss- und Spawn-Untergrenzen sowie die Intervallreduktion der Pickups; keine Rücksetzung auf Standardwerte. | Editorprüfung |
 | Shop-Regeln | Kaufpreis und Upgrade-Möglichkeit im Shop mit der zugehörigen Speichertransaktion vergleichen, einschließlich ungekaufter Objekte, leerer Attributlisten, maximaler Level und unzureichender Coins. | Anzeige und Transaktion verwenden dieselben Regeln und werten jeweils den richtigen Fortschrittsstand aus. | Spätere Regression / manuelle Prüfung |
 
+## UI-Überarbeitung – ausstehende Sicht- und Bedienprüfungen
+
+- Shop: alle vier Kategorien und alle 36 Objekte durchblättern, kaufen und aufwerten. Rahmen, Tabs, Schließen-Button, Vorschau und Kaufbuttons behalten ihre Position; auch bei vielen Attributen bleiben sie erreichbar.
+- Attributliste: bei Asteroiden bis zur letzten Zeile scrollen, mehrere Erklärungen öffnen und schließen und anschließend das Objekt wechseln. Namen, Werte, Icons und Erklärungen bleiben innerhalb des Viewports; der Scrollindikator entspricht der Listenlänge, beim Objektwechsel beginnt die Liste oben. Maus, Mausrad und Touch prüfen, auch während der Shop die Simulation pausiert.
+- Bildschirmformate: nach manueller Safe-Area-Einrichtung 9:16, 9:19.5, 9:20 und ein breiteres Editorfenster sowie Displayausschnitte und Hochkant-Drehung prüfen. Neonrahmen und Grundanordnung bleiben erkennbar; es gibt keine automatische Safe-Area-Anpassung.
+- Vorschauen: alle Planeten einschließlich Nyxora mit großer Atmosphäre sowie Waffen, Asteroiden und Hintergründe anschauen. Sprites behalten ihre Proportionen und verdecken weder Navigation noch Attribute.
+- Zahlen und Meldungen: hohe Scores, hohe Coin-Zahlen, Max-Level-Anzeige, bis zu 40 Lebenssymbole sowie längere Speicherfehlermeldungen anzeigen. Keine Panelvergrößerung oder Überlappung; Pausen-, Replay-, Menü- und Privacy-Buttons bleiben bedienbar. Alle drei fest platzierten Coin-Anzeigen zeigen nach Käufen und Belohnungen denselben Stand. Meldungen umbrechen innerhalb des festen Panels.
+- Editor-Einstellungen: Größe, Position und Schrift in Szene beziehungsweise Prefabs ändern und anschließend die Menüs öffnen. Kein Initialisierungscode überschreibt diese Einstellungen oder fügt Layout-Komponenten hinzu; die Attributliste nutzt die im Prefab eingestellten Unity-Layout-Komponenten.
+
 ## Android Release Tools – ausstehende Prüfungen
 
 Die Workflow-Skripte sind integriert. Automatisierte Upstream-Tests wurden nicht übernommen oder ausgeführt; Builds, Exporte und Uploads wurden nicht gestartet.

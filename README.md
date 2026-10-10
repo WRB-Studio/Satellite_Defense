@@ -51,6 +51,14 @@ The attribute refactor preserves existing item values, prices, combination rules
 
 The attribute editor remains available under **Tools > Attribute > IngameEntity Attribute Editor**. JSON imports are validated before any prefab is modified.
 
+## UI layout
+
+The existing neon frames, colors and menu arrangement are retained. The canvas uses a portrait reference resolution. The HUD remains at the top and toast messages at the bottom. Safe-area positioning is configured manually; there is no automatic safe-area or menu-fitting component.
+
+The shop frame, category tabs, preview and purchase controls have fixed layout bounds. Only the attribute list grows inside a masked vertical scroll view with an automatically hidden scroll indicator. Each reusable attribute row shows its icon, name and value; tapping the icon expands a wrapping explanation within the list. Item changes reset scrolling to the top. Preview images preserve their aspect ratio in fixed, masked boxes.
+
+Geometry, typography and component configuration are authored in the scene and prefabs, rather than configured by initialization code. Each menu owns a fixed coin display; the code updates their values without reparenting them. Life icons wrap within the HUD. Toast messages wrap within a fixed panel. Standard Unity layout components arrange dynamic attribute content; scripts update content, visibility, interaction and scrolling without applying custom size or font changes. This UI update has only been inspected statically; editor, touch and device acceptance are pending, and no tests or builds were run.
+
 ## Android release workflow
 
 Unity Android Release Tools are integrated under `scripts/`, with the Unity build helper in `Assets/Editor/UnityAndroidBuild.cs`. The workflow supports signed APK/AAB builds, Google Play uploads and local Drive exports. Project-specific setup, the imported source revision and commands are documented in [scripts/README.md](scripts/README.md).
