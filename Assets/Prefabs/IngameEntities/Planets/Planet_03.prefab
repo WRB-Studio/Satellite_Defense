@@ -193,10 +193,10 @@ MonoBehaviour:
   entityType: 1
   id: 3
   itemName: Puras
-  cost: 30
+  cost: 24
   maxEntityLevel: 4
-  upgradeBaseCost: 7
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 5

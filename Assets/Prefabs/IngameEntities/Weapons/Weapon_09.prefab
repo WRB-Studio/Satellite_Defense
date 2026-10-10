@@ -80,23 +80,23 @@ MonoBehaviour:
   entityType: 2
   id: 9
   itemName: "Lok\xE1sit"
-  cost: 1325
+  cost: 435
   maxEntityLevel: 8
-  upgradeBaseCost: 292
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 52
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 65.625
-    attributeIncrement: 4.05357143
-  - attributeType: 7
-    initialValue: 1.6875
-    attributeIncrement: 0.0875
-  - attributeType: 8
-    initialValue: 4
+    initialValue: 102
     attributeIncrement: 0.42857143
+  - attributeType: 7
+    initialValue: 2.34
+    attributeIncrement: 0.01714286
+  - attributeType: 8
+    initialValue: 5
+    attributeIncrement: 0.14285714
   - attributeType: 6
-    initialValue: 1.75
-    attributeIncrement: -0.05714286
+    initialValue: 1.02
+    attributeIncrement: -0.00571429
   - attributeType: 13
     initialValue: 0.035
     attributeIncrement: 0.00214286

@@ -103,10 +103,10 @@ MonoBehaviour:
   entityType: 4
   id: 4
   itemName: White Nebula
-  cost: 95
+  cost: 50
   maxEntityLevel: 6
-  upgradeBaseCost: 21
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 6
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1.1

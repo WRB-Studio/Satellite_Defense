@@ -151,20 +151,20 @@ MonoBehaviour:
   cost: 18
   maxEntityLevel: 3
   upgradeBaseCost: 4
-  upgradeCostMultiplier: 1.12
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 56.25
-    attributeIncrement: 10.875
+    initialValue: 75
+    attributeIncrement: 2
   - attributeType: 7
-    initialValue: 1.275
-    attributeIncrement: 0.1875
+    initialValue: 1.5
+    attributeIncrement: 0.06
   - attributeType: 8
-    initialValue: 1
-    attributeIncrement: 0.5
+    initialValue: 2
+    attributeIncrement: 0
   - attributeType: 6
-    initialValue: 1.8
-    attributeIncrement: -0.2
+    initialValue: 1.3
+    attributeIncrement: -0.02
   - attributeType: 13
     initialValue: 0.01
     attributeIncrement: 0.005

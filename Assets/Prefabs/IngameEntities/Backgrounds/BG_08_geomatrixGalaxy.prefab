@@ -103,10 +103,10 @@ MonoBehaviour:
   entityType: 4
   id: 8
   itemName: G.O.-Laxy
-  cost: 1285
+  cost: 245
   maxEntityLevel: 10
-  upgradeBaseCost: 283
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 29
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1.25

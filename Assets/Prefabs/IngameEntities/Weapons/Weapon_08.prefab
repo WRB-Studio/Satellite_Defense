@@ -80,23 +80,23 @@ MonoBehaviour:
   entityType: 2
   id: 8
   itemName: Hexora
-  cost: 830
+  cost: 310
   maxEntityLevel: 7
-  upgradeBaseCost: 183
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 37
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 71.25
-    attributeIncrement: 4.79166667
+    initialValue: 98
+    attributeIncrement: 0.66666667
   - attributeType: 7
-    initialValue: 1.725
-    attributeIncrement: 0.10416667
+    initialValue: 2.22
+    attributeIncrement: 0.02
   - attributeType: 8
-    initialValue: 3
-    attributeIncrement: 0.33333333
+    initialValue: 5
+    attributeIncrement: 0
   - attributeType: 6
-    initialValue: 1.25
-    attributeIncrement: -0.04166667
+    initialValue: 1.06
+    attributeIncrement: -0.00666667
   - attributeType: 13
     initialValue: 0.04
     attributeIncrement: 0.00333333

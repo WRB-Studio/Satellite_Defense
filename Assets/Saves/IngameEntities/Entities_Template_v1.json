@@ -7,7 +7,7 @@
             "cost": 0,
             "maxEntityLevel": 3,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -32,7 +32,7 @@
             "cost": 12,
             "maxEntityLevel": 3,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -54,10 +54,10 @@
             "entityId": 3,
             "entityType": "Planet",
             "entityName": "Puras",
-            "cost": 30,
+            "cost": 24,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 7,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -79,10 +79,10 @@
             "entityId": 4,
             "entityType": "Planet",
             "entityName": "Cobatae",
-            "cost": 65,
+            "cost": 40,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 14,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 5,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -111,10 +111,10 @@
             "entityId": 5,
             "entityType": "Planet",
             "entityName": "Vetion",
-            "cost": 125,
+            "cost": 65,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 28,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 8,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -143,10 +143,10 @@
             "entityId": 6,
             "entityType": "Planet",
             "entityName": "Nepulan",
-            "cost": 235,
+            "cost": 100,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 52,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -175,10 +175,10 @@
             "entityId": 7,
             "entityType": "Planet",
             "entityName": "Sanctorian",
-            "cost": 425,
+            "cost": 150,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 94,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 18,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -214,10 +214,10 @@
             "entityId": 8,
             "entityType": "Planet",
             "entityName": "Sadis",
-            "cost": 710,
+            "cost": 215,
             "maxEntityLevel": 7,
-            "upgradeBaseCost": 156,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 26,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -246,10 +246,10 @@
             "entityId": 9,
             "entityType": "Planet",
             "entityName": "Cryon",
-            "cost": 1150,
+            "cost": 300,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 253,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 36,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -278,10 +278,10 @@
             "entityId": 10,
             "entityType": "Planet",
             "entityName": "Ignara",
-            "cost": 1785,
+            "cost": 405,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 393,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 49,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -317,10 +317,10 @@
             "entityId": 11,
             "entityType": "Planet",
             "entityName": "G.O.-Metria",
-            "cost": 2720,
+            "cost": 530,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 598,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 64,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -349,10 +349,10 @@
             "entityId": 12,
             "entityType": "Planet",
             "entityName": "Nyxora",
-            "cost": 4040,
+            "cost": 675,
             "maxEntityLevel": 10,
-            "upgradeBaseCost": 889,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 81,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 1,
@@ -398,7 +398,7 @@
             "cost": 0,
             "maxEntityLevel": 3,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
@@ -444,34 +444,34 @@
             "cost": 18,
             "maxEntityLevel": 3,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 56.25,
-                    "attributeIncrement": 10.875,
+                    "initialValue": 75,
+                    "attributeIncrement": 2.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.275,
-                    "attributeIncrement": 0.1875,
+                    "initialValue": 1.5,
+                    "attributeIncrement": 0.06,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 1,
-                    "attributeIncrement": 0.5,
+                    "initialValue": 2,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.8,
-                    "attributeIncrement": -0.2,
+                    "initialValue": 1.3,
+                    "attributeIncrement": -0.02,
                     "attributePolarity": "-"
                 },
                 {
@@ -487,23 +487,23 @@
             "entityId": 3,
             "entityType": "Weapon",
             "entityName": "Vanguard",
-            "cost": 40,
+            "cost": 35,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 9,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 54.375,
-                    "attributeIncrement": 8.54166667,
+                    "initialValue": 79,
+                    "attributeIncrement": 1.33333333,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.425,
-                    "attributeIncrement": 0.14166667,
+                    "initialValue": 1.62,
+                    "attributeIncrement": 0.04,
                     "attributePolarity": "+"
                 },
                 {
@@ -516,8 +516,8 @@
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.9,
-                    "attributeIncrement": -0.13333333,
+                    "initialValue": 1.26,
+                    "attributeIncrement": -0.01333333,
                     "attributePolarity": "-"
                 },
                 {
@@ -533,37 +533,37 @@
             "entityId": 4,
             "entityType": "Weapon",
             "entityName": "Orion",
-            "cost": 80,
+            "cost": 60,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 18,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 7,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 61.875,
-                    "attributeIncrement": 6.53125,
+                    "initialValue": 83,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.5,
-                    "attributeIncrement": 0.125,
+                    "initialValue": 1.74,
+                    "attributeIncrement": 0.03,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 2,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 3,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.6,
-                    "attributeIncrement": -0.0875,
+                    "initialValue": 1.22,
+                    "attributeIncrement": -0.01,
                     "attributePolarity": "-"
                 },
                 {
@@ -579,37 +579,37 @@
             "entityId": 5,
             "entityType": "Weapon",
             "entityName": "Inferna",
-            "cost": 155,
+            "cost": 95,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 34,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 11,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 54.375,
-                    "attributeIncrement": 5.90625,
+                    "initialValue": 87,
+                    "attributeIncrement": 0.75,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.275,
-                    "attributeIncrement": 0.11875,
+                    "initialValue": 1.86,
+                    "attributeIncrement": 0.03,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
                     "initialValue": 3,
-                    "attributeIncrement": 0.5,
+                    "attributeIncrement": 0.25,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 2.25,
-                    "attributeIncrement": -0.125,
+                    "initialValue": 1.18,
+                    "attributeIncrement": -0.01,
                     "attributePolarity": "-"
                 },
                 {
@@ -625,37 +625,37 @@
             "entityId": 6,
             "entityType": "Weapon",
             "entityName": "Aurion",
-            "cost": 285,
+            "cost": 145,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 63,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 17,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 65.625,
-                    "attributeIncrement": 5.275,
+                    "initialValue": 90,
+                    "attributeIncrement": 0.8,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.65,
-                    "attributeIncrement": 0.11,
+                    "initialValue": 1.98,
+                    "attributeIncrement": 0.024,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 2,
-                    "attributeIncrement": 0.4,
+                    "initialValue": 4,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.45,
-                    "attributeIncrement": -0.07,
+                    "initialValue": 1.14,
+                    "attributeIncrement": -0.008,
                     "attributePolarity": "-"
                 },
                 {
@@ -671,37 +671,37 @@
             "entityId": 7,
             "entityType": "Weapon",
             "entityName": "Crimsonex",
-            "cost": 495,
+            "cost": 215,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 109,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 26,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 60.0,
-                    "attributeIncrement": 5.0,
+                    "initialValue": 94,
+                    "attributeIncrement": 0.8,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.425,
-                    "attributeIncrement": 0.115,
+                    "initialValue": 2.1,
+                    "attributeIncrement": 0.024,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
                     "initialValue": 4,
-                    "attributeIncrement": 0.4,
+                    "attributeIncrement": 0.2,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 2.125,
-                    "attributeIncrement": -0.105,
+                    "initialValue": 1.1,
+                    "attributeIncrement": -0.008,
                     "attributePolarity": "-"
                 },
                 {
@@ -717,37 +717,37 @@
             "entityId": 8,
             "entityType": "Weapon",
             "entityName": "Hexora",
-            "cost": 830,
+            "cost": 310,
             "maxEntityLevel": 7,
-            "upgradeBaseCost": 183,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 37,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 71.25,
-                    "attributeIncrement": 4.79166667,
+                    "initialValue": 98,
+                    "attributeIncrement": 0.66666667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.725,
-                    "attributeIncrement": 0.10416667,
+                    "initialValue": 2.22,
+                    "attributeIncrement": 0.02,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 3,
-                    "attributeIncrement": 0.33333333,
+                    "initialValue": 5,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.25,
-                    "attributeIncrement": -0.04166667,
+                    "initialValue": 1.06,
+                    "attributeIncrement": -0.00666667,
                     "attributePolarity": "-"
                 },
                 {
@@ -763,37 +763,37 @@
             "entityId": 9,
             "entityType": "Weapon",
             "entityName": "Lokásit",
-            "cost": 1325,
+            "cost": 435,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 292,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 52,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 65.625,
-                    "attributeIncrement": 4.05357143,
+                    "initialValue": 102,
+                    "attributeIncrement": 0.42857143,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.6875,
-                    "attributeIncrement": 0.0875,
+                    "initialValue": 2.34,
+                    "attributeIncrement": 0.01714286,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 4,
-                    "attributeIncrement": 0.42857143,
+                    "initialValue": 5,
+                    "attributeIncrement": 0.14285714,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.75,
-                    "attributeIncrement": -0.05714286,
+                    "initialValue": 1.02,
+                    "attributeIncrement": -0.00571429,
                     "attributePolarity": "-"
                 },
                 {
@@ -809,37 +809,37 @@
             "entityId": 10,
             "entityType": "Weapon",
             "entityName": "Trigon",
-            "cost": 2030,
+            "cost": 595,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 447,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 71,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 78.75,
-                    "attributeIncrement": 3.90625,
+                    "initialValue": 105,
+                    "attributeIncrement": 0.5,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.95,
-                    "attributeIncrement": 0.0875,
+                    "initialValue": 2.46,
+                    "attributeIncrement": 0.015,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 4,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 6,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.15,
-                    "attributeIncrement": -0.03125,
+                    "initialValue": 0.98,
+                    "attributeIncrement": -0.005,
                     "attributePolarity": "-"
                 },
                 {
@@ -855,37 +855,37 @@
             "entityId": 11,
             "entityType": "Weapon",
             "entityName": "Zerathis",
-            "cost": 2995,
+            "cost": 790,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 659,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 95,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 71.25,
-                    "attributeIncrement": 3.96875,
+                    "initialValue": 109,
+                    "attributeIncrement": 0.375,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.875,
-                    "attributeIncrement": 0.078125,
+                    "initialValue": 2.58,
+                    "attributeIncrement": 0.01375,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 5,
-                    "attributeIncrement": 0.375,
+                    "initialValue": 6,
+                    "attributeIncrement": 0.25,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.65,
-                    "attributeIncrement": -0.05,
+                    "initialValue": 0.94,
+                    "attributeIncrement": -0.005,
                     "attributePolarity": "-"
                 },
                 {
@@ -901,37 +901,37 @@
             "entityId": 12,
             "entityType": "Weapon",
             "entityName": "G.O.-Prism",
-            "cost": 4350,
+            "cost": 1025,
             "maxEntityLevel": 10,
-            "upgradeBaseCost": 957,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 123,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 82.5,
-                    "attributeIncrement": 3.61111111,
+                    "initialValue": 112,
+                    "attributeIncrement": 0.33333333,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 2.0625,
-                    "attributeIncrement": 0.08194444,
+                    "initialValue": 2.69,
+                    "attributeIncrement": 0.01222222,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 5,
-                    "attributeIncrement": 0.44444444,
+                    "initialValue": 8,
+                    "attributeIncrement": 0.11111111,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.2,
-                    "attributeIncrement": -0.03888889,
+                    "initialValue": 0.9,
+                    "attributeIncrement": -0.00555556,
                     "attributePolarity": "-"
                 },
                 {
@@ -950,7 +950,7 @@
             "cost": 0,
             "maxEntityLevel": 3,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -977,7 +977,7 @@
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
                     "initialValue": 1,
-                    "attributeIncrement": 1.0,
+                    "attributeIncrement": 0.5,
                     "attributePolarity": "-"
                 },
                 {
@@ -1016,8 +1016,8 @@
             "entityName": "Ice Asteroids",
             "cost": 25,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 6,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1043,8 +1043,8 @@
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 3,
-                    "attributeIncrement": 1.0,
+                    "initialValue": 2,
+                    "attributeIncrement": 0.66666667,
                     "attributePolarity": "-"
                 },
                 {
@@ -1081,10 +1081,10 @@
             "entityId": 3,
             "entityType": "Enemy",
             "entityName": "Crystal Asteroids",
-            "cost": 100,
+            "cost": 60,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 22,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 7,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1110,8 +1110,8 @@
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 5,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 4,
+                    "attributeIncrement": 0.5,
                     "attributePolarity": "-"
                 },
                 {
@@ -1155,10 +1155,10 @@
             "entityId": 4,
             "entityType": "Enemy",
             "entityName": "G.O.-Terids",
-            "cost": 325,
+            "cost": 120,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 72,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 14,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1184,8 +1184,8 @@
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 8,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 6,
+                    "attributeIncrement": 0.6,
                     "attributePolarity": "-"
                 },
                 {
@@ -1232,7 +1232,7 @@
             "cost": 0,
             "maxEntityLevel": 3,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1250,7 +1250,7 @@
             "cost": 15,
             "maxEntityLevel": 4,
             "upgradeBaseCost": 4,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1272,10 +1272,10 @@
             "entityId": 3,
             "entityType": "Background",
             "entityName": "Inverted Space",
-            "cost": 40,
+            "cost": 30,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 9,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1297,10 +1297,10 @@
             "entityId": 4,
             "entityType": "Background",
             "entityName": "White Nebula",
-            "cost": 95,
+            "cost": 50,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 21,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 6,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1329,10 +1329,10 @@
             "entityId": 5,
             "entityType": "Background",
             "entityName": "Milky Way",
-            "cost": 195,
+            "cost": 80,
             "maxEntityLevel": 7,
-            "upgradeBaseCost": 43,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 10,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1361,10 +1361,10 @@
             "entityId": 6,
             "entityType": "Background",
             "entityName": "Cyan Nebula",
-            "cost": 395,
+            "cost": 120,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 87,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 14,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1400,10 +1400,10 @@
             "entityId": 7,
             "entityType": "Background",
             "entityName": "Red Nebula",
-            "cost": 705,
+            "cost": 175,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 155,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 21,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,
@@ -1432,10 +1432,10 @@
             "entityId": 8,
             "entityType": "Background",
             "entityName": "G.O.-Laxy",
-            "cost": 1285,
+            "cost": 245,
             "maxEntityLevel": 10,
-            "upgradeBaseCost": 283,
-            "upgradeCostMultiplier": 1.12,
+            "upgradeBaseCost": 29,
+            "upgradeCostMultiplier": 1.08,
             "attributes": [
                 {
                     "attributeType": 15,

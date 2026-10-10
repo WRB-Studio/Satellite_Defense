@@ -106,10 +106,10 @@ MonoBehaviour:
   entityType: 1
   id: 5
   itemName: Vetion
-  cost: 125
+  cost: 65
   maxEntityLevel: 5
-  upgradeBaseCost: 28
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 8
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 3

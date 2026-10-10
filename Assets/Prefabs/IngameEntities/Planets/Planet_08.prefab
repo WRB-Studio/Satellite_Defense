@@ -106,10 +106,10 @@ MonoBehaviour:
   entityType: 1
   id: 8
   itemName: Sadis
-  cost: 710
+  cost: 215
   maxEntityLevel: 7
-  upgradeBaseCost: 156
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 26
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 5

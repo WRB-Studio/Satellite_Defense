@@ -106,10 +106,10 @@ MonoBehaviour:
   entityType: 1
   id: 7
   itemName: Sanctorian
-  cost: 425
+  cost: 150
   maxEntityLevel: 6
-  upgradeBaseCost: 94
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 18
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 4

@@ -80,23 +80,23 @@ MonoBehaviour:
   entityType: 2
   id: 5
   itemName: Inferna
-  cost: 155
+  cost: 95
   maxEntityLevel: 5
-  upgradeBaseCost: 34
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 11
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 54.375
-    attributeIncrement: 5.90625
+    initialValue: 87
+    attributeIncrement: 0.75
   - attributeType: 7
-    initialValue: 1.275
-    attributeIncrement: 0.11875
+    initialValue: 1.86
+    attributeIncrement: 0.03
   - attributeType: 8
     initialValue: 3
-    attributeIncrement: 0.5
+    attributeIncrement: 0.25
   - attributeType: 6
-    initialValue: 2.25
-    attributeIncrement: -0.125
+    initialValue: 1.18
+    attributeIncrement: -0.01
   - attributeType: 13
     initialValue: 0.015
     attributeIncrement: 0.0025

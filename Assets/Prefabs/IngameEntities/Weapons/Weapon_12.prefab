@@ -148,23 +148,23 @@ MonoBehaviour:
   entityType: 2
   id: 12
   itemName: G.O.-Prism
-  cost: 4350
+  cost: 1025
   maxEntityLevel: 10
-  upgradeBaseCost: 957
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 123
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 82.5
-    attributeIncrement: 3.61111111
+    initialValue: 112
+    attributeIncrement: 0.33333333
   - attributeType: 7
-    initialValue: 2.0625
-    attributeIncrement: 0.08194444
+    initialValue: 2.69
+    attributeIncrement: 0.01222222
   - attributeType: 8
-    initialValue: 5
-    attributeIncrement: 0.44444444
+    initialValue: 8
+    attributeIncrement: 0.11111111
   - attributeType: 6
-    initialValue: 1.2
-    attributeIncrement: -0.03888889
+    initialValue: 0.9
+    attributeIncrement: -0.00555556
   - attributeType: 13
     initialValue: 0.07
     attributeIncrement: 0.00333333

@@ -103,10 +103,10 @@ MonoBehaviour:
   entityType: 4
   id: 5
   itemName: Milky Way
-  cost: 195
+  cost: 80
   maxEntityLevel: 7
-  upgradeBaseCost: 43
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 10
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1.16

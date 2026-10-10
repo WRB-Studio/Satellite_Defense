@@ -360,23 +360,23 @@ MonoBehaviour:
   entityType: 2
   id: 3
   itemName: Vanguard
-  cost: 40
+  cost: 35
   maxEntityLevel: 4
-  upgradeBaseCost: 9
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 54.375
-    attributeIncrement: 8.54166667
+    initialValue: 79
+    attributeIncrement: 1.33333333
   - attributeType: 7
-    initialValue: 1.425
-    attributeIncrement: 0.14166667
+    initialValue: 1.62
+    attributeIncrement: 0.04
   - attributeType: 8
     initialValue: 2
     attributeIncrement: 0.33333333
   - attributeType: 6
-    initialValue: 1.9
-    attributeIncrement: -0.13333333
+    initialValue: 1.26
+    attributeIncrement: -0.01333333
   - attributeType: 13
     initialValue: 0.015
     attributeIncrement: 0.00333333

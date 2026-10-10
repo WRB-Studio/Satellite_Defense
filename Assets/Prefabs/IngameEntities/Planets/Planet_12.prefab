@@ -105,10 +105,10 @@ MonoBehaviour:
   entityType: 1
   id: 12
   itemName: Nyxora
-  cost: 4040
+  cost: 675
   maxEntityLevel: 10
-  upgradeBaseCost: 889
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 81
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 7

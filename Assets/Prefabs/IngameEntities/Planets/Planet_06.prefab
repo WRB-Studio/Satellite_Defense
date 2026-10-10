@@ -106,10 +106,10 @@ MonoBehaviour:
   entityType: 1
   id: 6
   itemName: Nepulan
-  cost: 235
+  cost: 100
   maxEntityLevel: 5
-  upgradeBaseCost: 52
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 12
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 4

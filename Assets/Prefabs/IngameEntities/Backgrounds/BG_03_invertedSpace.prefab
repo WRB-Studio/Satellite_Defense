@@ -103,10 +103,10 @@ MonoBehaviour:
   entityType: 4
   id: 3
   itemName: Inverted Space
-  cost: 40
+  cost: 30
   maxEntityLevel: 5
-  upgradeBaseCost: 9
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1.08

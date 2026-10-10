@@ -80,23 +80,23 @@ MonoBehaviour:
   entityType: 2
   id: 10
   itemName: Trigon
-  cost: 2030
+  cost: 595
   maxEntityLevel: 9
-  upgradeBaseCost: 447
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 71
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 78.75
-    attributeIncrement: 3.90625
+    initialValue: 105
+    attributeIncrement: 0.5
   - attributeType: 7
-    initialValue: 1.95
-    attributeIncrement: 0.0875
+    initialValue: 2.46
+    attributeIncrement: 0.015
   - attributeType: 8
-    initialValue: 4
-    attributeIncrement: 0.25
+    initialValue: 6
+    attributeIncrement: 0
   - attributeType: 6
-    initialValue: 1.15
-    attributeIncrement: -0.03125
+    initialValue: 0.98
+    attributeIncrement: -0.005
   - attributeType: 13
     initialValue: 0.06
     attributeIncrement: 0.0025

@@ -47,10 +47,10 @@ MonoBehaviour:
   entityType: 3
   id: 4
   itemName: G.O.-Terids
-  cost: 325
+  cost: 120
   maxEntityLevel: 6
-  upgradeBaseCost: 72
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 14
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1.5
@@ -62,8 +62,8 @@ MonoBehaviour:
     initialValue: 1.4
     attributeIncrement: -0.08
   - attributeType: 9
-    initialValue: 8
-    attributeIncrement: 2
+    initialValue: 6
+    attributeIncrement: 0.6
   - attributeType: 10
     initialValue: 1
     attributeIncrement: 0.1

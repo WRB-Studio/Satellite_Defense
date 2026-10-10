@@ -359,23 +359,23 @@ MonoBehaviour:
   entityType: 2
   id: 11
   itemName: Zerathis
-  cost: 2995
+  cost: 790
   maxEntityLevel: 9
-  upgradeBaseCost: 659
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 95
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 71.25
-    attributeIncrement: 3.96875
-  - attributeType: 7
-    initialValue: 1.875
-    attributeIncrement: 0.078125
-  - attributeType: 8
-    initialValue: 5
+    initialValue: 109
     attributeIncrement: 0.375
+  - attributeType: 7
+    initialValue: 2.58
+    attributeIncrement: 0.01375
+  - attributeType: 8
+    initialValue: 6
+    attributeIncrement: 0.25
   - attributeType: 6
-    initialValue: 1.65
-    attributeIncrement: -0.05
+    initialValue: 0.94
+    attributeIncrement: -0.005
   - attributeType: 13
     initialValue: 0.045
     attributeIncrement: 0.0025

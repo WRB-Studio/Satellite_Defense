@@ -80,23 +80,23 @@ MonoBehaviour:
   entityType: 2
   id: 4
   itemName: Orion
-  cost: 80
+  cost: 60
   maxEntityLevel: 5
-  upgradeBaseCost: 18
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 7
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 61.875
-    attributeIncrement: 6.53125
+    initialValue: 83
+    attributeIncrement: 1
   - attributeType: 7
-    initialValue: 1.5
-    attributeIncrement: 0.125
+    initialValue: 1.74
+    attributeIncrement: 0.03
   - attributeType: 8
-    initialValue: 2
-    attributeIncrement: 0.25
+    initialValue: 3
+    attributeIncrement: 0
   - attributeType: 6
-    initialValue: 1.6
-    attributeIncrement: -0.0875
+    initialValue: 1.22
+    attributeIncrement: -0.01
   - attributeType: 13
     initialValue: 0.02
     attributeIncrement: 0.0025

@@ -148,23 +148,23 @@ MonoBehaviour:
   entityType: 2
   id: 6
   itemName: Aurion
-  cost: 285
+  cost: 145
   maxEntityLevel: 6
-  upgradeBaseCost: 63
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 17
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 65.625
-    attributeIncrement: 5.275
+    initialValue: 90
+    attributeIncrement: 0.8
   - attributeType: 7
-    initialValue: 1.65
-    attributeIncrement: 0.11
+    initialValue: 1.98
+    attributeIncrement: 0.024
   - attributeType: 8
-    initialValue: 2
-    attributeIncrement: 0.4
+    initialValue: 4
+    attributeIncrement: 0
   - attributeType: 6
-    initialValue: 1.45
-    attributeIncrement: -0.07
+    initialValue: 1.14
+    attributeIncrement: -0.008
   - attributeType: 13
     initialValue: 0.03
     attributeIncrement: 0.004

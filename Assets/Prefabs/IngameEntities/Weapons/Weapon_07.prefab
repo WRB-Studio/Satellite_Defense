@@ -359,23 +359,23 @@ MonoBehaviour:
   entityType: 2
   id: 7
   itemName: Crimsonex
-  cost: 495
+  cost: 215
   maxEntityLevel: 6
-  upgradeBaseCost: 109
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 26
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 5
-    initialValue: 60
-    attributeIncrement: 5
+    initialValue: 94
+    attributeIncrement: 0.8
   - attributeType: 7
-    initialValue: 1.425
-    attributeIncrement: 0.115
+    initialValue: 2.1
+    attributeIncrement: 0.024
   - attributeType: 8
     initialValue: 4
-    attributeIncrement: 0.4
+    attributeIncrement: 0.2
   - attributeType: 6
-    initialValue: 2.125
-    attributeIncrement: -0.105
+    initialValue: 1.1
+    attributeIncrement: -0.008
   - attributeType: 13
     initialValue: 0.025
     attributeIncrement: 0.002

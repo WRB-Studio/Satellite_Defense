@@ -193,10 +193,10 @@ MonoBehaviour:
   entityType: 1
   id: 11
   itemName: G.O.-Metria
-  cost: 2720
+  cost: 530
   maxEntityLevel: 9
-  upgradeBaseCost: 598
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 64
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 10

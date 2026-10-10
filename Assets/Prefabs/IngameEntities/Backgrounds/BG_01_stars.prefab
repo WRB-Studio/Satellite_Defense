@@ -106,7 +106,7 @@ MonoBehaviour:
   cost: 0
   maxEntityLevel: 3
   upgradeBaseCost: 4
-  upgradeCostMultiplier: 1.12
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1

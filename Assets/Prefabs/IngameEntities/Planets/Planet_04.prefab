@@ -106,10 +106,10 @@ MonoBehaviour:
   entityType: 1
   id: 4
   itemName: Cobatae
-  cost: 65
+  cost: 40
   maxEntityLevel: 4
-  upgradeBaseCost: 14
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 5
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 3

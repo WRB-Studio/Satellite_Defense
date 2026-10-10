@@ -193,10 +193,10 @@ MonoBehaviour:
   entityType: 1
   id: 9
   itemName: Cryon
-  cost: 1150
+  cost: 300
   maxEntityLevel: 8
-  upgradeBaseCost: 253
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 36
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 1
     initialValue: 6

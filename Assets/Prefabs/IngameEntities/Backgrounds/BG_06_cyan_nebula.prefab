@@ -103,10 +103,10 @@ MonoBehaviour:
   entityType: 4
   id: 6
   itemName: Cyan Nebula
-  cost: 395
+  cost: 120
   maxEntityLevel: 8
-  upgradeBaseCost: 87
-  upgradeCostMultiplier: 1.12
+  upgradeBaseCost: 14
+  upgradeCostMultiplier: 1.08
   attribute:
   - attributeType: 15
     initialValue: 1.18
