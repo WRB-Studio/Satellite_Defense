@@ -81,7 +81,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.85
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -367,7 +367,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
+  m_LocalScale: {x: 0.06375, y: 0.06375, z: 0.06375}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 441570135757893882}
@@ -448,7 +448,7 @@ MonoBehaviour:
   soundNormalLaser: {fileID: 8300000, guid: 182c7eb97728037468d326aa6207ec70, type: 3}
   soundJumpLaser: {fileID: 8300000, guid: 3a7da438fa75ad44c894157a8f5ff90b, type: 3}
   jumpLaserSoundPitch: -0.1
-  maxLaserJumpHits: 3
+  maxLaserJumpHits: 2
   targetingDistance: 3
 --- !u!50 &3963726186292676460
 Rigidbody2D:

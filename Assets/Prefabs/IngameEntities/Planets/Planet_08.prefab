@@ -106,20 +106,20 @@ MonoBehaviour:
   entityType: 1
   id: 8
   itemName: Sadis
-  cost: 1638
+  cost: 710
   maxEntityLevel: 7
-  upgradeBaseCost: 491
-  upgradeCostMultiplier: 0.92
+  upgradeBaseCost: 156
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 1
-    initialValue: 4
-    attributeIncrement: 2
+    initialValue: 5
+    attributeIncrement: 1
   - attributeType: 2
-    initialValue: 8
-    attributeIncrement: 2
+    initialValue: 6
+    attributeIncrement: 1
   - attributeType: 18
-    initialValue: 1.5
-    attributeIncrement: 0.25
+    initialValue: 1.25
+    attributeIncrement: 0.05
   rotationSpeed: 1.2
   planetExplosion: {fileID: 675976027193676039, guid: 7bef642a608175341b7dbca6c92b9bec,
     type: 3}
@@ -129,6 +129,7 @@ MonoBehaviour:
     type: 3}
   soundExplosion: {fileID: 8300000, guid: 8e9d97f32f540fd44ba75922e24eac31, type: 3}
   soundImpulseWave: {fileID: 8300000, guid: 78b95ebf8fa5a2c4aac462190eae0e57, type: 3}
+  impulseWaveCooldown: 4
 --- !u!58 &4343199405126174730
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 30
   randomRotation: 0
-  scoreGain: 15
+  scoreGain: 26
   isSplitPiece: 0
   deathExplosion: {fileID: 7613524273276580009, guid: 48802af3ae77d734fbfeca16890b65ce,
     type: 3}

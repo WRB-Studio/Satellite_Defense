@@ -360,35 +360,34 @@ MonoBehaviour:
   entityType: 2
   id: 3
   itemName: Vanguard
-  cost: 100
+  cost: 40
   maxEntityLevel: 4
-  upgradeBaseCost: 30
-  upgradeCostMultiplier: 1.07
+  upgradeBaseCost: 9
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 5
-    initialValue: 60
-    attributeIncrement: 4
+    initialValue: 54.375
+    attributeIncrement: 8.54166667
   - attributeType: 7
-    initialValue: 1.68
-    attributeIncrement: 0
+    initialValue: 1.425
+    attributeIncrement: 0.14166667
   - attributeType: 8
     initialValue: 2
-    attributeIncrement: 0.25
+    attributeIncrement: 0.33333333
   - attributeType: 6
-    initialValue: 1.21
-    attributeIncrement: 0
+    initialValue: 1.9
+    attributeIncrement: -0.13333333
   - attributeType: 13
-    initialValue: 0.18
-    attributeIncrement: 0.02
-  - attributeType: 12
-    initialValue: 2
-    attributeIncrement: 0
+    initialValue: 0.015
+    attributeIncrement: 0.00333333
   normalLaserPrefab: {fileID: 1170660001892344, guid: 4a949c81946342848ae744dfb9c5fe01,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0, g: 0.26666668, b: 0.57254905, a: 1}
-  jumpLaserDuration: 8
-  minFireRate: 0.1
+  jumpLaserDuration: 6
+  minShotInterval: 0.5
+  secondEmitterShotInterval: 0.75
+  thirdEmitterShotInterval: 0.55
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}

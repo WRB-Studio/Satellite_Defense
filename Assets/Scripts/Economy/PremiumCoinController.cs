@@ -6,7 +6,7 @@ public class PremiumCoinController : MonoBehaviour
 {
     public static PremiumCoinController Instance { get; private set; }
     public GameObject txtPemiumCoinEffect;
-    public long premiumCoinsPerScore = 100000;
+    public long premiumCoinsPerScore = 100;
     public long Coins => SaveGameController.Data.Coins;
     private readonly List<GameObject> popups = new();
 

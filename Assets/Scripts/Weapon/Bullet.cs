@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     public AudioClip soundJumpLaser;
     public float jumpLaserSoundPitch;
     [Header("Jump laser")]
-    [Min(0)] public int maxLaserJumpHits = 3;
+    [Min(0)] public int maxLaserJumpHits = 2;
     [Min(0f)] public float targetingDistance = 2f;
 
     private Weapon owner;

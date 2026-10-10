@@ -27,18 +27,23 @@ public class Enemy : MonoBehaviour
         if (transform.childCount > 0) trail = transform.GetChild(0);
         healthPoints = stats.EnemyHealth;
         damage = stats.EnemyDamage;
+        if (isSplitPiece)
+        {
+            healthPoints = Mathf.Max(1, Mathf.CeilToInt(healthPoints * 0.5f));
+            damage = Mathf.Max(1, Mathf.CeilToInt(damage * 0.5f));
+        }
         moveSpeed = stats.EnemySpeed;
         moveSpeed *= isSplitPiece ? Random.Range(0.65f, 0.85f) : Random.Range(0.85f, 1.15f);
         Direction = (target - body.position).normalized;
         if (Direction.sqrMagnitude < 0.001f) Direction = Vector2.down;
-        body.linearVelocity = Direction * moveSpeed;
+        body.linearVelocity = Direction * moveSpeed * EnemyController.Instance.EnemySpeedMultiplier;
         body.angularVelocity = rotationSpeed;
     }
 
     private void FixedUpdate()
     {
         if (removed || !GameController.Instance.IsSimulationRunning) return;
-        body.linearVelocity = Direction * moveSpeed;
+        body.linearVelocity = Direction * moveSpeed * EnemyController.Instance.EnemySpeedMultiplier;
         body.angularVelocity = rotationSpeed;
         if (Utilities.IsOutsideViewWithMargin(transform.position, 8f)) Despawn();
     }
@@ -57,11 +62,12 @@ public class Enemy : MonoBehaviour
         removed = true;
         AudioController.PlaySound(AudioController.Instance.soundEnemyHit);
         DeathEffect();
+        bool split = EnemyController.Instance.TrySplit(this);
         if (GameController.Instance.IsPlaying)
-            ScoreController.Instance.AddScore(scoreGain * Mathf.Max(1f, moveSpeed * 2f));
+            ScoreController.Instance.AddScore(scoreGain * (isSplitPiece ? 0.25f : split ? 0.5f : 1f));
         EnemyController.Instance.AddKill();
-        if (!EnemyController.Instance.TrySplit(this) && GameController.Instance.IsPlaying)
-            PowerUpController.Instance.SpawnRandomItem(transform.position);
+        if (!split && GameController.Instance.IsPlaying)
+            PowerUpController.Instance.SpawnRandomItem(transform.position, isSplitPiece);
         Remove();
     }
 

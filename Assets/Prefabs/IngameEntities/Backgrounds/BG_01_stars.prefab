@@ -105,9 +105,9 @@ MonoBehaviour:
   itemName: Stars
   cost: 0
   maxEntityLevel: 3
-  upgradeBaseCost: 13
-  upgradeCostMultiplier: 1.13
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 15
     initialValue: 1
-    attributeIncrement: 0.07
+    attributeIncrement: 0.04

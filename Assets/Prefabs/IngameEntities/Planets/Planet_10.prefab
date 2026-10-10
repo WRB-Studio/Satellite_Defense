@@ -193,23 +193,23 @@ MonoBehaviour:
   entityType: 1
   id: 10
   itemName: Ignara
-  cost: 7348
+  cost: 1785
   maxEntityLevel: 8
-  upgradeBaseCost: 2204
-  upgradeCostMultiplier: 0.84
+  upgradeBaseCost: 393
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 1
-    initialValue: 8
-    attributeIncrement: 4
+    initialValue: 5
+    attributeIncrement: 1
   - attributeType: 2
-    initialValue: 9
-    attributeIncrement: 3
+    initialValue: 6
+    attributeIncrement: 1
   - attributeType: 3
     initialValue: 1
     attributeIncrement: 0
   - attributeType: 18
-    initialValue: 1.75
-    attributeIncrement: 0.28
+    initialValue: 1.2
+    attributeIncrement: 0.05
   rotationSpeed: 1.2
   planetExplosion: {fileID: 8433945774835284879, guid: 45c22fdec1ca23a40aa9a658e32d11ec,
     type: 3}
@@ -219,6 +219,7 @@ MonoBehaviour:
     type: 3}
   soundExplosion: {fileID: 8300000, guid: 8e9d97f32f540fd44ba75922e24eac31, type: 3}
   soundImpulseWave: {fileID: 8300000, guid: 78b95ebf8fa5a2c4aac462190eae0e57, type: 3}
+  impulseWaveCooldown: 4
 --- !u!58 &489374295869372924
 CircleCollider2D:
   m_ObjectHideFlags: 0

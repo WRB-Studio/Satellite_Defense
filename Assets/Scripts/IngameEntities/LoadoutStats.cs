@@ -8,6 +8,7 @@ public sealed class LoadoutStats
 
     public int StartLives { get; }
     public int MaxLives { get; }
+    public int LowHealthThreshold => Mathf.Max(1, MaxLives / 4);
     public bool CanRevive => GetValue(EntityAttribute.eAttributeType.PlanetRevive) > 0f;
     public bool HasImpulseWave => GetValue(EntityAttribute.eAttributeType.PlanetExplosionOnHit) > 0f;
 
@@ -20,13 +21,13 @@ public sealed class LoadoutStats
     public float EnemySpeed => Mathf.Max(0.01f, GetValue(EntityAttribute.eAttributeType.EnemySpeed, 1f));
     public int EnemyDamage => Mathf.Max(1, Utilities.Round(GetValue(EntityAttribute.eAttributeType.EnemyDamage, 1f)));
     public float SpawnInterval => GetValue(EntityAttribute.eAttributeType.EnemySpawnRate, 2f);
-    public int MaxSplitPieces => Mathf.Max(0, Utilities.Round(GetValue(EntityAttribute.eAttributeType.EnemySplitCount, 2f)));
-    public float SplitChance => Mathf.Clamp01(GetValue(EntityAttribute.eAttributeType.EnemySplitChance));
+    public int MaxSplitPieces => Mathf.Clamp(Utilities.Round(GetValue(EntityAttribute.eAttributeType.EnemySplitCount, 2f)), 0, 3);
+    public float SplitChance => Mathf.Clamp(GetValue(EntityAttribute.eAttributeType.EnemySplitChance), 0f, 0.5f);
 
-    public float CoinChance => Mathf.Clamp01(0.15f + GetValue(EntityAttribute.eAttributeType.CoinChance));
-    public int BonusCoinValue => Utilities.Round(GetValue(EntityAttribute.eAttributeType.BonusCoinValue));
-    public float ScoreMultiplier => GetValue(EntityAttribute.eAttributeType.ScoreMultiplier, 1f);
-    public float LowHealthScoreMultiplier => GetValue(EntityAttribute.eAttributeType.ScoreBoostOnLowHP, 1f);
+    public float CoinChance => Mathf.Clamp(0.15f + GetValue(EntityAttribute.eAttributeType.CoinChance), 0f, 0.45f);
+    public int BonusCoinValue => Mathf.Clamp(Utilities.Round(GetValue(EntityAttribute.eAttributeType.BonusCoinValue)), 0, 3);
+    public float ScoreMultiplier => Mathf.Clamp(GetValue(EntityAttribute.eAttributeType.ScoreMultiplier, 1f), 0.5f, 3f);
+    public float LowHealthScoreMultiplier => Mathf.Clamp(GetValue(EntityAttribute.eAttributeType.ScoreBoostOnLowHP, 1f), 1f, 2.5f);
 
     public LoadoutStats(IEnumerable<IngameEntity> items, IReadOnlySavegame progress, int defaultStartLives, int defaultMaxLives)
     {

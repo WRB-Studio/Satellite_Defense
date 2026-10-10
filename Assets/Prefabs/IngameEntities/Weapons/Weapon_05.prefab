@@ -80,36 +80,35 @@ MonoBehaviour:
   entityType: 2
   id: 5
   itemName: Inferna
-  cost: 360
+  cost: 155
   maxEntityLevel: 5
-  upgradeBaseCost: 108
-  upgradeCostMultiplier: 0.99
+  upgradeBaseCost: 34
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 5
-    initialValue: 71.5
-    attributeIncrement: 5
+    initialValue: 54.375
+    attributeIncrement: 5.90625
   - attributeType: 7
-    initialValue: 1.4
-    attributeIncrement: 0.55
+    initialValue: 1.275
+    attributeIncrement: 0.11875
   - attributeType: 8
-    initialValue: 4
-    attributeIncrement: 0
+    initialValue: 3
+    attributeIncrement: 0.5
   - attributeType: 6
-    initialValue: 1.12
-    attributeIncrement: -0.02
+    initialValue: 2.25
+    attributeIncrement: -0.125
   - attributeType: 13
-    initialValue: 0.25
-    attributeIncrement: 0.03
-  - attributeType: 12
-    initialValue: 2
-    attributeIncrement: 0
+    initialValue: 0.015
+    attributeIncrement: 0.0025
   normalLaserPrefab: {fileID: 294839221748330241, guid: 69b72e767eba7244dbbba84c53fab865,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.990566, g: 0.51409125, b: 0, a: 1}
-  jumpLaserDuration: 8
-  minFireRate: 0.1
+  jumpLaserDuration: 6
+  minShotInterval: 0.5
+  secondEmitterShotInterval: 0.75
+  thirdEmitterShotInterval: 0.55
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &2754354431140751049

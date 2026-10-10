@@ -28,6 +28,7 @@ public class UIShopMenu : MonoBehaviour
     public Image imgPremiumCoin;
     public Button btnBuyUpgrade;
     public TextMeshProUGUI txtItemCost;
+    public TextMeshProUGUI txtPurchaseAction;
     [Header("Attributes")]
     public TextMeshProUGUI txtItemLevel;
     public Transform attributeParent;
@@ -87,6 +88,11 @@ public class UIShopMenu : MonoBehaviour
         tabColor = btnTabPlanets.image.color;
         selectColor = btnStateSelect.transform.GetChild(0).GetComponent<Image>().color;
         buyColor = btnBuyUpgrade.image.color;
+        if (!txtPurchaseAction)
+        {
+            var actionLabel = btnBuyUpgrade.transform.Find("txtPurchaseAction");
+            if (actionLabel) txtPurchaseAction = actionLabel.GetComponent<TextMeshProUGUI>();
+        }
         UIController.Bind(btnTabPlanets, () => SelectCategory(IngameEntity.eEntityType.Planet));
         UIController.Bind(btnTabWeapons, () => SelectCategory(IngameEntity.eEntityType.Weapon));
         UIController.Bind(btnTabEnemyTypes, () => SelectCategory(IngameEntity.eEntityType.Enemy));
@@ -140,13 +146,20 @@ public class UIShopMenu : MonoBehaviour
         Refresh();
     }
 
+#if UNITY_EDITOR
+    public void RefreshForEditor()
+    {
+        if (currentItem && shopMenuPanel.activeInHierarchy) Refresh();
+    }
+#endif
+
     private void Refresh()
     {
         currentItem = catalog[index].GetComponent<IngameEntity>();
         btnLeft.interactable = index > 0;
         btnRight.interactable = index < catalog.Length - 1;
         txtContentTitle.text = currentItem.itemName;
-        txtItemLevel.text = $"LvL: {currentItem.Level} / {currentItem.maxEntityLevel}";
+        txtItemLevel.text = $"Level {currentItem.Level} / {currentItem.maxEntityLevel}";
         UpdatePreview();
 
         bool owned = currentItem.IsUnlocked;
@@ -162,7 +175,11 @@ public class UIShopMenu : MonoBehaviour
         btnBuyUpgrade.image.color = btnBuyUpgrade.interactable ? buyColor : cantBuyTextColor;
         imgPremiumCoin.gameObject.SetActive(!complete);
         txtItemLevel.gameObject.SetActive(hasUpgrades);
-        txtItemCost.text = complete ? (hasUpgrades ? "Max Level" : "Purchased") : Utilities.NumberToString(price);
+        string action;
+        if (complete) action = hasUpgrades ? "MAX LEVEL" : "PURCHASED";
+        else action = owned ? $"UPGRADE TO LVL {currentItem.Level + 1}" : "BUY";
+        if (txtPurchaseAction) txtPurchaseAction.text = action;
+        txtItemCost.text = complete ? (txtPurchaseAction ? string.Empty : action) : Utilities.NumberToString(price);
         UpdateAttributes();
         attributeScroll.StopMovement();
         attributeScroll.verticalNormalizedPosition = 1f;

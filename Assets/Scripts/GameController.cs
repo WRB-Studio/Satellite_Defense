@@ -187,6 +187,7 @@ public class GameController : MonoBehaviour
         SetState(GameState.GameOver);
         LastRoundScore = ScoreController.Instance.Score;
         LastRoundCoins = LastRoundScore / System.Math.Max(1, PremiumCoinController.Instance.premiumCoinsPerScore);
+        if (LastRoundScore > 0) LastRoundCoins = System.Math.Max(1, LastRoundCoins);
         LastRoundWasBest = LastRoundScore > SaveGameController.Data.BestScore;
         SaveGameController.RecordRound(LastRoundScore, LastRoundCoins);
 

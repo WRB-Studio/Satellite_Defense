@@ -154,8 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 3
-  fireRateUpgradeHeight: 0.125
-  scorePerCoin: 2500
+  fireRateUpgradeHeight: 0.03
+  scorePerCoin: 25
   addPremiumCoins: 1
   soundFireRate: {fileID: 8300000, guid: 6d21d7e53efdd1049991b3d4160f94ba, type: 3}
   soundShootUpgrade: {fileID: 8300000, guid: a46eb9a505d909046b765857dc9b90f8, type: 3}

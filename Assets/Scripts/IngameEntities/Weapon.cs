@@ -8,13 +8,16 @@ public class Weapon : IngameEntity
     public GameObject normalLaserPrefab;
     public GameObject jumpLaserPrefab;
     public Color normalLaserColor;
-    [Min(0f)] public float jumpLaserDuration = 5f;
+    [Min(0f)] public float jumpLaserDuration = 6f;
     [FormerlySerializedAs("minFireRate")]
-    [Min(0.01f)] public float minShotInterval = 0.1f;
+    [Min(0.01f)] public float minShotInterval = 0.5f;
+    [Min(0.01f)] public float secondEmitterShotInterval = 0.75f;
+    [Min(0.01f)] public float thirdEmitterShotInterval = 0.55f;
     public GameObject deathExplosion;
 
     public int WeaponLevel { get; private set; } = 1;
-    public bool CanUpgradeEmitters => WeaponLevel < 3;
+    public bool CanUpgradeEmitters => WeaponLevel < 3 &&
+        shotInterval <= (WeaponLevel == 1 ? secondEmitterShotInterval : thirdEmitterShotInterval);
     public bool CanReduceShotInterval => shotInterval > minShotInterval;
     public bool IsJumpLaserActive => jumpLaserRemaining > 0f;
 
@@ -73,8 +76,10 @@ public class Weapon : IngameEntity
 
     public void UpgradeEmitters()
     {
-        WeaponLevel = Mathf.Min(3, WeaponLevel + 1);
+        if (!CanUpgradeEmitters) return;
+        WeaponLevel++;
         RefreshEmitters();
+        EnemyController.Instance.ResetWeaponProgress();
     }
 
     private void RefreshEmitters()

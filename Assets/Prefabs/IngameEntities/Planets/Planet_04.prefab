@@ -106,17 +106,17 @@ MonoBehaviour:
   entityType: 1
   id: 4
   itemName: Cobatae
-  cost: 105
+  cost: 65
   maxEntityLevel: 4
-  upgradeBaseCost: 32
-  upgradeCostMultiplier: 1.08
+  upgradeBaseCost: 14
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 1
-    initialValue: 2
-    attributeIncrement: 0
+    initialValue: 3
+    attributeIncrement: 1
   - attributeType: 2
     initialValue: 4
-    attributeIncrement: 2
+    attributeIncrement: 1
   - attributeType: 3
     initialValue: 1
     attributeIncrement: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
     type: 3}
   soundExplosion: {fileID: 8300000, guid: 8e9d97f32f540fd44ba75922e24eac31, type: 3}
   soundImpulseWave: {fileID: 8300000, guid: 78b95ebf8fa5a2c4aac462190eae0e57, type: 3}
+  impulseWaveCooldown: 4
 --- !u!58 &8399448381790480085
 CircleCollider2D:
   m_ObjectHideFlags: 0

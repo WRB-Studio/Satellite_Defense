@@ -105,17 +105,17 @@ MonoBehaviour:
   entityType: 1
   id: 12
   itemName: Nyxora
-  cost: 22736
+  cost: 4040
   maxEntityLevel: 10
-  upgradeBaseCost: 6821
-  upgradeCostMultiplier: 0.76
+  upgradeBaseCost: 889
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 1
-    initialValue: 10
-    attributeIncrement: 4
+    initialValue: 7
+    attributeIncrement: 1
   - attributeType: 2
-    initialValue: 13
-    attributeIncrement: 3
+    initialValue: 8
+    attributeIncrement: 1
   - attributeType: 3
     initialValue: 1
     attributeIncrement: 0
@@ -123,8 +123,8 @@ MonoBehaviour:
     initialValue: 1
     attributeIncrement: 0
   - attributeType: 18
-    initialValue: 2
-    attributeIncrement: 0.33
+    initialValue: 1.1
+    attributeIncrement: 0.04
   rotationSpeed: 1.2
   planetExplosion: {fileID: 8433945774835284879, guid: 45c22fdec1ca23a40aa9a658e32d11ec,
     type: 3}
@@ -134,6 +134,7 @@ MonoBehaviour:
     type: 3}
   soundExplosion: {fileID: 8300000, guid: 8e9d97f32f540fd44ba75922e24eac31, type: 3}
   soundImpulseWave: {fileID: 8300000, guid: 78b95ebf8fa5a2c4aac462190eae0e57, type: 3}
+  impulseWaveCooldown: 4
 --- !u!58 &1268359957509728019
 CircleCollider2D:
   m_ObjectHideFlags: 0

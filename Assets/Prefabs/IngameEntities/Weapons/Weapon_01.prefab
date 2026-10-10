@@ -82,33 +82,33 @@ MonoBehaviour:
   itemName: Solaris-C1
   cost: 0
   maxEntityLevel: 3
-  upgradeBaseCost: 17
-  upgradeCostMultiplier: 1.15
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 5
-    initialValue: 40
-    attributeIncrement: 5
+    initialValue: 55
+    attributeIncrement: 10
   - attributeType: 7
-    initialValue: 1
-    attributeIncrement: 0
+    initialValue: 1.125
+    attributeIncrement: 0.1875
   - attributeType: 8
     initialValue: 1
-    attributeIncrement: 0
+    attributeIncrement: 0.5
   - attributeType: 6
-    initialValue: 1.4
-    attributeIncrement: 0
+    initialValue: 1.6
+    attributeIncrement: -0.15
   - attributeType: 13
-    initialValue: 0.13
-    attributeIncrement: 0
-  - attributeType: 12
-    initialValue: 2
-    attributeIncrement: 0
+    initialValue: 0
+    attributeIncrement: 0.005
   normalLaserPrefab: {fileID: 1170660001892344, guid: 4a949c81946342848ae744dfb9c5fe01,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.15686275, g: 0.6901961, b: 1, a: 1}
-  jumpLaserDuration: 8
+  jumpLaserDuration: 6
+  minShotInterval: 0.5
+  secondEmitterShotInterval: 0.75
+  thirdEmitterShotInterval: 0.55
   shotsPerSecond: 2
   minShotsPerSecond: 2
   maxShotsPerSecond: 30

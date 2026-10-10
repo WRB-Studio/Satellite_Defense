@@ -359,35 +359,34 @@ MonoBehaviour:
   entityType: 2
   id: 7
   itemName: Crimsonex
-  cost: 1426
+  cost: 495
   maxEntityLevel: 6
-  upgradeBaseCost: 428
-  upgradeCostMultiplier: 0.91
+  upgradeBaseCost: 109
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 5
-    initialValue: 88.5
-    attributeIncrement: 7.5
+    initialValue: 60
+    attributeIncrement: 5
   - attributeType: 7
-    initialValue: 1.7
-    attributeIncrement: 0.66
+    initialValue: 1.425
+    attributeIncrement: 0.115
   - attributeType: 8
-    initialValue: 5
-    attributeIncrement: 0
+    initialValue: 4
+    attributeIncrement: 0.4
   - attributeType: 6
-    initialValue: 1.01
-    attributeIncrement: -0.03
+    initialValue: 2.125
+    attributeIncrement: -0.105
   - attributeType: 13
-    initialValue: 0.34
-    attributeIncrement: 0.02
-  - attributeType: 12
-    initialValue: 2
-    attributeIncrement: 0.2
+    initialValue: 0.025
+    attributeIncrement: 0.002
   normalLaserPrefab: {fileID: 5666839189790007127, guid: f7b00fb5382260140ba30a0426db71cb,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.49294943, g: 0, b: 0.6415094, a: 1}
-  jumpLaserDuration: 8
-  minFireRate: 0.1
+  jumpLaserDuration: 6
+  minShotInterval: 0.5
+  secondEmitterShotInterval: 0.75
+  thirdEmitterShotInterval: 0.55
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}

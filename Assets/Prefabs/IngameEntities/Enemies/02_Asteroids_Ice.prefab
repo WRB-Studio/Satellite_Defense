@@ -47,38 +47,35 @@ MonoBehaviour:
   entityType: 3
   id: 2
   itemName: Ice Asteroids
-  cost: 94
+  cost: 25
   maxEntityLevel: 4
-  upgradeBaseCost: 28
-  upgradeCostMultiplier: 1.65
+  upgradeBaseCost: 6
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 15
-    initialValue: 1.5
-    attributeIncrement: 0.4
+    initialValue: 1.15
+    attributeIncrement: 0.11666667
   - attributeType: 14
     initialValue: 0.01
-    attributeIncrement: 0.02
-  - attributeType: 17
-    initialValue: 0
-    attributeIncrement: 0.33
+    attributeIncrement: 0.005
   - attributeType: 16
-    initialValue: 2.2
-    attributeIncrement: -0.5
+    initialValue: 1.9
+    attributeIncrement: -0.1
   - attributeType: 9
-    initialValue: 2
+    initialValue: 3
     attributeIncrement: 1
   - attributeType: 10
-    initialValue: 0.5
-    attributeIncrement: 0.16
+    initialValue: 0.55
+    attributeIncrement: 0.05
   - attributeType: 11
-    initialValue: 2
-    attributeIncrement: 0.67
+    initialValue: 1
+    attributeIncrement: 0.33333333
   - attributeType: 13
-    initialValue: 0.05
-    attributeIncrement: 0.04
+    initialValue: 0.07
+    attributeIncrement: 0.01666667
   - attributeType: 12
     initialValue: 2
-    attributeIncrement: 0.1
+    attributeIncrement: 0
   enemyPrefabs:
   - {fileID: 4094538115722046940, guid: bcbc131ab93660942b9d3c0e1c6e2de3, type: 3}
   - {fileID: 75800254920297280, guid: 11c59a6ae9489604894adf874fb5f9ec, type: 3}

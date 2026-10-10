@@ -105,6 +105,19 @@ public sealed class SaveSession : IReadOnlySavegame, IDisposable
         return credited;
     }
 
+#if UNITY_EDITOR
+    public bool SetCoinsForEditor(long amount)
+    {
+        if (!CanSave) return false;
+        CompletePendingWrite(wait: true);
+        var candidate = data.Clone();
+        candidate.premiumCoins = Math.Max(0L, amount);
+        if (!WriteNow(candidate, "Coin balance could not be saved. No coins were changed.")) return false;
+        Commit(candidate);
+        return true;
+    }
+#endif
+
     public bool RecordRound(long score, long coins)
     {
         if (!CanSave) return false;

@@ -5,8 +5,9 @@ public class PowerUpController : MonoBehaviour
 {
     public static PowerUpController Instance { get; private set; }
     public Transform spawnParent;
-    [Range(0f, 1f)] public float dropChance = 0.2f;
-    [Min(0.1f)] public float itemLifeTime = 5f;
+    [Range(0f, 1f)] public float dropChance = 0.35f;
+    [Min(0f)] public float minDropInterval = 3f;
+    [Min(0.1f)] public float itemLifeTime = 6f;
     public GameObject itemHeart;
     public GameObject itemCoin;
     public GameObject itemFireRate;
@@ -17,6 +18,7 @@ public class PowerUpController : MonoBehaviour
     private readonly List<PowerUp> items = new();
     private readonly List<(GameObject prefab, float weight)> candidates = new(5);
     private int itemLayer;
+    private float dropCooldown;
 
     private void Awake()
     {
@@ -27,6 +29,7 @@ public class PowerUpController : MonoBehaviour
     private void Update()
     {
         if (!GameController.Instance.IsPlaying) return;
+        dropCooldown = Mathf.Max(0f, dropCooldown - Time.deltaTime);
         if (Input.touchCount > 0)
         {
             for (int i = 0; i < Input.touchCount; i++)
@@ -45,10 +48,11 @@ public class PowerUpController : MonoBehaviour
         if (collider && collider.TryGetComponent<PowerUp>(out var item)) item.Collect();
     }
 
-    public void SpawnRandomItem(Vector2 position)
+    public void SpawnRandomItem(Vector2 position, bool isSplitPiece = false)
     {
         var game = GameController.Instance;
-        if (!game.IsPlaying || !Utilities.IsInsideViewWithPadding(position, 0.5f) || Random.value >= dropChance) return;
+        float chance = dropChance * (isSplitPiece ? 0.5f : 1f);
+        if (!game.IsPlaying || dropCooldown > 0f || !Utilities.IsInsideViewWithPadding(position, 0.5f) || Random.value >= chance) return;
         var weapon = game.ActiveWeapon;
         candidates.Clear();
         AddCandidate(itemHeart, PowerUp.enumItemType.hearth, game.CurrentLives < game.MaxLives ? 0.4f : 0f);
@@ -73,6 +77,7 @@ public class PowerUpController : MonoBehaviour
             }
         }
         if (!prefab) return;
+        dropCooldown = minDropInterval;
         AudioController.PlaySound(prefab == itemJumpLaser ? AudioController.Instance.soundPlanetDeath : AudioController.Instance.soundItemDrop);
         var item = Instantiate(prefab, position, prefab.transform.rotation, spawnParent).GetComponent<PowerUp>();
         items.Add(item);
@@ -95,6 +100,7 @@ public class PowerUpController : MonoBehaviour
 
     public void RemoveAllItems()
     {
+        dropCooldown = 0f;
         while (items.Count > 0)
         {
             var item = items[items.Count - 1];

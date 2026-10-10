@@ -49,29 +49,29 @@ MonoBehaviour:
   itemName: Brown Asteroid
   cost: 0
   maxEntityLevel: 3
-  upgradeBaseCost: 13
-  upgradeCostMultiplier: 1.69
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 15
     initialValue: 1
-    attributeIncrement: 0.2
+    attributeIncrement: 0.125
   - attributeType: 14
     initialValue: 0
-    attributeIncrement: 0.01
+    attributeIncrement: 0.005
   - attributeType: 16
-    initialValue: 2.5
-    attributeIncrement: -0.6
+    initialValue: 2.2
+    attributeIncrement: -0.15
   - attributeType: 9
     initialValue: 1
-    attributeIncrement: 0
+    attributeIncrement: 1
   - attributeType: 10
-    initialValue: 0.3
-    attributeIncrement: 0.2
+    initialValue: 0.38
+    attributeIncrement: 0.06
   - attributeType: 11
     initialValue: 1
-    attributeIncrement: 0.5
+    attributeIncrement: 0
   - attributeType: 13
-    initialValue: 0.05
+    initialValue: 0.04
     attributeIncrement: 0.02
   - attributeType: 12
     initialValue: 2

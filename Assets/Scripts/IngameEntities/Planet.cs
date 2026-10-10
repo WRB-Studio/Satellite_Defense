@@ -10,10 +10,12 @@ public class Planet : IngameEntity
     public GameObject animImpulseWave;
     public AudioClip soundExplosion;
     public AudioClip soundImpulseWave;
+    [Min(0f)] public float impulseWaveCooldown = 4f;
 
     private GameObject currentImpulseWave;
     private bool revived;
     private bool dead;
+    private float impulseCooldownRemaining;
 
     public void Init()
     {
@@ -23,7 +25,10 @@ public class Planet : IngameEntity
     private void Update()
     {
         if (GameController.Instance.IsSimulationRunning)
+        {
+            impulseCooldownRemaining = Mathf.Max(0f, impulseCooldownRemaining - Time.deltaTime);
             transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
+        }
     }
 
     public void Hit(int damage = 1)
@@ -64,7 +69,8 @@ public class Planet : IngameEntity
     private void ImpulseWave()
     {
         var game = GameController.Instance;
-        if (!game.Stats.HasImpulseWave || currentImpulseWave) return;
+        if (!game.Stats.HasImpulseWave || currentImpulseWave || impulseCooldownRemaining > 0f) return;
+        impulseCooldownRemaining = impulseWaveCooldown;
         currentImpulseWave = game.SpawnEffect(animImpulseWave, transform.position, 1.4f);
         AudioController.PlaySound(soundImpulseWave, pitch: Random.Range(0.9f, 1.3f));
     }

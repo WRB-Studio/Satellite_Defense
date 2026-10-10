@@ -6,21 +6,21 @@
             "entityName": "Ered",
             "cost": 0,
             "maxEntityLevel": 3,
-            "upgradeBaseCost": 8,
-            "upgradeCostMultiplier": 1.2,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 1.0,
+                    "initialValue": 3,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 3.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 3,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 }
             ]
@@ -29,22 +29,22 @@
             "entityId": 2,
             "entityType": "Planet",
             "entityName": "Solmar",
-            "cost": 39,
+            "cost": 12,
             "maxEntityLevel": 3,
-            "upgradeBaseCost": 12,
-            "upgradeCostMultiplier": 1.16,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 2.0,
+                    "initialValue": 4,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 3.0,
+                    "initialValue": 5,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 }
@@ -54,22 +54,22 @@
             "entityId": 3,
             "entityType": "Planet",
             "entityName": "Puras",
-            "cost": 55,
+            "cost": 30,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 17,
+            "upgradeBaseCost": 7,
             "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 3.0,
+                    "initialValue": 5,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 5.0,
+                    "initialValue": 6,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 }
@@ -79,30 +79,30 @@
             "entityId": 4,
             "entityType": "Planet",
             "entityName": "Cobatae",
-            "cost": 105,
+            "cost": 65,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 32,
-            "upgradeCostMultiplier": 1.08,
+            "upgradeBaseCost": 14,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 3,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 4.0,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 4,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 3,
                     "attributeName": "PlanetRevive",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 }
             ]
@@ -111,30 +111,30 @@
             "entityId": 5,
             "entityType": "Planet",
             "entityName": "Vetion",
-            "cost": 187,
+            "cost": 125,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 56,
-            "upgradeCostMultiplier": 1.04,
+            "upgradeBaseCost": 28,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 3.0,
+                    "initialValue": 3,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 2.0,
+                    "initialValue": 3,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.18,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 1.2,
+                    "attributeIncrement": 0.075,
                     "attributePolarity": "+"
                 }
             ]
@@ -143,30 +143,30 @@
             "entityId": 6,
             "entityType": "Planet",
             "entityName": "Nepulan",
-            "cost": 395,
+            "cost": 235,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 119,
-            "upgradeCostMultiplier": 1.0,
+            "upgradeBaseCost": 52,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 3.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 4,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 4.0,
+                    "initialValue": 5,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 4,
                     "attributeName": "PlanetExplosionOnHit",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 }
             ]
@@ -175,37 +175,37 @@
             "entityId": 7,
             "entityType": "Planet",
             "entityName": "Sanctorian",
-            "cost": 774,
+            "cost": 425,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 232,
-            "upgradeCostMultiplier": 0.96,
+            "upgradeBaseCost": 94,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 3.0,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 4,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 7.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 5,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 3,
                     "attributeName": "PlanetRevive",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.25,
-                    "attributeIncrement": 0.23,
+                    "initialValue": 1.1,
+                    "attributeIncrement": 0.05,
                     "attributePolarity": "+"
                 }
             ]
@@ -214,30 +214,30 @@
             "entityId": 8,
             "entityType": "Planet",
             "entityName": "Sadis",
-            "cost": 1638,
+            "cost": 710,
             "maxEntityLevel": 7,
-            "upgradeBaseCost": 491,
-            "upgradeCostMultiplier": 0.92,
+            "upgradeBaseCost": 156,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 4.0,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 5,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 8.0,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 6,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.5,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 1.25,
+                    "attributeIncrement": 0.05,
                     "attributePolarity": "+"
                 }
             ]
@@ -246,30 +246,30 @@
             "entityId": 9,
             "entityType": "Planet",
             "entityName": "Cryon",
-            "cost": 3530,
+            "cost": 1150,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 1059,
-            "upgradeCostMultiplier": 0.88,
+            "upgradeBaseCost": 253,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 6.0,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 6,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 10.0,
-                    "attributeIncrement": 3.0,
+                    "initialValue": 7,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 4,
                     "attributeName": "PlanetExplosionOnHit",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 }
             ]
@@ -278,37 +278,37 @@
             "entityId": 10,
             "entityType": "Planet",
             "entityName": "Ignara",
-            "cost": 7348,
+            "cost": 1785,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 2204,
-            "upgradeCostMultiplier": 0.84,
+            "upgradeBaseCost": 393,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 8.0,
-                    "attributeIncrement": 4.0,
+                    "initialValue": 5,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 9.0,
-                    "attributeIncrement": 3.0,
+                    "initialValue": 6,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 3,
                     "attributeName": "PlanetRevive",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.75,
-                    "attributeIncrement": 0.28,
+                    "initialValue": 1.2,
+                    "attributeIncrement": 0.05,
                     "attributePolarity": "+"
                 }
             ]
@@ -317,30 +317,30 @@
             "entityId": 11,
             "entityType": "Planet",
             "entityName": "G.O.-Metria",
-            "cost": 13467,
+            "cost": 2720,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 4040,
-            "upgradeCostMultiplier": 0.8,
+            "upgradeBaseCost": 598,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 11.0,
-                    "attributeIncrement": 2.0,
+                    "initialValue": 10,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 11.0,
-                    "attributeIncrement": 3.0,
+                    "initialValue": 11,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 4,
                     "attributeName": "PlanetExplosionOnHit",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 }
             ]
@@ -349,44 +349,44 @@
             "entityId": 12,
             "entityType": "Planet",
             "entityName": "Nyxora",
-            "cost": 22736,
+            "cost": 4040,
             "maxEntityLevel": 10,
-            "upgradeBaseCost": 6821,
-            "upgradeCostMultiplier": 0.76,
+            "upgradeBaseCost": 889,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 1,
                     "attributeName": "PlanetStartHP",
-                    "initialValue": 10.0,
-                    "attributeIncrement": 4.0,
+                    "initialValue": 7,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 2,
                     "attributeName": "PlanetMaxHP",
-                    "initialValue": 13.0,
-                    "attributeIncrement": 3.0,
+                    "initialValue": 8,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 3,
                     "attributeName": "PlanetRevive",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 4,
                     "attributeName": "PlanetExplosionOnHit",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.33,
+                    "initialValue": 1.1,
+                    "attributeIncrement": 0.04,
                     "attributePolarity": "+"
                 }
             ]
@@ -397,49 +397,42 @@
             "entityName": "Solaris-C1",
             "cost": 0,
             "maxEntityLevel": 3,
-            "upgradeBaseCost": 17,
-            "upgradeCostMultiplier": 1.15,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 40,
-                    "attributeIncrement": 5,
+                    "initialValue": 55,
+                    "attributeIncrement": 10.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1.125,
+                    "attributeIncrement": 0.1875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.5,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.4,
-                    "attributeIncrement": 0.0,
-                    "attributePolarity": "+"
+                    "initialValue": 1.6,
+                    "attributeIncrement": -0.15,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.13,
-                    "attributeIncrement": 0.0,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 0,
+                    "attributeIncrement": 0.005,
                     "attributePolarity": "-"
                 }
             ]
@@ -448,51 +441,44 @@
             "entityId": 2,
             "entityType": "Weapon",
             "entityName": "Hypron",
-            "cost": 77,
+            "cost": 18,
             "maxEntityLevel": 3,
-            "upgradeBaseCost": 23,
-            "upgradeCostMultiplier": 1.11,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 50,
-                    "attributeIncrement": 4.5,
+                    "initialValue": 56.25,
+                    "attributeIncrement": 10.875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.1,
-                    "attributeIncrement": 0.15,
+                    "initialValue": 1.275,
+                    "attributeIncrement": 0.1875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.5,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.29,
-                    "attributeIncrement": 0.0,
-                    "attributePolarity": "+"
+                    "initialValue": 1.8,
+                    "attributeIncrement": -0.2,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.15,
-                    "attributeIncrement": 0.0,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 0.01,
+                    "attributeIncrement": 0.005,
                     "attributePolarity": "-"
                 }
             ]
@@ -501,51 +487,44 @@
             "entityId": 3,
             "entityType": "Weapon",
             "entityName": "Vanguard",
-            "cost": 100,
+            "cost": 40,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 30,
-            "upgradeCostMultiplier": 1.07,
+            "upgradeBaseCost": 9,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 60,
-                    "attributeIncrement": 4,
+                    "initialValue": 54.375,
+                    "attributeIncrement": 8.54166667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.68,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1.425,
+                    "attributeIncrement": 0.14166667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 2,
+                    "attributeIncrement": 0.33333333,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.21,
-                    "attributeIncrement": 0.0,
-                    "attributePolarity": "+"
+                    "initialValue": 1.9,
+                    "attributeIncrement": -0.13333333,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.18,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 0.015,
+                    "attributeIncrement": 0.00333333,
                     "attributePolarity": "-"
                 }
             ]
@@ -554,51 +533,44 @@
             "entityId": 4,
             "entityType": "Weapon",
             "entityName": "Orion",
-            "cost": 173,
+            "cost": 80,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 52,
-            "upgradeCostMultiplier": 1.03,
+            "upgradeBaseCost": 18,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 67.5,
-                    "attributeIncrement": 0,
+                    "initialValue": 61.875,
+                    "attributeIncrement": 6.53125,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 2.4,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1.5,
+                    "attributeIncrement": 0.125,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 2.0,
+                    "initialValue": 2,
                     "attributeIncrement": 0.25,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.18,
-                    "attributeIncrement": -0.02,
-                    "attributePolarity": "+"
+                    "initialValue": 1.6,
+                    "attributeIncrement": -0.0875,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.21,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 0.02,
+                    "attributeIncrement": 0.0025,
                     "attributePolarity": "-"
                 }
             ]
@@ -607,51 +579,44 @@
             "entityId": 5,
             "entityType": "Weapon",
             "entityName": "Inferna",
-            "cost": 360,
+            "cost": 155,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 108,
-            "upgradeCostMultiplier": 0.99,
+            "upgradeBaseCost": 34,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 71.5,
-                    "attributeIncrement": 5,
+                    "initialValue": 54.375,
+                    "attributeIncrement": 5.90625,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.4,
-                    "attributeIncrement": 0.55,
+                    "initialValue": 1.275,
+                    "attributeIncrement": 0.11875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 4.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 3,
+                    "attributeIncrement": 0.5,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.12,
-                    "attributeIncrement": -0.02,
-                    "attributePolarity": "+"
+                    "initialValue": 2.25,
+                    "attributeIncrement": -0.125,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.25,
-                    "attributeIncrement": 0.03,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 0.015,
+                    "attributeIncrement": 0.0025,
                     "attributePolarity": "-"
                 }
             ]
@@ -660,51 +625,44 @@
             "entityId": 6,
             "entityType": "Weapon",
             "entityName": "Aurion",
-            "cost": 689,
+            "cost": 285,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 207,
-            "upgradeCostMultiplier": 0.95,
+            "upgradeBaseCost": 63,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 80,
-                    "attributeIncrement": 5,
+                    "initialValue": 65.625,
+                    "attributeIncrement": 5.275,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 4.2,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1.65,
+                    "attributeIncrement": 0.11,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.6,
+                    "initialValue": 2,
+                    "attributeIncrement": 0.4,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.07,
-                    "attributeIncrement": -0.03,
-                    "attributePolarity": "+"
+                    "initialValue": 1.45,
+                    "attributeIncrement": -0.07,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.3,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 0.03,
+                    "attributeIncrement": 0.004,
                     "attributePolarity": "-"
                 }
             ]
@@ -713,51 +671,44 @@
             "entityId": 7,
             "entityType": "Weapon",
             "entityName": "Crimsonex",
-            "cost": 1426,
+            "cost": 495,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 428,
-            "upgradeCostMultiplier": 0.91,
+            "upgradeBaseCost": 109,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 88.5,
-                    "attributeIncrement": 7.5,
+                    "initialValue": 60.0,
+                    "attributeIncrement": 5.0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.7,
-                    "attributeIncrement": 0.66,
+                    "initialValue": 1.425,
+                    "attributeIncrement": 0.115,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 5.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 4,
+                    "attributeIncrement": 0.4,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 1.01,
-                    "attributeIncrement": -0.03,
-                    "attributePolarity": "+"
+                    "initialValue": 2.125,
+                    "attributeIncrement": -0.105,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.34,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 0.025,
+                    "attributeIncrement": 0.002,
                     "attributePolarity": "-"
                 }
             ]
@@ -766,51 +717,44 @@
             "entityId": 8,
             "entityType": "Weapon",
             "entityName": "Hexora",
-            "cost": 2672,
+            "cost": 830,
             "maxEntityLevel": 7,
-            "upgradeBaseCost": 802,
-            "upgradeCostMultiplier": 0.87,
+            "upgradeBaseCost": 183,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 96.5,
-                    "attributeIncrement": 8.5,
+                    "initialValue": 71.25,
+                    "attributeIncrement": 4.79166667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.8,
-                    "attributeIncrement": 0.6,
+                    "initialValue": 1.725,
+                    "attributeIncrement": 0.10416667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 4.0,
-                    "attributeIncrement": 0.7,
+                    "initialValue": 3,
+                    "attributeIncrement": 0.33333333,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 0.96,
-                    "attributeIncrement": -0.03,
-                    "attributePolarity": "+"
+                    "initialValue": 1.25,
+                    "attributeIncrement": -0.04166667,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.4,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 3.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 0.04,
+                    "attributeIncrement": 0.00333333,
                     "attributePolarity": "-"
                 }
             ]
@@ -819,51 +763,44 @@
             "entityId": 9,
             "entityType": "Weapon",
             "entityName": "Lokásit",
-            "cost": 4995,
+            "cost": 1325,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 1499,
-            "upgradeCostMultiplier": 0.83,
+            "upgradeBaseCost": 292,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 105,
-                    "attributeIncrement": 9,
+                    "initialValue": 65.625,
+                    "attributeIncrement": 4.05357143,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 1.9,
-                    "attributeIncrement": 0.57,
+                    "initialValue": 1.6875,
+                    "attributeIncrement": 0.0875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 5.0,
-                    "attributeIncrement": 0.9,
+                    "initialValue": 4,
+                    "attributeIncrement": 0.42857143,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 0.9,
-                    "attributeIncrement": -0.03,
-                    "attributePolarity": "+"
+                    "initialValue": 1.75,
+                    "attributeIncrement": -0.05714286,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.43,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.22,
+                    "initialValue": 0.035,
+                    "attributeIncrement": 0.00214286,
                     "attributePolarity": "-"
                 }
             ]
@@ -872,51 +809,44 @@
             "entityId": 10,
             "entityType": "Weapon",
             "entityName": "Trigon",
-            "cost": 8880,
+            "cost": 2030,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 2664,
-            "upgradeCostMultiplier": 0.79,
+            "upgradeBaseCost": 447,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 118.5,
-                    "attributeIncrement": 10,
+                    "initialValue": 78.75,
+                    "attributeIncrement": 3.90625,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 6.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1.95,
+                    "attributeIncrement": 0.0875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 5.0,
-                    "attributeIncrement": 1.1,
+                    "initialValue": 4,
+                    "attributeIncrement": 0.25,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 0.82,
-                    "attributeIncrement": -0.03,
-                    "attributePolarity": "+"
+                    "initialValue": 1.15,
+                    "attributeIncrement": -0.03125,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.47,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 0.06,
+                    "attributeIncrement": 0.0025,
                     "attributePolarity": "-"
                 }
             ]
@@ -925,51 +855,44 @@
             "entityId": 11,
             "entityType": "Weapon",
             "entityName": "Zerathis",
-            "cost": 14517,
+            "cost": 2995,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 4355,
-            "upgradeCostMultiplier": 0.75,
+            "upgradeBaseCost": 659,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 126,
-                    "attributeIncrement": 11.5,
+                    "initialValue": 71.25,
+                    "attributeIncrement": 3.96875,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 2.2,
-                    "attributeIncrement": 0.64,
+                    "initialValue": 1.875,
+                    "attributeIncrement": 0.078125,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 6.0,
-                    "attributeIncrement": 1.5,
+                    "initialValue": 5,
+                    "attributeIncrement": 0.375,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 0.74,
-                    "attributeIncrement": -0.04,
-                    "attributePolarity": "+"
+                    "initialValue": 1.65,
+                    "attributeIncrement": -0.05,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.53,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 3.0,
-                    "attributeIncrement": 0.1,
+                    "initialValue": 0.045,
+                    "attributeIncrement": 0.0025,
                     "attributePolarity": "-"
                 }
             ]
@@ -978,51 +901,44 @@
             "entityId": 12,
             "entityType": "Weapon",
             "entityName": "G.O.-Prism",
-            "cost": 20944,
+            "cost": 4350,
             "maxEntityLevel": 10,
-            "upgradeBaseCost": 6283,
-            "upgradeCostMultiplier": 0.71,
+            "upgradeBaseCost": 957,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 5,
                     "attributeName": "WeaponRotationSpeed",
-                    "initialValue": 136,
-                    "attributeIncrement": 12.5,
+                    "initialValue": 82.5,
+                    "attributeIncrement": 3.61111111,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 7,
                     "attributeName": "WeaponProjectileSpeed",
-                    "initialValue": 2.6,
-                    "attributeIncrement": 0.6,
+                    "initialValue": 2.0625,
+                    "attributeIncrement": 0.08194444,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 8,
                     "attributeName": "WeaponDamage",
-                    "initialValue": 6.0,
-                    "attributeIncrement": 3.0,
+                    "initialValue": 5,
+                    "attributeIncrement": 0.44444444,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 6,
                     "attributeName": "WeaponFireRate",
-                    "initialValue": 0.66,
-                    "attributeIncrement": -0.05,
-                    "attributePolarity": "+"
+                    "initialValue": 1.2,
+                    "attributeIncrement": -0.03888889,
+                    "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.56,
-                    "attributeIncrement": 0.03,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 12,
-                    "attributeName": "EnemySplitCount",
-                    "initialValue": 4.0,
-                    "attributeIncrement": 0.02,
+                    "initialValue": 0.07,
+                    "attributeIncrement": 0.00333333,
                     "attributePolarity": "-"
                 }
             ]
@@ -1033,63 +949,63 @@
             "entityName": "Brown Asteroid",
             "cost": 0,
             "maxEntityLevel": 3,
-            "upgradeBaseCost": 13,
-            "upgradeCostMultiplier": 1.69,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.125,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 0.01,
+                    "initialValue": 0,
+                    "attributeIncrement": 0.005,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 16,
                     "attributeName": "EnemySpawnRate",
-                    "initialValue": 2.5,
-                    "attributeIncrement": -0.6,
+                    "initialValue": 2.2,
+                    "attributeIncrement": -0.15,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 1,
+                    "attributeIncrement": 1.0,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 10,
                     "attributeName": "EnemySpeed",
-                    "initialValue": 0.3,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 0.38,
+                    "attributeIncrement": 0.06,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 11,
                     "attributeName": "EnemyDamage",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.5,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.05,
+                    "initialValue": 0.04,
                     "attributeIncrement": 0.02,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 12,
                     "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.0,
+                    "initialValue": 2,
+                    "attributeIncrement": 0,
                     "attributePolarity": "-"
                 }
             ]
@@ -1098,72 +1014,65 @@
             "entityId": 2,
             "entityType": "Enemy",
             "entityName": "Ice Asteroids",
-            "cost": 94,
+            "cost": 25,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 28,
-            "upgradeCostMultiplier": 1.65,
+            "upgradeBaseCost": 6,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.5,
-                    "attributeIncrement": 0.4,
+                    "initialValue": 1.15,
+                    "attributeIncrement": 0.11666667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
                     "initialValue": 0.01,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 17,
-                    "attributeName": "BonusCoinValue",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 0.33,
+                    "attributeIncrement": 0.005,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 16,
                     "attributeName": "EnemySpawnRate",
-                    "initialValue": 2.2,
-                    "attributeIncrement": -0.5,
+                    "initialValue": 1.9,
+                    "attributeIncrement": -0.1,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 2.0,
+                    "initialValue": 3,
                     "attributeIncrement": 1.0,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 10,
                     "attributeName": "EnemySpeed",
-                    "initialValue": 0.5,
-                    "attributeIncrement": 0.16,
+                    "initialValue": 0.55,
+                    "attributeIncrement": 0.05,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 11,
                     "attributeName": "EnemyDamage",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.67,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.33333333,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.05,
-                    "attributeIncrement": 0.04,
+                    "initialValue": 0.07,
+                    "attributeIncrement": 0.01666667,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 12,
                     "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.1,
+                    "initialValue": 2,
+                    "attributeIncrement": 0,
                     "attributePolarity": "-"
                 }
             ]
@@ -1172,73 +1081,73 @@
             "entityId": 3,
             "entityType": "Enemy",
             "entityName": "Crystal Asteroids",
-            "cost": 359,
+            "cost": 100,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 108,
-            "upgradeCostMultiplier": 1.61,
+            "upgradeBaseCost": 22,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 2.25,
-                    "attributeIncrement": 0.5,
+                    "initialValue": 1.3,
+                    "attributeIncrement": 0.1125,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
-                    "initialValue": 0.03,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 17,
-                    "attributeName": "BonusCoinValue",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 0.75,
+                    "initialValue": 0.025,
+                    "attributeIncrement": 0.005,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 16,
                     "attributeName": "EnemySpawnRate",
-                    "initialValue": 1.7,
-                    "attributeIncrement": -0.3,
+                    "initialValue": 1.65,
+                    "attributeIncrement": -0.1,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 3.0,
+                    "initialValue": 5,
                     "attributeIncrement": 2.0,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 10,
                     "attributeName": "EnemySpeed",
-                    "initialValue": 0.8,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 0.75,
+                    "attributeIncrement": 0.1,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 11,
                     "attributeName": "EnemyDamage",
-                    "initialValue": 4.0,
-                    "attributeIncrement": 0.5,
+                    "initialValue": 2,
+                    "attributeIncrement": 0.0,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.05,
-                    "attributeIncrement": 0.06,
+                    "initialValue": 0.1,
+                    "attributeIncrement": 0.02,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 12,
                     "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.2,
+                    "initialValue": 3,
+                    "attributeIncrement": 0,
                     "attributePolarity": "-"
+                },
+                {
+                    "attributeType": 17,
+                    "attributeName": "BonusCoinValue",
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
+                    "attributePolarity": "+"
                 }
             ]
         },
@@ -1246,73 +1155,73 @@
             "entityId": 4,
             "entityType": "Enemy",
             "entityName": "G.O.-Terids",
-            "cost": 2261,
+            "cost": 325,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 678,
-            "upgradeCostMultiplier": 1.57,
+            "upgradeBaseCost": 72,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 3.0,
-                    "attributeIncrement": 0.6,
+                    "initialValue": 1.5,
+                    "attributeIncrement": 0.1,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
-                    "initialValue": 0.05,
-                    "attributeIncrement": 0.03,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 17,
-                    "attributeName": "BonusCoinValue",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 1.0,
+                    "initialValue": 0.04,
+                    "attributeIncrement": 0.008,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 16,
                     "attributeName": "EnemySpawnRate",
-                    "initialValue": 1.3,
-                    "attributeIncrement": -0.2,
+                    "initialValue": 1.4,
+                    "attributeIncrement": -0.08,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 9,
                     "attributeName": "EnemyHP",
-                    "initialValue": 5.0,
-                    "attributeIncrement": 3.0,
+                    "initialValue": 8,
+                    "attributeIncrement": 2.0,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 10,
                     "attributeName": "EnemySpeed",
-                    "initialValue": 1.2,
-                    "attributeIncrement": 0.3,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.1,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 11,
                     "attributeName": "EnemyDamage",
-                    "initialValue": 6.0,
-                    "attributeIncrement": 0.4,
+                    "initialValue": 2,
+                    "attributeIncrement": 0.2,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 13,
                     "attributeName": "EnemySplitChance",
-                    "initialValue": 0.05,
-                    "attributeIncrement": 0.08,
+                    "initialValue": 0.12,
+                    "attributeIncrement": 0.02,
                     "attributePolarity": "-"
                 },
                 {
                     "attributeType": 12,
                     "attributeName": "EnemySplitCount",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 0.3,
+                    "initialValue": 3,
+                    "attributeIncrement": 0,
                     "attributePolarity": "-"
+                },
+                {
+                    "attributeType": 17,
+                    "attributeName": "BonusCoinValue",
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
+                    "attributePolarity": "+"
                 }
             ]
         },
@@ -1322,14 +1231,14 @@
             "entityName": "Stars",
             "cost": 0,
             "maxEntityLevel": 3,
-            "upgradeBaseCost": 13,
-            "upgradeCostMultiplier": 1.13,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 0.07,
+                    "initialValue": 1,
+                    "attributeIncrement": 0.04,
                     "attributePolarity": "+"
                 }
             ]
@@ -1338,23 +1247,23 @@
             "entityId": 2,
             "entityType": "Background",
             "entityName": "Green Nebula",
-            "cost": 59,
+            "cost": 15,
             "maxEntityLevel": 4,
-            "upgradeBaseCost": 18,
-            "upgradeCostMultiplier": 1.09,
+            "upgradeBaseCost": 4,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.05,
-                    "attributeIncrement": 0.05,
+                    "initialValue": 1.04,
+                    "attributeIncrement": 0.02666667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
                     "initialValue": 0.01,
-                    "attributeIncrement": 0.01,
+                    "attributeIncrement": 0.005,
                     "attributePolarity": "+"
                 }
             ]
@@ -1363,30 +1272,23 @@
             "entityId": 3,
             "entityType": "Background",
             "entityName": "Inverted Space",
-            "cost": 107,
+            "cost": 40,
             "maxEntityLevel": 5,
-            "upgradeBaseCost": 32,
-            "upgradeCostMultiplier": 1.05,
+            "upgradeBaseCost": 9,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.09,
-                    "attributeIncrement": 0.05,
+                    "initialValue": 1.08,
+                    "attributeIncrement": 0.025,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
-                    "initialValue": 0.01,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 17,
-                    "attributeName": "BonusCoinValue",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 0.015,
+                    "attributeIncrement": 0.00625,
                     "attributePolarity": "+"
                 }
             ]
@@ -1395,37 +1297,30 @@
             "entityId": 4,
             "entityType": "Background",
             "entityName": "White Nebula",
-            "cost": 230,
+            "cost": 95,
             "maxEntityLevel": 6,
-            "upgradeBaseCost": 69,
-            "upgradeCostMultiplier": 1.01,
+            "upgradeBaseCost": 21,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.14,
-                    "attributeIncrement": 0.1,
+                    "initialValue": 1.1,
+                    "attributeIncrement": 0.024,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
                     "initialValue": 0.02,
-                    "attributeIncrement": 0.02,
-                    "attributePolarity": "+"
-                },
-                {
-                    "attributeType": 17,
-                    "attributeName": "BonusCoinValue",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 0.4,
+                    "attributeIncrement": 0.006,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.3,
-                    "attributeIncrement": 0.1,
+                    "initialValue": 1.1,
+                    "attributeIncrement": 0.02,
                     "attributePolarity": "+"
                 }
             ]
@@ -1434,30 +1329,30 @@
             "entityId": 5,
             "entityType": "Background",
             "entityName": "Milky Way",
-            "cost": 553,
+            "cost": 195,
             "maxEntityLevel": 7,
-            "upgradeBaseCost": 166,
-            "upgradeCostMultiplier": 0.97,
+            "upgradeBaseCost": 43,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.2,
-                    "attributeIncrement": 0.22,
+                    "initialValue": 1.16,
+                    "attributeIncrement": 0.02666667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
                     "initialValue": 0.03,
-                    "attributeIncrement": 0.02,
+                    "attributeIncrement": 0.00666667,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 17,
                     "attributeName": "BonusCoinValue",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 0.75,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 }
             ]
@@ -1466,37 +1361,37 @@
             "entityId": 6,
             "entityType": "Background",
             "entityName": "Cyan Nebula",
-            "cost": 1382,
+            "cost": 395,
             "maxEntityLevel": 8,
-            "upgradeBaseCost": 415,
-            "upgradeCostMultiplier": 0.93,
+            "upgradeBaseCost": 87,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.29,
-                    "attributeIncrement": 0.25,
+                    "initialValue": 1.18,
+                    "attributeIncrement": 0.02428571,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
                     "initialValue": 0.04,
-                    "attributeIncrement": 0.03,
+                    "attributeIncrement": 0.00714286,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 17,
                     "attributeName": "BonusCoinValue",
-                    "initialValue": 0.0,
-                    "attributeIncrement": 1.3,
+                    "initialValue": 1,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.5,
-                    "attributeIncrement": 0.15,
+                    "initialValue": 1.15,
+                    "attributeIncrement": 0.02142857,
                     "attributePolarity": "+"
                 }
             ]
@@ -1505,30 +1400,30 @@
             "entityId": 7,
             "entityType": "Background",
             "entityName": "Red Nebula",
-            "cost": 3396,
+            "cost": 705,
             "maxEntityLevel": 9,
-            "upgradeBaseCost": 1019,
-            "upgradeCostMultiplier": 0.89,
+            "upgradeBaseCost": 155,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.42,
-                    "attributeIncrement": 0.3,
+                    "initialValue": 1.22,
+                    "attributeIncrement": 0.025,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
                     "initialValue": 0.05,
-                    "attributeIncrement": 0.03,
+                    "attributeIncrement": 0.0075,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 17,
                     "attributeName": "BonusCoinValue",
-                    "initialValue": 1.0,
-                    "attributeIncrement": 1.75,
+                    "initialValue": 2,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 }
             ]
@@ -1537,37 +1432,37 @@
             "entityId": 8,
             "entityType": "Background",
             "entityName": "G.O.-Laxy",
-            "cost": 7822,
+            "cost": 1285,
             "maxEntityLevel": 10,
-            "upgradeBaseCost": 2347,
-            "upgradeCostMultiplier": 0.85,
+            "upgradeBaseCost": 283,
+            "upgradeCostMultiplier": 1.12,
             "attributes": [
                 {
                     "attributeType": 15,
                     "attributeName": "ScoreMultiplier",
-                    "initialValue": 1.58,
-                    "attributeIncrement": 0.49,
+                    "initialValue": 1.25,
+                    "attributeIncrement": 0.02777778,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 14,
                     "attributeName": "CoinChance",
-                    "initialValue": 0.05,
-                    "attributeIncrement": 0.03,
+                    "initialValue": 0.06,
+                    "attributeIncrement": 0.00888889,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 17,
                     "attributeName": "BonusCoinValue",
-                    "initialValue": 2.0,
-                    "attributeIncrement": 2.5,
+                    "initialValue": 2,
+                    "attributeIncrement": 0,
                     "attributePolarity": "+"
                 },
                 {
                     "attributeType": 18,
                     "attributeName": "ScoreBoostOnLowHP",
-                    "initialValue": 1.8,
-                    "attributeIncrement": 0.24,
+                    "initialValue": 1.2,
+                    "attributeIncrement": 0.02222222,
                     "attributePolarity": "+"
                 }
             ]

@@ -65,6 +65,19 @@ public static class SaveGameController
     }
 
 #if UNITY_EDITOR
+    public static bool SetCoinsForEditor(long amount)
+    {
+        EnsureLoaded();
+        return session.SetCoinsForEditor(amount);
+    }
+
+    public static void UnloadForEditor()
+    {
+        session?.Dispose();
+        session = null;
+        directoryOverride = null;
+    }
+
     public static void UseStorageDirectoryForValidation(string directory)
     {
         session?.Dispose();

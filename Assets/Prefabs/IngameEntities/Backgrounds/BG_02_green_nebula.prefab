@@ -103,14 +103,14 @@ MonoBehaviour:
   entityType: 4
   id: 2
   itemName: Green Nebula
-  cost: 59
+  cost: 15
   maxEntityLevel: 4
-  upgradeBaseCost: 18
-  upgradeCostMultiplier: 1.09
+  upgradeBaseCost: 4
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 15
-    initialValue: 1.05
-    attributeIncrement: 0.05
+    initialValue: 1.04
+    attributeIncrement: 0.02666667
   - attributeType: 14
     initialValue: 0.01
-    attributeIncrement: 0.01
+    attributeIncrement: 0.005

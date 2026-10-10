@@ -7,12 +7,17 @@ public class EnemyController : MonoBehaviour
     public static EnemyController Instance { get; private set; }
     public Transform spawnParent;
     [FormerlySerializedAs("minSpawnRate")]
-    [Min(0.01f)] public float minSpawnInterval = 0.3f;
+    [Min(0.01f)] public float minSpawnInterval = 0.45f;
+    [Min(1)] public int spawnsToMaxDifficulty = 180;
+    [Range(0f, 1f)] public float maxSpeedIncrease = 0.2f;
     public Vector2 minMaxEnemyScale = new(0.2f, 0.5f);
     [Range(0f, 180f)] public float splitSpreadDegrees = 25f;
-    [Min(1)] public int weaponEmitterAddByKills = 20;
+    [Min(0f)] public float minSplitDistanceFromPlanet = 1.25f;
+    [Min(1)] public int weaponEmitterAddByKills = 30;
     public int Kills { get; private set; }
     public IReadOnlyList<Enemy> Enemies => enemies;
+    public float EnemySpeedMultiplier => 1f + maxSpeedIncrease * DifficultyProgress;
+    private float DifficultyProgress => Mathf.Clamp01(spawnCount / (float)Mathf.Max(1, spawnsToMaxDifficulty));
 
     private readonly List<Enemy> enemies = new();
     private GameObject[] enemyPrefabs;
@@ -22,6 +27,7 @@ public class EnemyController : MonoBehaviour
     private float spawnCountdown;
     private int spawnCount;
     private int killsSinceUpgrade;
+    private Collider2D planetCollider;
 
     private void Awake() => Instance = this;
 
@@ -34,6 +40,7 @@ public class EnemyController : MonoBehaviour
         spawnCount = 0;
         spawnCountdown = 0f;
         var stats = GameController.Instance.Stats;
+        planetCollider = GameController.Instance.ActivePlanet.GetComponent<Collider2D>();
         startSpawnInterval = Mathf.Max(minSpawnInterval, stats.SpawnInterval);
         splitChance = stats.SplitChance;
         splitPieces = stats.MaxSplitPieces;
@@ -46,8 +53,10 @@ public class EnemyController : MonoBehaviour
         if (spawnCountdown > 0f) return;
         float scale = Random.Range(minMaxEnemyScale.x, minMaxEnemyScale.y);
         Spawn(RandomSpawnPosition(), Vector3.one * scale, false, Vector2.zero);
-        float progress = Mathf.Clamp01(spawnCount++ / 150f);
-        float interval = Mathf.Lerp(startSpawnInterval, minSpawnInterval, progress * progress);
+        float progress = DifficultyProgress;
+        spawnCount++;
+        float finalInterval = Mathf.Max(minSpawnInterval, startSpawnInterval * 0.5f);
+        float interval = Mathf.Lerp(startSpawnInterval, finalInterval, progress);
         spawnCountdown = Mathf.Max(minSpawnInterval, Random.Range(interval * 0.85f, interval * 1.15f));
     }
 
@@ -64,12 +73,17 @@ public class EnemyController : MonoBehaviour
 
     public bool TrySplit(Enemy source)
     {
-        if (source.isSplitPiece || splitPieces <= 0 || Random.value >= splitChance) return false;
-        int count = Random.Range(1, splitPieces + 1);
+        if (source.isSplitPiece || splitPieces < 2) return false;
+        Vector2 sourcePosition = source.transform.position;
+        float spreadRadius = Mathf.Max(source.transform.lossyScale.x, source.transform.lossyScale.y) * 0.75f;
+        Vector2 planetEdge = planetCollider ? planetCollider.ClosestPoint(sourcePosition) : GameController.Instance.ActivePlanet.transform.position;
+        float protectedDistance = minSplitDistanceFromPlanet + spreadRadius;
+        if ((sourcePosition - planetEdge).sqrMagnitude <= protectedDistance * protectedDistance || Random.value >= splitChance) return false;
+        int count = Random.Range(2, splitPieces + 1);
         for (int i = 0; i < count; i++)
         {
-            var offset = Random.insideUnitCircle * Mathf.Max(source.transform.lossyScale.x, source.transform.lossyScale.y) * 0.75f;
-            Vector2 position = (Vector2)source.transform.position + offset;
+            var offset = Random.insideUnitCircle * spreadRadius;
+            Vector2 position = sourcePosition + offset;
             Vector2 direction = Quaternion.Euler(0f, 0f, Random.Range(-splitSpreadDegrees, splitSpreadDegrees)) * source.Direction;
             Spawn(position, source.transform.localScale * Random.Range(0.4f, 0.7f), true, position + direction * 30f);
         }
@@ -102,9 +116,15 @@ public class EnemyController : MonoBehaviour
     {
         if (!GameController.Instance.IsPlaying) return;
         Kills++;
+        var weapon = GameController.Instance.ActiveWeapon;
+        if (!weapon.CanUpgradeEmitters)
+        {
+            killsSinceUpgrade = 0;
+            return;
+        }
         if (++killsSinceUpgrade < Mathf.Max(1, weaponEmitterAddByKills)) return;
         killsSinceUpgrade = 0;
-        GameController.Instance.ActiveWeapon.UpgradeEmitters();
+        weapon.UpgradeEmitters();
     }
 
     private void OnDestroy()

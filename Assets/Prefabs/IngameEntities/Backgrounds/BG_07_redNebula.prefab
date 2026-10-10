@@ -103,17 +103,17 @@ MonoBehaviour:
   entityType: 4
   id: 7
   itemName: Red Nebula
-  cost: 3396
+  cost: 705
   maxEntityLevel: 9
-  upgradeBaseCost: 1019
-  upgradeCostMultiplier: 0.89
+  upgradeBaseCost: 155
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 15
-    initialValue: 1.42
-    attributeIncrement: 0.3
+    initialValue: 1.22
+    attributeIncrement: 0.025
   - attributeType: 14
     initialValue: 0.05
-    attributeIncrement: 0.03
+    attributeIncrement: 0.0075
   - attributeType: 17
-    initialValue: 1
-    attributeIncrement: 1.75
+    initialValue: 2
+    attributeIncrement: 0

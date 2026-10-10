@@ -193,17 +193,17 @@ MonoBehaviour:
   entityType: 1
   id: 9
   itemName: Cryon
-  cost: 3530
+  cost: 1150
   maxEntityLevel: 8
-  upgradeBaseCost: 1059
-  upgradeCostMultiplier: 0.88
+  upgradeBaseCost: 253
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 1
     initialValue: 6
-    attributeIncrement: 2
+    attributeIncrement: 1
   - attributeType: 2
-    initialValue: 10
-    attributeIncrement: 3
+    initialValue: 7
+    attributeIncrement: 1
   - attributeType: 4
     initialValue: 1
     attributeIncrement: 0
@@ -216,6 +216,7 @@ MonoBehaviour:
     type: 3}
   soundExplosion: {fileID: 8300000, guid: 8e9d97f32f540fd44ba75922e24eac31, type: 3}
   soundImpulseWave: {fileID: 8300000, guid: 78b95ebf8fa5a2c4aac462190eae0e57, type: 3}
+  impulseWaveCooldown: 4
 --- !u!58 &4654663050984124721
 CircleCollider2D:
   m_ObjectHideFlags: 0

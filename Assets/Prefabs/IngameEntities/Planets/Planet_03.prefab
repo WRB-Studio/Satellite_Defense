@@ -193,16 +193,16 @@ MonoBehaviour:
   entityType: 1
   id: 3
   itemName: Puras
-  cost: 55
+  cost: 30
   maxEntityLevel: 4
-  upgradeBaseCost: 17
+  upgradeBaseCost: 7
   upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 1
-    initialValue: 3
+    initialValue: 5
     attributeIncrement: 1
   - attributeType: 2
-    initialValue: 5
+    initialValue: 6
     attributeIncrement: 1
   rotationSpeed: 1.2
   planetExplosion: {fileID: 675976027193676039, guid: 7bef642a608175341b7dbca6c92b9bec,
@@ -213,6 +213,7 @@ MonoBehaviour:
     type: 3}
   soundExplosion: {fileID: 8300000, guid: 8e9d97f32f540fd44ba75922e24eac31, type: 3}
   soundImpulseWave: {fileID: 8300000, guid: 78b95ebf8fa5a2c4aac462190eae0e57, type: 3}
+  impulseWaveCooldown: 4
 --- !u!58 &7970849740680454719
 CircleCollider2D:
   m_ObjectHideFlags: 0

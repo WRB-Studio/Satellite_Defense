@@ -6,8 +6,8 @@ public class PowerUp : MonoBehaviour
     public enum enumItemType { hearth, fireRate, shootUpgrade, coin, jumpLaser }
     public enumItemType itemType;
     [FormerlySerializedAs("fireRateUpgradeHeight")]
-    [Min(0f)] public float shotIntervalReduction = 0.1f;
-    [Min(0)] public long scorePerCoin = 2500;
+    [Min(0f)] public float shotIntervalReduction = 0.03f;
+    [Min(0)] public long scorePerCoin = 25;
     [Min(1)] public int addPremiumCoins = 1;
     public AudioClip soundFireRate;
     public AudioClip soundShootUpgrade;
@@ -34,7 +34,7 @@ public class PowerUp : MonoBehaviour
         switch (itemType)
         {
             case enumItemType.hearth:
-                game.ChangeLife(1);
+                game.ChangeLife(Mathf.Max(1, Mathf.CeilToInt(game.MaxLives * 0.2f)));
                 break;
             case enumItemType.fireRate:
                 AudioController.PlaySound(soundFireRate);

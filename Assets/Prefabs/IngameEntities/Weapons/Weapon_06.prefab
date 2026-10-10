@@ -148,36 +148,35 @@ MonoBehaviour:
   entityType: 2
   id: 6
   itemName: Aurion
-  cost: 689
+  cost: 285
   maxEntityLevel: 6
-  upgradeBaseCost: 207
-  upgradeCostMultiplier: 0.95
+  upgradeBaseCost: 63
+  upgradeCostMultiplier: 1.12
   attribute:
   - attributeType: 5
-    initialValue: 80
-    attributeIncrement: 5
+    initialValue: 65.625
+    attributeIncrement: 5.275
   - attributeType: 7
-    initialValue: 4.2
-    attributeIncrement: 0
+    initialValue: 1.65
+    attributeIncrement: 0.11
   - attributeType: 8
     initialValue: 2
-    attributeIncrement: 0.6
+    attributeIncrement: 0.4
   - attributeType: 6
-    initialValue: 1.07
-    attributeIncrement: -0.03
+    initialValue: 1.45
+    attributeIncrement: -0.07
   - attributeType: 13
-    initialValue: 0.3
-    attributeIncrement: 0.02
-  - attributeType: 12
-    initialValue: 2
-    attributeIncrement: 0.2
+    initialValue: 0.03
+    attributeIncrement: 0.004
   normalLaserPrefab: {fileID: 1899656501315429359, guid: d5e5e35a7c9b3c848a16679c04463e65,
     type: 3}
   jumpLaserPrefab: {fileID: 4012923336604161278, guid: b8189a24b11fb8e428284f95bbf57ea4,
     type: 3}
   normalLaserColor: {r: 0.86274517, g: 0.5568628, b: 0, a: 1}
-  jumpLaserDuration: 8
-  minFireRate: 0.1
+  jumpLaserDuration: 6
+  minShotInterval: 0.5
+  secondEmitterShotInterval: 0.75
+  thirdEmitterShotInterval: 0.55
   deathExplosion: {fileID: 1223077143840098, guid: dbaee46735ccf96468155f1f9bfa127f,
     type: 3}
 --- !u!1 &4737397444004902397

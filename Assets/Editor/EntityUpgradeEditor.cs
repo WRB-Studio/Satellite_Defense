@@ -333,7 +333,7 @@ public class IngameEntityAttributeEditor : EditorWindow
     {
         EditorGUILayout.LabelField($"Attributes ({targetEntity.attribute?.Count ?? 0})", EditorStyles.boldLabel);
 
-        // Farbwahl für Box-Hintergrund (dezente Töne, pro/hell angepasst)
+        // Farbe zeigt die Richtung der Verbesserung pro Upgrade, nicht den absoluten Startwert.
         Color BoxTint(EntityAttribute.eAttributeType type, float v)
         {
             switch (type)
@@ -344,13 +344,13 @@ public class IngameEntityAttributeEditor : EditorWindow
                 case EntityAttribute.eAttributeType.PlanetStartHP:
                 case EntityAttribute.eAttributeType.PlanetMaxHP:
                 case EntityAttribute.eAttributeType.WeaponRotationSpeed:
-                case EntityAttribute.eAttributeType.WeaponFireRate:
                 case EntityAttribute.eAttributeType.WeaponProjectileSpeed:
                 case EntityAttribute.eAttributeType.WeaponDamage:
                 case EntityAttribute.eAttributeType.CoinChance:
                 case EntityAttribute.eAttributeType.ScoreMultiplier:
                 case EntityAttribute.eAttributeType.BonusCoinValue:
                 case EntityAttribute.eAttributeType.ScoreBoostOnLowHP:
+                case EntityAttribute.eAttributeType.EnemySpawnRate:
                     if (v > 0f) return Color.green;
                     if (v < 0f) return Color.red;
                     return Color.white;
@@ -361,7 +361,7 @@ public class IngameEntityAttributeEditor : EditorWindow
                 case EntityAttribute.eAttributeType.EnemyHP:
                 case EntityAttribute.eAttributeType.EnemySpeed:
                 case EntityAttribute.eAttributeType.EnemyDamage:
-                case EntityAttribute.eAttributeType.EnemySpawnRate:
+                case EntityAttribute.eAttributeType.WeaponFireRate:
                 case EntityAttribute.eAttributeType.EnemySplitCount:
                 case EntityAttribute.eAttributeType.EnemySplitChance:
                     if (v > 0f) return Color.red;
@@ -396,8 +396,8 @@ public class IngameEntityAttributeEditor : EditorWindow
 
             // --- getönte Box nur für den Rahmen, nicht für Child-Controls ---
             var prevBg = GUI.backgroundColor;
-            var tint = BoxTint(attribute.attributeType, attribute.initialValue);
-            bool neutral = Mathf.Approximately(attribute.initialValue, 0f);
+            var tint = BoxTint(attribute.attributeType, attribute.attributeIncrement);
+            bool neutral = Mathf.Approximately(attribute.attributeIncrement, 0f);
 
             if (!neutral) GUI.backgroundColor = tint;
             EditorGUILayout.BeginVertical("box");
