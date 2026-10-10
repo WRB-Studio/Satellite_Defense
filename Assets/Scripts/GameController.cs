@@ -108,6 +108,23 @@ public class GameController : MonoBehaviour
         if (joystickGO) joystickGO.SetActive(enableJoystickControll && IsSimulationRunning);
     }
 
+    public bool TryGetAimDirection(out Vector2 direction)
+    {
+        direction = Vector2.zero;
+        if (!IsSimulationRunning || !ActiveWeapon) return false;
+        if (enableJoystickControll)
+        {
+            if (!joystick || !joystick.IsPressed) return false;
+            direction = joystick.Direction;
+        }
+        else
+        {
+            if (!Utilities.TryGetAimPosition(out Vector2 screenPosition)) return false;
+            direction = Utilities.ScreenToWorld(screenPosition) - (Vector2)ActiveWeapon.transform.position;
+        }
+        return direction.sqrMagnitude >= .001f;
+    }
+
     public void StartNewGame()
     {
         if (changingScene) return;

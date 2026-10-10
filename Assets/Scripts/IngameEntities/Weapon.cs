@@ -49,18 +49,7 @@ public class Weapon : IngameEntity
         shotCooldown = Mathf.Max(0f, shotCooldown - Time.fixedDeltaTime);
         jumpLaserRemaining = Mathf.Max(0f, jumpLaserRemaining - Time.fixedDeltaTime);
 
-        Vector2 direction;
-        if (game.enableJoystickControll)
-        {
-            if (!game.joystick.IsPressed || game.joystick.Direction.sqrMagnitude < 0.001f) return;
-            direction = game.joystick.Direction;
-        }
-        else
-        {
-            if (!Utilities.TryGetAimPosition(out Vector2 screenPosition)) return;
-            direction = Utilities.ScreenToWorld(screenPosition) - (Vector2)transform.position;
-        }
-        if (direction.sqrMagnitude < 0.001f) return;
+        if (!game.TryGetAimDirection(out Vector2 direction)) return;
         var rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);
         if (shotCooldown > 0f) return;

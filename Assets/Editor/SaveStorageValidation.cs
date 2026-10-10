@@ -36,20 +36,37 @@ public static class SaveStorageValidation
             session.GetActiveId(IngameEntity.eEntityType.Weapon) != 2 || session.GetLevel(IngameEntity.eEntityType.Weapon, 2, 3) != 3)
             throw new InvalidOperationException("Committed progress did not survive the process restart.");
         File.WriteAllText("Logs/Save-restart-result.txt", $"PASS: save loaded in a new Unity process (writer {writer}, reader {reader}); coins, score, selection, upgrade and interrupted-write handling verified.\n");
-        Directory.Delete(Path.GetFullPath(RestartDirectory), true);
+        string restartPath = Path.GetFullPath(RestartDirectory);
+        if (!restartPath.StartsWith(Path.GetFullPath("Logs") + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Refusing to remove a restart fixture outside Logs.");
+        Directory.Delete(restartPath, true);
     }
 
     public static void Run(Action<bool, string> require)
     {
         string root = Path.Combine(Path.GetFullPath("Logs"), "SaveTests-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(root);
+        bool completed = false;
         try
         {
             CheckRecovery(Path.Combine(root, "recovery"), require);
             CheckTransactions(Path.Combine(root, "transactions"), require);
             CheckBlockedStorage(Path.Combine(root, "blocked"), require);
+            CheckFutureBackup(Path.Combine(root, "future-backup"), require);
+            completed = true;
         }
-        finally { Directory.Delete(root, true); }
+        catch (Exception error)
+        {
+            throw new InvalidOperationException("Storage check failed. Isolated files retained at " + root, error);
+        }
+        finally
+        {
+            string logs = Path.GetFullPath("Logs") + Path.DirectorySeparatorChar;
+            string resolved = Path.GetFullPath(root);
+            if (!resolved.StartsWith(logs, StringComparison.OrdinalIgnoreCase) || !Path.GetFileName(resolved).StartsWith("SaveTests-", StringComparison.Ordinal))
+                throw new InvalidOperationException("Refusing to clean a non-test storage directory.");
+            if (completed && Directory.Exists(resolved)) Directory.Delete(resolved, true);
+        }
     }
 
     private static void CheckRecovery(string directory, Action<bool, string> require)
@@ -99,6 +116,7 @@ public static class SaveStorageValidation
 
     private static void CheckTransactions(string directory, Action<bool, string> require)
     {
+        using var fixtureScene = new ProjectDataValidation.FixtureScene();
         var disk = new FileSaveStore(directory);
         using var controlled = new ControlledStore(disk);
         using var session = new SaveSession(controlled);
@@ -188,6 +206,26 @@ public static class SaveStorageValidation
             reopened = new FileSaveStore(directory).Load().Data;
             require(reopened.activeWeaponID == 2 && reopened.premiumCoins == 34, "An older autosave must never overwrite a later transaction.");
             require(controlled.MaxConcurrentWrites == 1, "Critical and background saves must remain serialized.");
+
+            int changes = 0;
+            session.Changed += () => changes++;
+            require(session.SetCoinsForEditor(1234) && session.Coins == 1234 && changes == 1,
+                "Inspector coin replacement must commit exactly once and notify displays.");
+            require(new FileSaveStore(directory).Load().Data.Coins == 1234 && session.GetLevel(item.entityType, 2, 3) == 2,
+                "Inspector replacement must persist without altering equipment levels.");
+            controlled.FailWrites = true;
+            require(!session.SetCoinsForEditor(9999) && session.Coins == 1234 && changes == 1,
+                "Failed inspector write must leave coins and change notifications untouched.");
+            controlled.FailWrites = false;
+            require(session.SetCoinsForEditor(-10) && session.Coins == 0, "Inspector balance must clamp negatives to zero.");
+            controlled.Started.Reset(); controlled.Release.Reset();
+            session.CreditCoins(2); session.Tick(SaveSession.AutosaveInterval);
+            require(controlled.Started.Wait(5000), "Coin replacement overlap fixture did not start autosave.");
+            var releaseForReplacement = Task.Run(() => { Thread.Sleep(25); controlled.Release.Set(); });
+            require(session.SetCoinsForEditor(50), "Coin replacement must wait for older autosave.");
+            releaseForReplacement.GetAwaiter().GetResult();
+            require(new FileSaveStore(directory).Load().Data.Coins == 50 && !session.HasPendingChanges && controlled.MaxConcurrentWrites == 1,
+                "Older autosave overwrote inspector balance or writers overlapped.");
         }
         finally
         {
@@ -206,7 +244,23 @@ public static class SaveStorageValidation
         session.Load();
         require(!session.CanSave && session.LastError != null && !session.Flush(), "An inaccessible primary path must block writes.");
         require(session.CreditCoins(10) == 0, "A blocked save must not start new unsavable progression.");
+        require(!session.SetCoinsForEditor(100), "Inspector must not overwrite blocked storage.");
         require(Directory.Exists(disk.SavePath), "Failed load must preserve the obstructing path.");
+    }
+
+    private static void CheckFutureBackup(string directory, Action<bool, string> require)
+    {
+        Directory.CreateDirectory(directory);
+        var store = new FileSaveStore(directory);
+        string future = SaveFileCodec.Encode(new Savegame()).Replace("\"version\":1", "\"version\":999");
+        File.WriteAllText(store.BackupPath, future);
+        var result = store.Load();
+        require(!result.CanWrite && result.Message != null && File.ReadAllText(store.BackupPath) == future,
+            "Future backup must block writes and remain untouched even with no primary.");
+        bool rejected = false;
+        try { store.Write(SaveFileCodec.Encode(new Savegame())); }
+        catch (IOException) { rejected = true; }
+        require(rejected, "Blocked future backup permitted a write.");
     }
 
     private static void WaitForWrite(SaveSession session, Action<bool, string> require)

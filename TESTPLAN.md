@@ -2,14 +2,38 @@
 
 Hier sammeln wir Testideen für eine spätere gemeinsame Umsetzung. Tests werden nur auf ausdrückliche Anweisung des Nutzers erstellt oder ausgeführt. Ein Eintrag in diesem Dokument ist keine Freigabe.
 
-## Bereits vorhandene Prüfungen
+## Wiederholbare automatisierte Prüfungen – geschrieben, noch nicht ausgeführt
 
-- `Assets/Editor/ProjectValidation.cs`: Daten- und Asset-Prüfungen sowie Spielabläufe im Unity-Playmode.
-- `Assets/Editor/SaveStorageValidation.cs`: Dateispeicherung, Backup, Schreibfehler, Transaktionen und Laden in einem neuen Unity-Prozess.
+- `Assets/Editor/ProjectValidation.cs`: ein Menü-Einstieg für alle Prüfungen, isolierte Spielstände, Zeitlimits, einzelne PASS/FAIL-Ergebnisse und Text-/JSON-Berichte. Fehler eines Testfalls verhindern nicht die folgenden Fälle; auch Unity-Fehler werden im Gesamtergebnis berücksichtigt.
+- `ProjectDataValidation.cs`: sechs Datengruppen zusammen mit dem Speicher-Testmodul; Codec, fehlerhafte Spielstände, Kaufregeln für alle Kategorien, tiefe Kopien, Attributaggregation/-grenzen, alle 36 Katalogobjekte, JSON-Abgleich, Prefab-Referenzen und beide Szenen. Editor-Fixtures liegen in einer temporären additiven Szene.
+- `ProjectPlayValidation.cs`, `ProjectLifecycleValidation.cs`, `ProjectCombatValidation.cs`: 20 getrennte Playmode-Fälle mit jeweils einem frischen Save, Szenenwechseln und reproduzierbaren Zufallsseeds. Direkter Ingame-Start, Fallback einer unbekannten Ausrüstung ohne Fortschrittsverlust, Menü ohne Belohnungen/Schaden, Shop-Navigation/-Transaktionen, alle Katalogkäufe/-level, Pause/Fokus/Hintergrund-Callbacks, Rundenbelohnungen und Replay, Emitter-Schwellen, alle Pickup-Arten, Drop-Lebensdauer/-Cooldown/-Duplikate, Split-Abstand/-Fragmente, Geschwindigkeitsrampe, echte Laser-Kollisionen, Jump-Hitbudget, Wiederbelebung, Impuls-Cooldown, Low-HP-Score, Joystick-Ereignisse, feste Panelgeometrie, Coin-Fallback, Audio-Pool/Pitch-Grenzen, Toast-Reihenfolge/Duplikate im pausierten Shop, Exit-Schutz bei Schreibfehlern und blockierter Save.
+- `SaveStorageValidation.cs`: echte Dateien, Backup-Wiederherstellung, unterbrochene Writes, zukünftige Versionen in Primary/Backup, blockierte Pfade, Transaktions-Rollback, Hintergrund-Write-Reihenfolge und Hauptthread-Callbacks, Inspector-Coin-Ersetzung einschließlich laufendem Autosave. Cross-Process-Neustartprüfung bleibt ein separater Zweischritt.
 
-Diese Prüfungen müssen nicht erneut erstellt werden. Auch ihre Ausführung erfolgt nur nach ausdrücklicher Anweisung.
+Die Erstellung/Überarbeitung wurde am 10.10.2026 ausdrücklich beauftragt. Bei der Erstellung wurden die Tests statisch geprüft und nicht gestartet; anschließend hat der Nutzer den unten dokumentierten Unity-Lauf ausgeführt. Es wurden keine Builds erstellt. Neue Testkorrekturen gelten erst nach einem erneuten Lauf als zur Laufzeit geprüft.
 
-Nach der Szenentrennung ist `ProjectValidation` noch auf die frühere kombinierte `MainScene` ausgelegt. Szenenpfad, Abläufe zwischen Menü und Spiel sowie dessen Development-Build-Szenenliste müssen vor der nächsten beauftragten Ausführung angepasst werden. Der Runner wurde nicht geändert oder ausgeführt.
+Vom Nutzer ausgeführter Lauf am 10.10.2026, 17:14 Uhr: **25/26 Testfälle bestanden**, 20.855 Assertions, keine erfassten Unity-Fehler. Bericht: `Logs/Validation/20261010-151459-d7b41e4645b141ae9194036f88b031b5/`. Der Joystick-Test scheiterte an seiner Vorbereitung: Dynamic Joystick zentriert sich beim Pointer-Down neu; eine Ziehbewegung fehlte. Der Test simuliert jetzt zusätzlich Pointer-Drag und misst die Drehgrenze anhand der tatsächlichen FixedUpdate-Zeit. Diese Korrektur wurde noch nicht erneut ausgeführt; der Gesamtstatus bleibt bis zum Folgelauf fehlgeschlagen. Spielsteuerung unverändert.
+
+Der Runner ist jetzt auf `MainMenu` und `Ingame` umgestellt. Eine persistente Test-Coroutine überlebt echte Szenenwechsel und wartet auf deren Initialisierung. Verschachtelte Coroutines werden ebenfalls auf Exceptions geprüft. Ein vorzeitig beendeter oder abgelaufener Lauf wird nicht als Erfolg gemeldet. Der separate Development-Build-Einstieg enthält beide Szenen und wird von keiner Testsuite aufgerufen.
+
+### Spätere Ausführung
+
+In Unity aus dem Editmode **Tools > Validation > Run all checks** wählen. Dieser einzige Menüeintrag führt alle Daten-/Speichergruppen und Playmode-Fälle aus.
+
+Während eines Laufs keine manuelle Eingabe oder Änderungen am Spiel vornehmen. Der Runner stellt anschließend die vorherige Playmode-Startszene wieder her. Ergebnisse und isolierte Playmode-Spielstände liegen in `Logs/Validation/<Zeitstempel-GUID>/results.txt`, `results.json` und `Saves/`. `Logs/Validation-results.txt` zeigt auf den letzten Lauf. Erfolgreiche reine Dateifixtures werden entfernt, fehlgeschlagene `Logs/SaveTests-...` bleiben zur Diagnose erhalten. Vorhandene Spielstände in `Application.persistentDataPath` werden nicht für Testtransaktionen verwendet.
+
+Für spätere Batch-Läufe mit der zum Projekt passenden Unity-Version:
+
+```text
+Unity.exe -batchmode -projectPath "E:\GitHub\UnityProjects\Aktiv\Satellite_Defense" -executeMethod ProjectValidation.RunBatch -logFile Logs/Validation-unity.log
+```
+
+`RunDataBatch` und `RunPlayBatch` wählen die Teil-Suiten. **Kein `-quit` für diese drei Einstiegsmethoden:** der asynchrone Runner beendet Unity selbst mit Exitcode 0 bei Erfolg oder 1 bei Fehler/Abbruch. Keine Testmethode startet automatisch einen Build.
+
+Cross-Process-Speicherung separat in zwei Unity-Prozessen beauftragen/ausführen: zuerst `-executeMethod SaveStorageValidation.PrepareRestartCheck -quit`, danach in einem neuen Prozess `-executeMethod SaveStorageValidation.VerifyRestartCheck -quit`. Beide benötigen ebenfalls den Projektpfad. Der zweite Schritt prüft tatsächlich committed Coins, Highscore, Auswahl, Level und das Ignorieren einer uncommitted temporären Datei. Ausgabe: `Logs/Save-restart-result.txt`.
+
+### Was weiterhin am Gerät oder manuell zu prüfen ist
+
+Automatisierte Pointer-Events ersetzen keine echte Android-Touch-Bedienung. Hintergrund-/Fokus-Callbacks ersetzen keine Betriebssystem-Suspendierung oder Prozessbeendigung. Tests für feste RectTransforms ersetzen keine optische Prüfung von Neon-Glows, Textüberläufen, Displayausschnitten und manuell eingestellter Safe Area. Ebenfalls offen: Android-Performance/GC/Speicher über längere Sessions, tatsächliche App-Neustarts/Installationsupdates, Audioempfinden, Privacy-Link auf dem Gerät, reales Spielgefühl und Store-/Release-Abnahme. Die folgenden Szenarien bleiben dafür erhalten; eine implementierte automatische Teilprüfung gilt nicht als Geräteabnahme.
 
 ## Szenentrennung – ausstehende Prüfungen
 
@@ -63,6 +87,8 @@ Nach der Szenentrennung ist `ProjectValidation` noch auf die frühere kombiniert
 
 ## UI-Überarbeitung – ausstehende Sicht- und Bedienprüfungen
 
+- Joystick-Experiment in MainMenu und Ingame: auf verschiedenen Bildschirmstellen antippen, ziehen, weit über den Ring hinaus ziehen, Richtung wechseln und loslassen. Der Ring erscheint am Berührungspunkt, wandert beim Überschreiten seines Radius mit und verschwindet beim Loslassen. Kleine Bewegungen innerhalb der Dead Zone lösen kein Zielen/Schießen aus. Ein zweiter Finger darf nicht übernehmen; Pickups bleiben mit einem zweiten Finger sammelbar, Menü-/Pausebuttons bedienbar. Im Camera-Canvas und bei verschiedenen Auflösungen dieselbe Platzierung prüfen; Safe Area wird weiterhin manuell eingerichtet.
+- Zielpfeil: zeigt am Planeten sofort die gewünschte Joystickrichtung, während der Satellit mit seiner begrenzten Drehgeschwindigkeit nachzieht. Bei Loslassen, Shop, Pause, Game Over und direkter Steuerung ist der Pfeil unsichtbar. Nach Planetenwechsel und Szenenwechsel korrekt an der neuen Collider-Oberfläche positioniert. Größe, Farbe, Linienbreite und Abstand am Szenenobjekt `AimDirectionHint` beurteilen.
 - Ingame und Hauptmenü: alle Planeten mit 81% und Satelliten mit 76.5% ihrer ursprünglichen Größe betrachten. Die Satelliten-Hierarchie berücksichtigt die geerbte Planetenskalierung. Planetensprite, Atmosphäre und Collider passen zusammen; Laser starten bei allen Emitter-Stufen am Satelliten. Alle normalen Laser und Jump-Laser sind samt Collider um 15% verkleinert, die Jump-Laser-Spur ist entsprechend schmaler. Die Split-Sperrzone bleibt relativ zur tatsächlichen Planetenoberfläche korrekt. Shop-Vorschauen behalten ihre bisherige Größe; nach Replay, Szenen- und Ausrüstungswechsel bleibt die Skalierung konstant ohne weitere Verkleinerung. Künftige Größenanpassungen in beiden Szenen übernehmen.
 - Shop: alle vier Kategorien und alle 36 Objekte durchblättern, kaufen und aufwerten. Rahmen, Tabs, Schließen-Button, Vorschau und Kaufbuttons behalten ihre Position; auch bei vielen Attributen bleiben sie erreichbar.
 - Attributliste: bei Asteroiden bis zur letzten Zeile scrollen, mehrere Erklärungen öffnen und schließen und anschließend das Objekt wechseln. Namen, Werte, Icons und Erklärungen bleiben innerhalb des Viewports; der Scrollindikator entspricht der Listenlänge, beim Objektwechsel beginnt die Liste oben. Maus, Mausrad und Touch prüfen, auch während der Shop die Simulation pausiert.
