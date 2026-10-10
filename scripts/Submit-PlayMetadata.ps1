@@ -34,4 +34,3 @@ $arguments += Get-PlayMetadataArguments -Metadata $metadata -Directory $director
 & $fastlanePath @arguments
 if ($LASTEXITCODE -ne 0) { throw "Google Play metadata upload failed with exit code $LASTEXITCODE. Inspect Play Console before retrying." }
 Write-Host 'Metadata committed to Google Play. Public availability depends on review and publishing settings.'
-

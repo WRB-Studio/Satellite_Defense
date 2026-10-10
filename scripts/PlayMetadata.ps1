@@ -86,4 +86,3 @@ function Get-PlayMetadataArguments {
         '--skip_upload_metadata', (-not $Metadata.HasListings).ToString().ToLowerInvariant(),
         '--skip_upload_changelogs', (-not $Metadata.HasNotes).ToString().ToLowerInvariant())
 }
-

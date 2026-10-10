@@ -69,4 +69,3 @@ function Export-AndroidBuildToDriveDirectory {
         CloudUploadConfirmed = $false
     }
 }
-

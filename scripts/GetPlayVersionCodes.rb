@@ -19,4 +19,3 @@ begin
 ensure
   api.delete_edit(package, edit.id)
 end
-

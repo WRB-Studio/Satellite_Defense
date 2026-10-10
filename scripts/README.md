@@ -1,8 +1,8 @@
 # Android Release Tools für Satellite Defense
 
-Quelle: [Unity Android Release Tools](https://github.com/WRB-Studio/unity-android-release-tools), übernommen aus dem am 07.10.2026 abgerufenen `main`, Commit `6d4c1fc9eda2a2ba1e2df63bae2133fd63cbd438`.
+Quelle: [Unity Android Release Tools](https://github.com/WRB-Studio/unity-android-release-tools), aktualisiert aus dem am 10.10.2026 abgerufenen `main`, Commit `8d9fce859fa9a606a621acd524665e109e7b8e28`.
 
-Die elf Workflow-Skripte und `Assets/Editor/UnityAndroidBuild.cs` stammen gemeinsam aus diesem Stand. Lokale Anpassung: `Resolve-UnityEditor` berücksichtigt zusätzlich die für die Projektversion registrierten Installationen in Unity Hubs `editors-v2.json`. Bestehende Unity-Einstellungen und andere Buildhelfer bleiben erhalten.
+Die 17 Workflow-Skripte (16 PowerShell-Dateien und ein Ruby-Helfer) sowie `Assets/Editor/UnityAndroidBuild.cs` und `Assets/Editor/UnityAndroidReleaseMenu.cs` stammen gemeinsam aus diesem Stand. Lokale Anpassung: `Resolve-UnityEditor` berücksichtigt zusätzlich die für die Projektversion registrierten Installationen in Unity Hubs `editors-v2.json`. Bestehende Unity-Einstellungen und andere Buildhelfer bleiben erhalten.
 
 `release.config.json` verwendet den Android-Paketnamen `com.WRBStudio.SatelliteDefense`, den Artefaktnamen `SatelliteDefense` und den eindeutigen lokalen Schlüssel `com-WRBStudio-SatelliteDefense`. Die sichtbare App-Version und der Versioncode kommen aus dem Projekt.
 
@@ -53,14 +53,20 @@ Nur nach ausdrücklichem Auftrag für den jeweiligen Build, Export oder Upload a
 
 Builds, Protokolle und Build-Nachweise liegen unter `Builds/Android`. Beim Play-Upload wird der nächste freie Versioncode ermittelt; Drive übernimmt ohne explizite Vorgabe den Projektwert. Der Helfer verwendet die aktivierten Build-Szenen, prüft den Paketnamen und stellt temporär geänderte Signierungs- und Build-Einstellungen anschließend wieder her.
 
-Die Drive-Kopie wird per SHA-256 verglichen. Das bestätigt ausschließlich die lokale Kopie; Cloud-Synchronisierung muss separat bestätigt werden. Ohne `-MetadataFile` bleiben Store-Texte und Versionshinweise erhalten, Bilder und Screenshots werden übersprungen. Für Metadatenänderungen gilt das Schema aus dem [Quell-README](https://github.com/WRB-Studio/unity-android-release-tools/blob/6d4c1fc9eda2a2ba1e2df63bae2133fd63cbd438/README.md).
+Die Drive-Kopie wird per SHA-256 verglichen. Das bestätigt ausschließlich die lokale Kopie; Cloud-Synchronisierung muss separat bestätigt werden. Ohne `-MetadataFile` bleiben Store-Texte und Versionshinweise erhalten, Bilder und Screenshots werden übersprungen. Für Metadatenänderungen gilt das Schema aus dem [Quell-README](https://github.com/WRB-Studio/unity-android-release-tools/blob/8d9fce859fa9a606a621acd524665e109e7b8e28/README.md).
 
 ## Prüfung und Updates
 
-Bei der Integration erfolgen ausschließlich statische Sicht- und Syntaxprüfungen. Tests, Builds, Exporte und Uploads benötigen gemäß Projekt-`AGENTS.md` einen ausdrücklichen Auftrag. Die Upstream-`Test-*.ps1` wurden deshalb nicht hinzugefügt; mögliche Prüfungen sind in `TESTPLAN.md` gesammelt. Es wurde kein automatischer CI-Workflow installiert.
+Bei der Integration erfolgen ausschließlich statische Sicht- und Syntaxprüfungen. Tests, Builds, Exporte und Uploads benötigen gemäß Projekt-`AGENTS.md` einen ausdrücklichen Auftrag. Die Upstream-`Test-*.ps1` und der dazugehörige Menüeintrag zum Ausführen lokaler Tests wurden deshalb nicht hinzugefügt; mögliche Prüfungen sind in `TESTPLAN.md` gesammelt. Es wurde kein automatischer CI-Workflow installiert.
 
 Am 07.10.2026 geprüft: PowerShell-Parser für alle zehn `.ps1`-Dateien ohne Fehler, Ruby-Syntax (`ruby -c`) korrekt, Paketname identisch mit den Android-Projekteinstellungen und Buildprotokoll-Version von Skripten und Helfer identisch. Bei der weiteren Einrichtung wurden außerdem die vorhandenen Signierungsdaten lesend zugeordnet und der oben beschriebene API-Zustand abgefragt. Der C#-Helfer wurde durchgesehen, aber nicht kompiliert oder in Unity ausgeführt. Ein signierter Build, Release-Schreibrechte und Drive-Synchronisierung sind noch ungeprüft.
 
 Die Release-Skripte unterstützen `-CheckOnly` für Play-Zugriff beziehungsweise Drive-Konfiguration. Auch diese Prüfungen erst nach ausdrücklichem Prüfauftrag ausführen. Play benötigt die bestätigte lokale Secret-Konfiguration; Drive benötigt den lokal eingerichteten Zielordner.
 
 Für Updates die [Updateanleitung](https://github.com/WRB-Studio/unity-android-release-tools/blob/main/UPDATING.md) lesen, Skripte und C#-Helfer gemeinsam aus dem frisch abgerufenen `main` übernehmen, die lokale Unity-Erkennung berücksichtigen und den tatsächlichen Commit hier dokumentieren. Projektkonfiguration, Secret-Ablage und vorhandene `.meta`-GUIDs erhalten. Ein Update startet keine Veröffentlichung.
+
+## Toolupdate vom 10.10.2026
+
+Das neue Menü liegt unter **Tools → Unity Android Release Tools** und bietet lokale APK-/AAB-Builds, Geräteauswahl mit Installation und Appstart, Drive-/Play-Abläufe und Einrichtung. Menü-Builds verwenden eine isolierte, projektspezifisch markierte Buildkopie; der Quell-Editor kann geöffnet bleiben. Der Gerätebuild verändert den Versioncode des Quellprojekts nicht und deinstalliert bei Signaturkonflikten ohne expliziten CLI-Auftrag keine App. Cache-/ADB-Einstellungen liegen lokal; mindestens 25 GB freier Speicher werden vor Builds geprüft. Der Test-Menüeintrag ist gemäß Projektregeln ausgelassen, solange die Upstream-Tests nicht ausdrücklich beauftragt sind.
+
+Alle 16 PowerShell-Dateien wurden mit dem Parser statisch ohne Syntaxfehler geprüft. Beide Editor-Dateien und ihre Skriptaufrufe wurden durchgesehen; Release- und Geräteprotokoll bleiben bei 1. Bestehende Projektkonfiguration, Zugangsdaten, Buildhelfer-GUID und lokale Unity-Hub-Erkennung wurden erhalten. Keine Tests, Unity-Kompilierung, Builds, Geräteinstallation oder Uploads ausgeführt. Die tatsächliche Menüanzeige nach Unity-Neukompilierung und die Gerätebedienung bleiben praktisch zu prüfen.

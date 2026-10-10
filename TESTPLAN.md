@@ -114,6 +114,13 @@ Einrichtungsstatus vom 07.10.2026: Bestehende Signierungsdaten wurden lesend zug
 
 Neue Testideen hier ergänzen. Bei späterer Umsetzung oder Ausführung den Status und die Ergebnisse beim jeweiligen Szenario festhalten.
 
+## Unity Android Release Tools: Menü und Geräteablauf
+
+- Nach Unity-Neukompilierung alle 17 Aktionen unter `Tools/Unity Android Release Tools` prüfen; Tests werden gemäß Projektregel nicht angeboten. Aktionen sind während Play Mode, Kompilierung oder laufendem Vorgang gesperrt.
+- Nach ausdrücklicher Build-/Installationsfreigabe gespeicherte Szenen in isoliertem, markiertem Cache bauen; Quell-Editor bleibt offen und Quell-Versioncode/Signierung bleiben erhalten. Fremde oder verlinkte Cacheordner und zu wenig freier Speicher müssen vor dem Build abgewiesen werden.
+- Autorisierte Geräteauswahl bei einem und mehreren USB-Geräten prüfen; nicht autorisierte oder offline Geräte dürfen nicht gewählt werden. Installation erhält App-Daten, Signaturkonflikt stoppt ohne Deinstallation, Appstart wird getrennt bestätigt.
+- Abbruch, Fensterschließen und Assembly-Reload stoppen nur den eigenen Build-Prozessbaum. Fehlerprotokolle bleiben lokal erhalten; keine erneute Installation oder Veröffentlichung automatisch starten.
+
 ## Vorbereitung der Google-Play-Neuveröffentlichung
 
 - Nach ausdrücklicher Buildfreigabe am finalen AAB Ziel-API 36, ARM64 und 16-KiB-Seitengrößen-Kompatibilität prüfen. Die lokale SDK-Installation enthält API 36; ein Build wurde nicht erstellt.

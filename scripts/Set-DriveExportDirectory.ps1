@@ -9,4 +9,3 @@ New-Item -ItemType Directory -Path (Split-Path -Parent $script:DriveConfigPath) 
 [PSCustomObject]@{ DriveDirectory = $directory } |
     ConvertTo-Json | Set-Content -LiteralPath $script:DriveConfigPath -Encoding UTF8
 Write-Host "Local Drive export directory saved for project key '$($script:ReleaseProject.SecretsKey)'. No files copied or uploaded."
-

@@ -31,4 +31,3 @@ New-Item -ItemType Directory -Force -Path $configDirectory | Out-Null
 } | Export-Clixml -LiteralPath $script:ReleaseConfigPath -Force
 
 Write-Host "Release configuration saved for this Windows account: $script:ReleaseConfigPath"
-
