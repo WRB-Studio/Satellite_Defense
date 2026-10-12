@@ -32,6 +32,17 @@ public class AudioController : MonoBehaviour
         Instance = this;
         musicSource = CreateSource("Music");
         musicSource.loop = true;
+        ApplySettings();
+    }
+
+    public void ApplySettings()
+    {
+        if (musicSource) musicSource.mute = !GameSettings.MusicEnabled;
+        foreach (var source in soundSources)
+        {
+            source.mute = !GameSettings.SoundsEnabled;
+            if (!GameSettings.SoundsEnabled) source.Stop();
+        }
     }
 
     private AudioSource CreateSource(string objectName)
@@ -46,7 +57,7 @@ public class AudioController : MonoBehaviour
 
     public static void PlaySound(AudioClip clip, bool randomPitch = false, float? pitch = null)
     {
-        if (!Instance || !clip) return;
+        if (!Instance || !clip || !GameSettings.SoundsEnabled) return;
         AudioSource source = null;
         foreach (var candidate in Instance.soundSources)
         {
@@ -67,6 +78,7 @@ public class AudioController : MonoBehaviour
             Instance.nextSource = (Instance.nextSource + 1) % Instance.soundSources.Count;
         }
         source.Stop();
+        source.mute = false;
         source.volume = Instance.volume;
         source.pitch = Mathf.Clamp(pitch ?? (randomPitch ? Random.Range(0.8f, 0.9f) : 1f), 0.1f, 3f);
         source.clip = clip;
@@ -77,6 +89,7 @@ public class AudioController : MonoBehaviour
     {
         if (!Instance || !clip) return;
         var source = Instance.musicSource;
+        source.mute = !GameSettings.MusicEnabled;
         source.volume = Instance.volume;
         if (source.clip == clip && source.isPlaying) return;
         source.clip = clip;

@@ -42,7 +42,10 @@ public static class ProjectValidation
     private static void IsolateSave()
     {
         if (SessionState.GetBool(Running, false))
+        {
+            GameSettings.UseDefaultsForValidation();
             SaveGameController.UseStorageDirectoryForValidation(TestSaveDirectory);
+        }
     }
 
     internal static string TestSaveDirectory => SessionState.GetString(SaveKey, "");

@@ -14,6 +14,7 @@ public class UIMainMenu : MonoBehaviour
     public Button btnShop;
     public Button btnExit;
     public Button btnPrivacyPolicy;
+    public Button btnSettings;
 
     private void Awake() => Instance = this;
 
@@ -23,6 +24,7 @@ public class UIMainMenu : MonoBehaviour
         UIController.Bind(btnShop, () => GameController.Instance.OpenShop());
         UIController.Bind(btnExit, ExitGame);
         UIController.Bind(btnPrivacyPolicy, () => Application.OpenURL(PrivacyPolicyUrl));
+        if (btnSettings) UIController.Bind(btnSettings, () => GameController.Instance.OpenSettings());
     }
 
     public void Show(bool visible)

@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
-    public enum eMenuType { None, MainMenu, Shop, PauseMenu, IngameMenu, GameOverMenu }
+    public enum eMenuType { None, MainMenu, Shop, PauseMenu, IngameMenu, GameOverMenu, Settings }
     [Header("Splash screen")]
     public GameObject splashScreen;
     public float splashScreenShowDuration = 2f;
     public float splashScreenFadeDuration = 2f;
     public GameObject modalPanelShop;
+    public UISettingsMenu settingsMenu;
     [Header("Coin display")]
     public float animiationCountDelay = 0.1f;
 
@@ -35,6 +36,7 @@ public class UIController : MonoBehaviour
         if (UIShopMenu.Instance) UIShopMenu.Instance.Init();
         if (UIPauseMenu.Instance) UIPauseMenu.Instance.Init();
         if (UIIngameHud.Instance) UIIngameHud.Instance.Init();
+        if (settingsMenu) settingsMenu.Init();
         UIToastMessage.Instance.Init();
         SaveGameController.SaveFailed += ShowSaveMessage;
     }
@@ -59,6 +61,7 @@ public class UIController : MonoBehaviour
     {
         if (UIMainMenu.Instance) UIMainMenu.Instance.Show(menu == eMenuType.MainMenu);
         if (UIShopMenu.Instance) UIShopMenu.Instance.Show(menu == eMenuType.Shop);
+        if (settingsMenu) settingsMenu.Show(menu == eMenuType.Settings);
         if (UIPauseMenu.Instance)
         {
             UIPauseMenu.Instance.Hide();
@@ -67,7 +70,7 @@ public class UIController : MonoBehaviour
         }
         if (UIIngameHud.Instance)
         {
-            UIIngameHud.Instance.ingameHud.SetActive(menu == eMenuType.IngameMenu || menu == eMenuType.PauseMenu || menu == eMenuType.GameOverMenu);
+            UIIngameHud.Instance.ingameHud.SetActive(menu == eMenuType.IngameMenu || menu == eMenuType.PauseMenu || menu == eMenuType.GameOverMenu || menu == eMenuType.Settings);
             UIIngameHud.Instance.btnPause.interactable = menu == eMenuType.IngameMenu;
         }
         if (modalPanelShop) modalPanelShop.SetActive(menu == eMenuType.Shop);

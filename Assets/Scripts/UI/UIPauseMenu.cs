@@ -10,6 +10,7 @@ public class UIPauseMenu : MonoBehaviour
     public Button btnContinue;
     public Button btnReplay;
     public Button btnBackToMainMenu;
+    public Button btnSettings;
     public TextMeshProUGUI txtStopGame;
     public TextMeshProUGUI txtScoreGameOver;
     public TextMeshProUGUI txtPremiumCoinsGameOver;
@@ -31,6 +32,7 @@ public class UIPauseMenu : MonoBehaviour
         UIController.Bind(btnContinue, () => GameController.Instance.Resume());
         UIController.Bind(btnReplay, () => GameController.Instance.StartNewGame());
         UIController.Bind(btnBackToMainMenu, () => GameController.Instance.ReturnToMainMenu());
+        if (btnSettings) UIController.Bind(btnSettings, () => GameController.Instance.OpenSettings());
     }
 
     public void Hide()
@@ -45,6 +47,7 @@ public class UIPauseMenu : MonoBehaviour
         pauseMenuPanel.SetActive(true);
         txtStopGame.text = gameOver ? "GAME OVER" : "Pause";
         btnContinue.interactable = !gameOver;
+        if (btnSettings) btnSettings.gameObject.SetActive(!gameOver);
         btnReplay.interactable = true;
         btnBackToMainMenu.interactable = true;
         var image = btnContinue.transform.GetChild(0).GetComponent<Image>();

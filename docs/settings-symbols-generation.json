@@ -1,0 +1,38 @@
+{
+  "tool": "built-in image_gen",
+  "styleReferences": [
+    "Assets/Images/Symbols/Old/Shop.png",
+    "Assets/Images/Symbols/Old/Pause.png"
+  ],
+  "transparentBackground": true,
+  "assets": [
+    {
+      "path": "Assets/Images/Symbols/Settings/SettingsGear.png",
+      "prompt": "Edit the supplied shopping-cart symbol into a simple eight-tooth cogwheel with a circular empty center. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual SettingsGear icon for the Satellite Defense menu."
+    },
+    {
+      "path": "Assets/Images/Symbols/Settings/MusicOn.png",
+      "prompt": "Edit the supplied shopping-cart symbol into two connected musical eighth notes. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual MusicOn icon for the Satellite Defense menu."
+    },
+    {
+      "path": "Assets/Images/Symbols/Settings/MusicOff.png",
+      "prompt": "Edit the supplied shopping-cart symbol into two connected musical eighth notes crossed by a clear diagonal mute slash. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual MusicOff icon for the Satellite Defense menu."
+    },
+    {
+      "path": "Assets/Images/Symbols/Settings/SoundOn.png",
+      "prompt": "Edit the supplied shopping-cart symbol into a speaker cone with two curved sound waves to its right. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual SoundOn icon for the Satellite Defense menu."
+    },
+    {
+      "path": "Assets/Images/Symbols/Settings/SoundOff.png",
+      "prompt": "Edit the supplied shopping-cart symbol into a speaker cone crossed by a clear diagonal mute slash, with no sound waves. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual SoundOff icon for the Satellite Defense menu."
+    },
+    {
+      "path": "Assets/Images/Symbols/Settings/JoystickControl.png",
+      "prompt": "Edit the supplied shopping-cart symbol into a simple joystick lever with a round ball top on a small base. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual JoystickControl icon for the Satellite Defense menu."
+    },
+    {
+      "path": "Assets/Images/Symbols/Settings/DirectAimControl.png",
+      "prompt": "Edit the supplied shopping-cart symbol into a clean circular aiming crosshair with four short ticks and a small center dot. The supplied cart and pause icons are STYLE REFERENCES, not elements to keep. Produce ONE standalone game UI glyph only. Match their simple flat arcade silhouette and restrained black edge, but render the body pure white so Unity can tint it green like the existing symbols. Centered square composition, icon occupies approximately 65 percent of canvas with consistent clear margins. Clean bold uniform strokes, legible at 64px. Transparent background, no text, no lettering, no labels, no hexagonal border or button, no glow, no shading, no 3D, no other objects. This output is an individual DirectAimControl icon for the Satellite Defense menu."
+    }
+  ]
+}

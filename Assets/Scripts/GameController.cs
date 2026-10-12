@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public enum GameState { MainMenu, Shop, Playing, Paused, GameOver }
+    public enum GameState { MainMenu, Shop, Playing, Paused, GameOver, Settings }
     public static GameController Instance { get; private set; }
     public GameState State { get; private set; } = GameState.MainMenu;
     public bool IsPlaying => State == GameState.Playing && !changingScene;
@@ -53,6 +53,7 @@ public class GameController : MonoBehaviour
     private readonly Dictionary<IngameEntity.eEntityType, IngameEntity> activeItems = new();
     private Coroutine starRoutine;
     private bool changingScene;
+    private GameState settingsReturnState;
 
     private void Awake()
     {
@@ -69,6 +70,7 @@ public class GameController : MonoBehaviour
     {
         if (IsInitialized) return;
         SaveGameController.EnsureLoaded();
+        ApplyControlSettings();
         UIController.Instance.Init();
         PremiumCoinController.Instance.Init();
         IsInitialized = true;
@@ -98,13 +100,14 @@ public class GameController : MonoBehaviour
             case GameState.Shop: CloseShop(); break;
             case GameState.GameOver: ReturnToMainMenu(); break;
             case GameState.MainMenu: UIMainMenu.Instance.ExitGame(); break;
+            case GameState.Settings: CloseSettings(); break;
         }
     }
 
     private void SetState(GameState state)
     {
         State = state;
-        Time.timeScale = state == GameState.Paused || state == GameState.Shop ? 0f : 1f;
+        Time.timeScale = state == GameState.Paused || state == GameState.Shop || state == GameState.Settings ? 0f : 1f;
         if (joystickGO) joystickGO.SetActive(enableJoystickControll && IsSimulationRunning);
     }
 
@@ -123,6 +126,27 @@ public class GameController : MonoBehaviour
             direction = Utilities.ScreenToWorld(screenPosition) - (Vector2)ActiveWeapon.transform.position;
         }
         return direction.sqrMagnitude >= .001f;
+    }
+
+    public void ApplyControlSettings()
+    {
+        enableJoystickControll = GameSettings.JoystickEnabled;
+        if (joystickGO) joystickGO.SetActive(enableJoystickControll && IsSimulationRunning);
+    }
+
+    public void OpenSettings()
+    {
+        if (State != GameState.MainMenu && State != GameState.Paused) return;
+        settingsReturnState = State;
+        SetState(GameState.Settings);
+        UIController.Instance.ShowMenu(UIController.eMenuType.Settings);
+    }
+
+    public void CloseSettings()
+    {
+        if (State != GameState.Settings) return;
+        SetState(settingsReturnState);
+        UIController.Instance.ShowMenu(settingsReturnState == GameState.Paused ? UIController.eMenuType.PauseMenu : UIController.eMenuType.MainMenu);
     }
 
     public void StartNewGame()
